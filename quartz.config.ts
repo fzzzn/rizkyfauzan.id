@@ -19,7 +19,7 @@ const config: QuartzConfig = {
     baseUrl: "rizkyfauzan.id",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "created",
-    generateSocialImages: false,
+    generateSocialImages: true,
     theme: {
       fontOrigin: "googleFonts",
       cdnCaching: true,
@@ -73,6 +73,7 @@ const config: QuartzConfig = {
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
+      Plugin.RoamFlavoredMarkdown(),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [
