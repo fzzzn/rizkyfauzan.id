@@ -12,7 +12,7 @@ export const sharedPageComponents: SharedLayout = {
       "LinkedIn": "https://linkedin.com/in/rizky-fauzan-hanif",
       "KeyBase": "https://keybase.io/fzzzn",
       "Status": "https://status.rizkyfauzan.id",
-      "Tag Index": "https://rizkyfauzan.id/tags,
+      "Tag Index": "https://rizkyfauzan.id/tags",
     },
   }),
 }
