@@ -9,11 +9,10 @@ export const sharedPageComponents: SharedLayout = {
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/fzzzn/rizkyfauzan.id",
-      "Read.cv": "https://read.cv/rizkyfauzanhanif",
       "LinkedIn": "https://linkedin.com/in/rizky-fauzan-hanif",
       "KeyBase": "https://keybase.io/fzzzn",
       "Status": "https://status.rizkyfauzan.id",
-      "Monitoring": "https://grafana.zxn.my.id",
+      "Tag Index": "https://rizkyfauzan.id/tags,
     },
   }),
 }
