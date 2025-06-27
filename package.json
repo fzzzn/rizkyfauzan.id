@@ -15,9 +15,11 @@
     "@nuxt/icon": "^1.14.0",
     "@nuxt/image": "^1.10.0",
     "@nuxt/scripts": "^0.11.8",
+    "@tailwindcss/vite": "^4.1.11",
     "@unhead/vue": "^2.0.11",
     "eslint": "^9.30.0",
     "nuxt": "^3.17.5",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
