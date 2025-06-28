@@ -9,6 +9,23 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  app: {
+    head: {
+      meta: [
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { charset: "utf-8" },
+      ],
+      link: [
+        { rel: "icon", type: "image/png", href: "/logo.png" },
+      ],
+    },
+  },
+  site: {
+    url: "https://rizkyfauzan.id",
+    name: "Rizky Fauzan Hanif",
+    description: "Personal website of Rizky Fauzan Hanif.",
+    twitter: "@fzzznh",
+  },
   modules: [
     "@nuxt/eslint",
     "@nuxt/fonts",
