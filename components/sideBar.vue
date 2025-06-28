@@ -29,15 +29,12 @@
             <!-- Menu List - Scrollable -->
             <div class="flex-1 overflow-y-auto px-4 pb-6 scrollbar-hide">
                 <div class="space-y-2">
-                    <component v-for="(item, index) in menuList" :key="index" :is="item.external ? 'a' : 'NuxtLink'"
-                        :to="item.external ? undefined : item.href" :href="item.external ? item.href : undefined"
-                        :target="item.external ? '_blank' : undefined"
-                        :rel="item.external ? 'noopener noreferrer' : undefined" :class="[
-                            'relative flex py-2 px-3 gap-2 group rounded w-fit transition-all duration-300',
-                            isActiveRoute(item.href)
-                                ? 'text-black bg-white'
-                                : 'text-white hover:text-black'
-                        ]" @mouseenter="onHover(index)" @mouseleave="onLeave(index)">
+                    <NuxtLink v-for="(item, index) in menuList" :key="index" :to="item.href" :class="[
+                        'relative flex py-2 px-3 gap-2 group rounded w-fit transition-all duration-300',
+                        isActiveRoute(item.href)
+                            ? 'text-black bg-white'
+                            : 'text-white hover:text-black'
+                    ]" @mouseenter="onHover(index)" @mouseleave="onLeave(index)">
                         <span :ref="el => menuRef[index] = el" class="text-2xl lg:text-5xl font-mono z-10">
                             {{ item.menu }}
                         </span>
@@ -53,7 +50,7 @@
                         ]">
                             {{ item.pageInfo }}
                         </span>
-                    </component>
+                    </NuxtLink>
                 </div>
             </div>
         </div>
@@ -70,13 +67,12 @@ gsap.registerPlugin(SplitText)
 const route = useRoute()
 
 const menuList = [
-    { menu: "Home", href: "/", pageInfo: "UwU", external: false },
-    { menu: "About", href: "/about", pageInfo: ">_<", external: false },
-    { menu: "Achievements", href: "/achievements", pageInfo: "\\o/", external: false },
-    { menu: "Certificates", href: "/certificates", pageInfo: "📜", external: false },
-    { menu: "Notes", href: "https://notes.rizkyfauzan.id", pageInfo: "O_O", external: true },
-    { menu: "Contact", href: "/contact", pageInfo: "@_@", external: false },
-    { menu: "Resume", href: "/resume", pageInfo: "T_T", external: false },
+    { menu: "Home", href: "/", pageInfo: "UwU" },
+    { menu: "About", href: "/about", pageInfo: ">_<" },
+    { menu: "Achievements", href: "/achievements", pageInfo: "\\o/" },
+    { menu: "Certificates", href: "/certificates", pageInfo: "📜" },
+    { menu: "Contact", href: "/contact", pageInfo: "@_@" },
+    { menu: "Resume", href: "/resume", pageInfo: "T_T" },
 ]
 
 const backdrop = ref(null)
