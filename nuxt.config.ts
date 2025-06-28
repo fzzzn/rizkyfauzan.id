@@ -25,17 +25,14 @@ export default defineNuxtConfig({
   },
   seo: {
     meta: {
-      description: "My awesome website",
       twitterCreator: "@fzzznh",
       author: "Rizky Fauzan Hanif",
-      applicationName: "Rizky Fauzan Hanif",
-
-      // Nuxt SEO Utils already sets the below tags for you
-      ogSiteName: "Rizky Fauzan Hanif",
+      applicationName: "Rizky Fauzan Hanif - Personal Website",
+      ogSiteName: "Rizky Fauzan Hanif - Personal Website",
       ogLocale: "en_US",
       ogType: "website",
       ogUrl: "https://rizkyfauzan.id",
-      ogTitle: "Rizky Fauzan Hanif",
+      ogTitle: "Rizky Fauzan Hanif - Personal Website",
 
       robots: "index, follow",
     },
