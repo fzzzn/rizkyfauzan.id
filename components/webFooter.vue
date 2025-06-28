@@ -1,8 +1,8 @@
 <template>
-    <footer class="p-4 border-t border-border">
-        <div class="text-black/60 flex flex-col gap-4">
+    <footer class="p-4 border-t border-black/30">
+        <div class="text-black/60 flex flex-col gap-2.5">
             <!-- Main footer content -->
-            <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+            <div class="flex flex-col sm:flex-row gap-2.5 items-center justify-between">
                 <!-- Navigation links -->
                 <nav class="flex items-center gap-3">
                     <a 
@@ -22,7 +22,7 @@
             </div>
             
             <!-- Last updated link -->
-            <div class="flex justify-center sm:justify-start">
+            <!-- <div class="flex justify-center sm:justify-start">
                 <a 
                     v-if="commitData" 
                     :href="getCommitUrl('fzzzn/rizkyfauzan.id', commitData.sha)" 
@@ -31,7 +31,7 @@
                 >
                     Last updated: {{ formatCommitDate(commitData.date) }}
                 </a>
-            </div>
+            </div> -->
         </div>
     </footer>
 </template>
