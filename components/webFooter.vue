@@ -3,7 +3,8 @@
         <div class="text-black/60 font-bold text-sm flex sm:flex-row gap-4 flex-col items-center justify-between">
             
             <div class="flex items-center gap-3">
-                <a v-for="item in menuItems" :key="item.menu" :href="item.href"
+                <a
+v-for="item in menuItems" :key="item.menu" :href="item.href"
                     class="uppercase hover:text-black transition-colors duration-200"
                 >{{ item.menu }}</a>
             </div>
