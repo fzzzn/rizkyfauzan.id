@@ -9,7 +9,7 @@
             @click="handleClose" />
 
         <div v-show="isOpen" ref="sidebarPanel"
-            class="absolute left-0 top-0 h-full w-[80vw] lg:w-[40vw] bg-black rounded-lg z-40 overflow-hidden flex flex-col">
+            class="absolute left-0 top-0 h-full w-[100vw] lg:w-[40vw] bg-black lg:rounded-lg z-40 overflow-hidden flex flex-col">
             <div class="absolute -bottom-10 left-0 text-white/30 pointer-events-none">
                 <span class="text-[8rem] lg:text-[10rem]">💤</span>
             </div>
