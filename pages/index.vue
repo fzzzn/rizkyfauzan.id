@@ -13,13 +13,6 @@ useHead({
         }
     ]
 })
-
-defineOgImageComponent('NuxtSeo', {
-    title: 'Hello OG Image 👋',
-    description: 'Look at me in dark mode',
-    theme: '#ff0000',
-    colorMode: 'dark',
-})
 </script>
 
 <template>

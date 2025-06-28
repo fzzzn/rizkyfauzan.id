@@ -10,6 +10,11 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  nitro: {
+    prerender: {
+      autoSubfolderIndex: false,
+    },
+  },
   app: {
     head: {
       meta: [
@@ -23,11 +28,6 @@ export default defineNuxtConfig({
     url: "https://rizkyfauzan.id",
     name: "Rizky Fauzan Hanif Personal Website",
   },
-  // ogImage: {
-  //   defaults: {
-  //     renderer: "satori",
-  //   },
-  // },
   seo: {
     meta: {
       twitterCreator: "@fzzznh",
