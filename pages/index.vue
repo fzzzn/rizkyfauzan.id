@@ -1,7 +1,24 @@
-<script setup>
-definePageMeta({
+<script lang="ts" setup>
+useSeoMeta({
     title: 'Home',
     description: 'Home',
+})
+
+useHead({
+    link: [
+        {
+            rel: 'icon',
+            type: 'image/png',
+            href: '/logo.png'
+        }
+    ]
+})
+
+defineOgImageComponent('NuxtSeo', {
+    title: 'Hello OG Image 👋',
+    description: 'Look at me in dark mode',
+    theme: '#ff0000',
+    colorMode: 'dark',
 })
 </script>
 

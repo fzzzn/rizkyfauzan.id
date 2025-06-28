@@ -21,19 +21,23 @@ export default defineNuxtConfig({
   },
   site: {
     url: "https://rizkyfauzan.id",
-    name: "Rizky Fauzan Hanif",
+    name: "Rizky Fauzan Hanif Personal Website",
   },
+  // ogImage: {
+  //   defaults: {
+  //     renderer: "satori",
+  //   },
+  // },
   seo: {
     meta: {
       twitterCreator: "@fzzznh",
       author: "Rizky Fauzan Hanif",
-      applicationName: "Rizky Fauzan Hanif - Personal Website",
-      ogSiteName: "Rizky Fauzan Hanif - Personal Website",
+      applicationName: "Rizky Fauzan Hanif Personal Website",
+      ogSiteName: "Rizky Fauzan Hanif Personal Website",
       ogLocale: "en_US",
       ogType: "website",
       ogUrl: "https://rizkyfauzan.id",
-      ogTitle: "Rizky Fauzan Hanif - Personal Website",
-
+      ogTitle: "Rizky Fauzan Hanif Personal Website",
       robots: "index, follow",
     },
   },
@@ -44,7 +48,6 @@ export default defineNuxtConfig({
       image: "/me.png",
       description: "Network Engineer.",
       jobTitle: "Network Engineer",
-
       email: "contact@rizkyfauzan.id",
       url: "https://rizkyfauzan.id",
       sameAs: [
