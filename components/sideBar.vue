@@ -1,20 +1,19 @@
 <template>
     <div class="flex items-center h-full">
         <button class="cursor-pointer text-black flex items-center h-full w-full justify-center" @click="handleOpen">
-            <Icon name="heroicons-outline:menu-alt-2" size="20" class="text-black/60 hover:text-black transition duration-200" />
+            <Icon name="heroicons-outline:menu-alt-2" size="20"
+                class="text-black/60 hover:text-black transition duration-200" />
         </button>
 
-        <div
-v-show="isOpen" ref="backdrop" class="fixed inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
+        <div v-show="isOpen" ref="backdrop" class="fixed inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
             @click="handleClose" />
 
-        <div
-v-show="isOpen" ref="sidebarPanel"
+        <div v-show="isOpen" ref="sidebarPanel"
             class="absolute left-0 top-0 h-full w-[80vw] lg:w-[40vw] bg-black rounded-lg z-40 overflow-hidden flex flex-col">
             <div class="absolute -bottom-10 left-0 text-white/30 pointer-events-none">
                 <span class="text-[8rem] lg:text-[10rem]">💤</span>
             </div>
-            
+
             <!-- Header - Fixed -->
             <div class="flex-shrink-0 py-6 px-4">
                 <div class="flex justify-between">
@@ -30,31 +29,31 @@ v-show="isOpen" ref="sidebarPanel"
             <!-- Menu List - Scrollable -->
             <div class="flex-1 overflow-y-auto px-4 pb-6 scrollbar-hide">
                 <div class="space-y-2">
-                    <NuxtLink
-v-for="(item, index) in menuList" :key="index" :to="item.href" :class="[
-                        'relative flex py-2 px-3 gap-2 group rounded w-fit transition-all duration-300',
-                        isActiveRoute(item.href)
-                            ? 'text-black bg-white'
-                            : 'text-white hover:text-black'
-                    ]" @mouseenter="onHover(index)" @mouseleave="onLeave(index)">
-                        <span :ref="el => menuRef[index] = el" class="text-2xl lg:text-6xl font-mono z-10">
+                    <component v-for="(item, index) in menuList" :key="index" :is="item.external ? 'a' : 'NuxtLink'"
+                        :to="item.external ? undefined : item.href" :href="item.external ? item.href : undefined"
+                        :target="item.external ? '_blank' : undefined"
+                        :rel="item.external ? 'noopener noreferrer' : undefined" :class="[
+                            'relative flex py-2 px-3 gap-2 group rounded w-fit transition-all duration-300',
+                            isActiveRoute(item.href)
+                                ? 'text-black bg-white'
+                                : 'text-white hover:text-black'
+                        ]" @mouseenter="onHover(index)" @mouseleave="onLeave(index)">
+                        <span :ref="el => menuRef[index] = el" class="text-2xl lg:text-5xl font-mono z-10">
                             {{ item.menu }}
                         </span>
-                        <div
-:class="[
+                        <div :class="[
                             'absolute inset-0 left-0 h-full transition-all duration-300 z-0',
                             isActiveRoute(item.href)
                                 ? 'w-full bg-white'
                                 : 'w-0 group-hover:w-full group-hover:bg-white'
                         ]" />
-                        <span
-:ref="el => infoRef[index] = el" :class="[
+                        <span :ref="el => infoRef[index] = el" :class="[
                             'text-sm lg:text-lg transform-all duration-300 z-10',
                             isActiveRoute(item.href) ? 'block' : 'hidden group-hover:block'
                         ]">
                             {{ item.pageInfo }}
                         </span>
-                    </NuxtLink>
+                    </component>
                 </div>
             </div>
         </div>
@@ -71,12 +70,13 @@ gsap.registerPlugin(SplitText)
 const route = useRoute()
 
 const menuList = [
-    { menu: "Home", href: "/", pageInfo: "UwU" },
-    { menu: "About", href: "/about", pageInfo: ">_<" },
-    { menu: "Projects", href: "/projects", pageInfo: "^_^" },
-    { menu: "Contact", href: "/contact", pageInfo: "@_@" },
-    { menu: "Blog", href: "/blog", pageInfo: "o_o" },
-    { menu: "Gallery", href: "/gallery", pageInfo: "~_~" },
+    { menu: "Home", href: "/", pageInfo: "UwU", external: false },
+    { menu: "About", href: "/about", pageInfo: ">_<", external: false },
+    { menu: "Achievements", href: "/achievements", pageInfo: "\\o/", external: false },
+    { menu: "Certificates", href: "/certificates", pageInfo: "📜", external: false },
+    { menu: "Notes", href: "https://notes.rizkyfauzan.id", pageInfo: "O_O", external: true },
+    { menu: "Contact", href: "/contact", pageInfo: "@_@", external: false },
+    { menu: "Resume", href: "/resume", pageInfo: "T_T", external: false },
 ]
 
 const backdrop = ref(null)

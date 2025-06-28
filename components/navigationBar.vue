@@ -32,13 +32,13 @@ v-for="item in navItems" :key="item.title" :to="item.href"
 
 <script setup>
 const navItems = [
-	{
-		title: "Home",
-		href: "/",
-	},
-	{
-		title: "About",
-		href: "/about",
-	},
+	// {
+	// 	title: "Home",
+	// 	href: "/",
+	// },
+	// {
+	// 	title: "About",
+	// 	href: "/about",
+	// },
 ]
 </script>

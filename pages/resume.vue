@@ -1,14 +1,14 @@
 <script setup>
 useSeoMeta({
-    title: 'About',
-    description: 'Learn more about Rizky Fauzan Hanif.',
+    title: 'Resume',
+    description: 'View and download my professional resume.',
 })
 </script>
 
 <template>
     <div>
         <h1 class="text-3xl font-bold">
-            About
+            Resume
         </h1>
     </div>
 </template>
