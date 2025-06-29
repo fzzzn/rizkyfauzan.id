@@ -12,9 +12,9 @@ v-show="isOpen" ref="backdrop" class="fixed inset-0 w-full h-full bg-white/10 ba
 
         <div
 v-show="isOpen" ref="sidebarPanel"
-            class="fixed lg:absolute left-0 top-0 h-full w-[100vw] lg:w-[40vw] bg-black lg:rounded-lg z-40 lg:z-50 overflow-hidden flex flex-col">
+            class="fixed md:absolute left-0 top-0 h-full w-[100vw] md:w-[60vw] lg:w-[40vw] bg-black md:rounded-lg z-40 md:z-50 overflow-hidden flex flex-col">
             <div class="absolute -bottom-10 left-0 text-white/30 pointer-events-none">
-                <span class="text-[8rem] lg:text-[10rem]">💤</span>
+                <span class="text-[8rem] md:text-[10rem]">💤</span>
             </div>
 
             <!-- Header - Fixed -->
@@ -33,30 +33,30 @@ v-show="isOpen" ref="sidebarPanel"
             <div class="flex-1 overflow-y-auto px-4 pb-6 scrollbar-hide">
                 <div class="space-y-2">
                     <NuxtLink
-v-for="(item, index) in menuList" :key="index" :to="item.href" :class="[
-                        'relative flex py-2 px-3 gap-2 group rounded w-fit transition-all duration-300',
-                        isActiveRoute(item.href)
-                            ? 'text-black bg-white'
-                            : 'text-white hover:text-black'
-                    ]" @mouseenter="onHover(index)" @mouseleave="onLeave(index)">
-                        <span :ref="el => menuRef[index] = el" class="text-2xl lg:text-5xl font-mono z-10">
-                            {{ item.menu }}
-                        </span>
-                        <div
-:class="[
-                            'absolute inset-0 left-0 h-full transition-all duration-300 z-0',
-                            isActiveRoute(item.href)
-                                ? 'w-full bg-white'
-                                : 'w-0 group-hover:w-full group-hover:bg-white'
-                        ]" />
-                        <span
-:ref="el => infoRef[index] = el" :class="[
-                            'text-sm lg:text-lg transform-all duration-300 z-10',
-                            isActiveRoute(item.href) ? 'block' : 'hidden group-hover:block'
-                        ]">
-                            {{ item.pageInfo }}
-                        </span>
-                    </NuxtLink>
+    v-for="(item, index) in menuList" :key="index" :to="item.href" :class="[
+        'relative flex py-2 px-3 gap-2 group w-fit transition-all duration-300 rounded-lg',
+        isActiveRoute(item.href)
+            ? 'text-black bg-white'
+            : 'text-white hover:text-black'
+    ]" @mouseenter="onHover(index)" @mouseleave="onLeave(index)">
+    <span :ref="el => menuRef[index] = el" class="text-2xl md:text-5xl font-mono z-10">
+        {{ item.menu }}
+    </span>
+    <div
+        :class="[
+            'absolute inset-0 left-0 h-full rounded-lg transition-all duration-300 z-0',
+            isActiveRoute(item.href)
+                ? 'w-full rounded-lg bg-white'
+                : 'w-0 group-hover:w-full rounded-lg group-hover:bg-white'
+        ]" />
+    <span
+        :ref="el => infoRef[index] = el" :class="[
+            'text-sm md:text-lg transform-all duration-300 z-10',
+            isActiveRoute(item.href) ? 'block' : 'hidden group-hover:block'
+        ]">
+        {{ item.pageInfo }}
+    </span>
+</NuxtLink>
                 </div>
             </div>
         </div>

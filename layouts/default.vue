@@ -1,17 +1,17 @@
 <template>
-    <div class="h-screen lg:py-6 lg:px-6 flex flex-col">
-        <div class="flex-1 lg:border lg:rounded-xl lg:border-black/30 flex flex-col lg:overflow-hidden relative">
+    <div class="md:h-[94vh] lg:h-screen md:py-4 md:px-4 lg:py-6 lg:px-6 flex flex-col">
+        <div class="flex-1 md:border md:rounded-xl md:border-black/30 flex flex-col md:overflow-hidden relative">
             <navigation-bar />
-            <main class="flex-1 lg:overflow-hidden relative">
-                <div class="h-full p-6 overflow-y-auto relative">
+            <main class="flex-1 md:overflow-hidden relative">
+                <div class="min-h-[80vh] h-full p-6 overflow-y-auto relative">
                     <slot />
                 </div>
             </main>
             <!-- Footer hidden on mobile, shown on desktop -->
-            <web-footer class="hidden lg:block" />
+            <web-footer class="hidden md:block" />
         </div>
         <!-- Footer shown on mobile, hidden on desktop -->
-        <web-footer class="block lg:hidden" />
+        <web-footer class="block md:hidden" />
     </div>
 </template>
 
