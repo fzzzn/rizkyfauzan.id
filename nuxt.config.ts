@@ -23,6 +23,7 @@ export default defineNuxtConfig({
       ],
       link: [{ rel: "icon", type: "image/png", href: "/logo.png" }],
     },
+    pageTransition: { name: 'page', mode: 'out-in' }
   },
   site: {
     url: "https://rizkyfauzan.id",

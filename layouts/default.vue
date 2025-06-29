@@ -31,7 +31,6 @@ useHead({
             rel: 'twitter:image',
             href: '/og-image.png'
         }
-
     ]
 })
 </script>
