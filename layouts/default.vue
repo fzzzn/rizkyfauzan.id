@@ -1,14 +1,17 @@
 <template>
-    <div class="h-screen py-4 px-2 md:py-6 md:px-4 lg:py-6 lg:px-6 flex flex-col">
-        <div class="flex-1 border rounded-xl border-border flex flex-col overflow-hidden relative">
+    <div class="h-screen lg:py-6 lg:px-6 flex flex-col">
+        <div class="flex-1 lg:border lg:rounded-xl lg:border-black/30 flex flex-col lg:overflow-hidden relative">
             <navigation-bar />
-            <main class="flex-1 overflow-hidden relative">
-                <div class="h-full p-4 overflow-y-auto scrollable-content relative scrollbar-hide">
+            <main class="flex-1 lg:overflow-hidden relative">
+                <div class="h-full p-4 overflow-y-auto relative">
                     <slot />
                 </div>
             </main>
-            <web-footer />
+            <!-- Footer hidden on mobile, shown on desktop -->
+            <web-footer class="hidden lg:block" />
         </div>
+        <!-- Footer shown on mobile, hidden on desktop -->
+        <web-footer class="block lg:hidden" />
     </div>
 </template>
 
@@ -28,18 +31,19 @@ useHead({
             rel: 'twitter:image',
             href: '/og-image.png'
         }
-        
+
     ]
 })
 </script>
 
-<style scoped>
-.scrollbar-hide {
+<style>
+/* Global scrollbar hiding */
+* {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
+*::-webkit-scrollbar {
     display: none;
 }
 </style>

@@ -1,15 +1,18 @@
 <template>
     <div class="flex items-center h-full">
         <button class="cursor-pointer text-black flex items-center h-full w-full justify-center" @click="handleOpen">
-            <Icon name="heroicons-outline:menu-alt-2" size="20"
+            <Icon
+name="heroicons-outline:menu-alt-2" size="20"
                 class="text-black/60 hover:text-black transition duration-200" />
         </button>
 
-        <div v-show="isOpen" ref="backdrop" class="fixed inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
+        <div
+v-show="isOpen" ref="backdrop" class="fixed inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
             @click="handleClose" />
 
-        <div v-show="isOpen" ref="sidebarPanel"
-            class="absolute left-0 top-0 h-full w-[100vw] lg:w-[40vw] bg-black lg:rounded-lg z-40 overflow-hidden flex flex-col">
+        <div
+v-show="isOpen" ref="sidebarPanel"
+            class="fixed lg:absolute left-0 top-0 h-full w-[100vw] lg:w-[40vw] bg-black lg:rounded-lg z-40 lg:z-50 overflow-hidden flex flex-col">
             <div class="absolute -bottom-10 left-0 text-white/30 pointer-events-none">
                 <span class="text-[8rem] lg:text-[10rem]">💤</span>
             </div>
@@ -29,7 +32,8 @@
             <!-- Menu List - Scrollable -->
             <div class="flex-1 overflow-y-auto px-4 pb-6 scrollbar-hide">
                 <div class="space-y-2">
-                    <NuxtLink v-for="(item, index) in menuList" :key="index" :to="item.href" :class="[
+                    <NuxtLink
+v-for="(item, index) in menuList" :key="index" :to="item.href" :class="[
                         'relative flex py-2 px-3 gap-2 group rounded w-fit transition-all duration-300',
                         isActiveRoute(item.href)
                             ? 'text-black bg-white'
@@ -38,13 +42,15 @@
                         <span :ref="el => menuRef[index] = el" class="text-2xl lg:text-5xl font-mono z-10">
                             {{ item.menu }}
                         </span>
-                        <div :class="[
+                        <div
+:class="[
                             'absolute inset-0 left-0 h-full transition-all duration-300 z-0',
                             isActiveRoute(item.href)
                                 ? 'w-full bg-white'
                                 : 'w-0 group-hover:w-full group-hover:bg-white'
                         ]" />
-                        <span :ref="el => infoRef[index] = el" :class="[
+                        <span
+:ref="el => infoRef[index] = el" :class="[
                             'text-sm lg:text-lg transform-all duration-300 z-10',
                             isActiveRoute(item.href) ? 'block' : 'hidden group-hover:block'
                         ]">
@@ -96,6 +102,26 @@ const isActiveRoute = (href) => {
     return route.path.startsWith(href)
 }
 
+const handleOpen = () => {
+    isOpen.value = true
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden'
+
+    gsap.to(backdrop.value, {
+        opacity: 1,
+        visibility: "visible",
+        duration: 0.2,
+        ease: "power2.out"
+    })
+
+    gsap.to(sidebarPanel.value, {
+        x: 0,
+        duration: 0.2,
+        ease: "power2.inOut"
+    })
+}
+
 const handleClose = () => {
     gsap.to(backdrop.value, {
         opacity: 0,
@@ -104,6 +130,8 @@ const handleClose = () => {
         onComplete: () => {
             gsap.set(backdrop.value, { visibility: "hidden" })
             isOpen.value = false
+            // Re-enable body scroll
+            document.body.style.overflow = ''
         }
     })
 
@@ -135,6 +163,8 @@ onMounted(() => {
 
 onUnmounted(() => {
     document.removeEventListener('keydown', handleKeydown)
+    // Re-enable body scroll if component is unmounted while sidebar is open
+    document.body.style.overflow = ''
     // Clean up SplitText instances
     splitInstances.value.forEach(instance => {
         if (instance && instance.revert) {
@@ -142,23 +172,6 @@ onUnmounted(() => {
         }
     })
 })
-
-const handleOpen = () => {
-    isOpen.value = true
-
-    gsap.to(backdrop.value, {
-        opacity: 1,
-        visibility: "visible",
-        duration: 0.2,
-        ease: "power2.out"
-    })
-
-    gsap.to(sidebarPanel.value, {
-        x: 0,
-        duration: 0.2,
-        ease: "power2.inOut"
-    })
-}
 
 const onHover = (index) => {
     if (!infoRef.value[index] || isActiveRoute(menuList[index].href)) return
