@@ -2,7 +2,7 @@
     <div class="flex items-center h-full">
         <button class="cursor-pointer text-black flex items-center h-full w-full justify-center" @click="handleOpen">
             <Icon
-name="heroicons-outline:menu-alt-2" size="20"
+name="heroicons-outline:menu-alt-2" size="24"
                 class="text-black/60 hover:text-black transition duration-200" />
         </button>
 
@@ -18,13 +18,13 @@ v-show="isOpen" ref="sidebarPanel"
             </div>
 
             <!-- Header - Fixed -->
-            <div class="flex-shrink-0 py-6 px-4">
+            <div class="flex-shrink-0 py-6 px-6">
                 <div class="flex justify-between">
                     <div class="items-center">
                         <span class="text-base text-center font-light text-white/60 font-mono">Discover</span>
                     </div>
                     <button class="text-white items-center cursor-pointer" @click="handleClose">
-                        <Icon name="line-md:arrow-close-left" size="20" class="text-white" />
+                        <Icon name="line-md:arrow-close-left" size="24" class="text-white" />
                     </button>
                 </div>
             </div>
@@ -104,20 +104,20 @@ const isActiveRoute = (href) => {
 
 const handleOpen = () => {
     isOpen.value = true
-    
+
     // Prevent body scroll
     document.body.style.overflow = 'hidden'
 
     gsap.to(backdrop.value, {
         opacity: 1,
         visibility: "visible",
-        duration: 0.3,
+        duration: 0.2,
         ease: "power2.out"
     })
 
     gsap.to(sidebarPanel.value, {
         x: 0,
-        duration: 0.3,
+        duration: 0.4,
         ease: "power2.inOut"
     })
 }
@@ -125,20 +125,20 @@ const handleOpen = () => {
 const handleClose = () => {
     gsap.to(backdrop.value, {
         opacity: 0,
-        duration: 0.3,
-        ease: "power2.out",
+        duration: 0.2,
+        ease: "power2.out"
+    })
+
+    gsap.to(sidebarPanel.value, {
+        x: -2000,
+        duration: 0.4,
+        ease: "power2.inOut",
         onComplete: () => {
             gsap.set(backdrop.value, { visibility: "hidden" })
             isOpen.value = false
             // Re-enable body scroll
             document.body.style.overflow = ''
         }
-    })
-
-    gsap.to(sidebarPanel.value, {
-        x: -2000,
-        duration: 0.3,
-        ease: "power2.out"
     })
 }
 

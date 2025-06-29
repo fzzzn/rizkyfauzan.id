@@ -1,6 +1,6 @@
 <template>
 	<header class="sticky top-0 z-10 lg:static lg:z-auto bg-white">
-		<div class="px-6 py-4 border-b border-black/30 flex-shrink-0">
+		<div class="px-6 py-5 border-b border-black/30 flex-shrink-0">
 			<div class="flex items-center justify-between w-full">
 				<!-- Left side - Sidebar (visible on all screens) -->
 				<div class="flex items-center">

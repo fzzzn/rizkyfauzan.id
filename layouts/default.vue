@@ -3,7 +3,7 @@
         <div class="flex-1 lg:border lg:rounded-xl lg:border-black/30 flex flex-col lg:overflow-hidden relative">
             <navigation-bar />
             <main class="flex-1 lg:overflow-hidden relative">
-                <div class="h-full p-4 overflow-y-auto relative">
+                <div class="h-full p-6 overflow-y-auto relative">
                     <slot />
                 </div>
             </main>
