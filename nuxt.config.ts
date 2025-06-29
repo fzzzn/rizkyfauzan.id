@@ -10,6 +10,14 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  fonts: {
+    families: [
+      { name: "Antonio", provider: "google", global: true },
+      { name: "Inter", provider: "google", global: true },
+      { name: "JetBrains Mono", provider: "google", global: true },
+      { name: "Geist", provider: "google", global: true },
+    ],
+  },
   nitro: {
     prerender: {
       autoSubfolderIndex: false,
@@ -23,7 +31,7 @@ export default defineNuxtConfig({
       ],
       link: [{ rel: "icon", type: "image/png", href: "/logo.png" }],
     },
-    pageTransition: { name: 'page', mode: 'out-in' }
+    pageTransition: { name: "page", mode: "out-in" },
   },
   site: {
     url: "https://rizkyfauzan.id",
