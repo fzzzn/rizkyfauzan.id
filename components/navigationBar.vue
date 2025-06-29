@@ -19,7 +19,12 @@
 				<div class="hidden md:flex items-center gap-4">
 					<NuxtLink
 v-for="item in navItems" :key="item.title" :to="item.href"
-						class="relative px-2 py-1 uppercase text-sm text-black/60 hover:text-white hover:bg-black transition-all duration-200 rounded-sm group">
+						:class="[
+							'relative px-2 py-1 uppercase text-sm transition-all duration-200 rounded-md group',
+							$route.path === item.href || ($route.path.startsWith(item.href) && item.href !== '/')
+								? 'text-white bg-black'
+								: 'hover:text-white hover:bg-black'
+						]">
 						<span class="relative z-10 font-bold">{{ item.title }}</span>
 					</NuxtLink>
 				</div>
