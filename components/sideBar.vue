@@ -111,13 +111,13 @@ const handleOpen = () => {
     gsap.to(backdrop.value, {
         opacity: 1,
         visibility: "visible",
-        duration: 0.2,
+        duration: 0.3,
         ease: "power2.out"
     })
 
     gsap.to(sidebarPanel.value, {
         x: 0,
-        duration: 0.2,
+        duration: 0.3,
         ease: "power2.inOut"
     })
 }
@@ -125,7 +125,7 @@ const handleOpen = () => {
 const handleClose = () => {
     gsap.to(backdrop.value, {
         opacity: 0,
-        duration: 1,
+        duration: 0.3,
         ease: "power2.out",
         onComplete: () => {
             gsap.set(backdrop.value, { visibility: "hidden" })
@@ -137,7 +137,7 @@ const handleClose = () => {
 
     gsap.to(sidebarPanel.value, {
         x: -2000,
-        duration: 1,
+        duration: 0.3,
         ease: "power2.out"
     })
 }

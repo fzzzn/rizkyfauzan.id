@@ -18,7 +18,8 @@
 
 				<!-- Right side - Navigation (hidden on mobile) -->
 				<div class="hidden md:flex items-center gap-4">
-					<NuxtLink v-for="item in navItems" :key="item.title" :to="item.href"
+					<NuxtLink
+v-for="item in navItems" :key="item.title" :to="item.href"
 						class="relative px-2 uppercase text-sm text-black/60 hover:text-black transition-colors duration-200 rounded-md group">
 						<span class="relative z-10 font-bold">{{ item.title }}</span>
 					</NuxtLink>
