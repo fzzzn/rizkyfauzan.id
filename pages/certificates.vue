@@ -17,7 +17,7 @@ const certificates = ref([
         date: "2023",
         image: "/logo.png",
     },
-        {
+    {
         title: "Network Security Excellence Award",
         description: "Led implementation of enterprise-grade security protocols, reducing security incidents by 85% and protecting critical infrastructure across multiple data centers.",
         date: "2024",
@@ -29,9 +29,38 @@ const certificates = ref([
         date: "2023",
         image: "/logo.png",
     },
-   
 ])
 
+// Modal state
+const isModalOpen = ref(false)
+const selectedCertificate = ref(null)
+
+const openModal = (certificate) => {
+    selectedCertificate.value = certificate
+    isModalOpen.value = true
+    document.body.style.overflow = 'hidden'
+}
+
+const closeModal = () => {
+    isModalOpen.value = false
+    selectedCertificate.value = null
+    document.body.style.overflow = ''
+}
+
+const handleKeydown = (event) => {
+    if (event.key === 'Escape') {
+        closeModal()
+    }
+}
+
+onMounted(() => {
+    document.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+    document.removeEventListener('keydown', handleKeydown)
+    document.body.style.overflow = ''
+})
 </script>
 
 <template>
@@ -55,7 +84,8 @@ v-for="certificate in certificates" :key="certificate.id"
                         <div>
                             <NuxtImg
 :src="certificate.image" :alt="certificate.title"
-                                     class="w-full aspect-[3/2] object-cover rounded-lg" />
+                                     class="w-full aspect-[3/2] object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                                     @click="openModal(certificate)" />
                         </div>
                         <div>
                             <div class="flex justify-between items-center mb-2">
@@ -68,6 +98,42 @@ v-for="certificate in certificates" :key="certificate.id"
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <Teleport to="body">
+            <div
+v-if="isModalOpen && selectedCertificate"
+                 class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75"
+                 @click="closeModal">
+                <div class="relative w-full max-w-4xl max-h-full">
+                    <!-- Close button -->
+                    <button
+                        class="flex-shrink-0 flex items-center justify-center absolute top-4 right-4 z-10 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-colors"
+                        aria-label="Close modal"
+                        @click="closeModal">
+                        <Icon name="heroicons:x-mark" size="16" />
+                    </button>
+                    
+                    <!-- Modal content -->
+                    <div class="bg-white rounded-lg overflow-hidden w-full max-h-[90vh] flex flex-col" @click.stop>
+                        <!-- Image - Fixed height -->
+                        <div class="relative flex-shrink-0">
+                            <NuxtImg
+:src="selectedCertificate.image" 
+                                     :alt="selectedCertificate.title"
+                                     class="w-full object-cover h-48 md:h-64 lg:h-80" />
+                        </div>
+                        
+                        <!-- Content - Scrollable -->
+                        <div class="p-4 md:p-6 overflow-y-auto flex-1">
+                            <div class="text-sm text-gray-500 mb-2">{{ selectedCertificate.date }}</div>
+                            <h3 class="text-xl md:text-2xl lg:text-3xl font-bold mb-4">{{ selectedCertificate.title }}</h3>
+                            <p class="text-gray-700 leading-relaxed text-base md:text-lg">{{ selectedCertificate.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Teleport>
     </div>
 </template>
 
