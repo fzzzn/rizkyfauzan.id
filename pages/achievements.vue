@@ -46,20 +46,21 @@ const achievements = ref([
             :items="achievements" 
             :auto-slide-delay="4000"
             :enable-modal="true"
+            :slides-to-show="3"
         >
             <template #default="{ item }">
                 <div class="bg-white border border-gray-200 rounded-lg p-6">
-                    <div class="flex flex-col md:flex-row gap-6">
-                        <div class="md:w-1/3">
+                    <div class="flex flex-col gap-4">
+                        <div>
                             <NuxtImg
                                 :src="item.image" 
                                 :alt="item.title"
                                 class="w-full h-48 object-cover rounded-lg" />
                         </div>
-                        <div class="md:w-2/3">
+                        <div>
                             <div class="text-sm text-gray-500 mb-0.5">{{ item.date }}</div>
-                            <h3 class="text-2xl font-bold mb-1.5">{{ item.title }}</h3>
-                            <p class="text-gray-700 leading-relaxed">{{ item.description }}</p>
+                            <h3 class="text-xl font-bold mb-1.5">{{ item.title }}</h3>
+                            <p class="text-gray-700 leading-relaxed text-sm">{{ item.description }}</p>
                         </div>
                     </div>
                 </div>

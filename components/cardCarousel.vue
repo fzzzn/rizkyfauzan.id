@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
 
 const props = defineProps({
     items: {
@@ -21,6 +21,18 @@ const props = defineProps({
     enableModal: {
         type: Boolean,
         default: false
+    },
+    slidesToShow: {
+        type: Number,
+        default: 3
+    },
+    slidesToShowMobile: {
+        type: Number,
+        default: 1
+    },
+    showCardNumber: {
+        type: Boolean,
+        default: true
     }
 })
 
@@ -30,6 +42,7 @@ const currentSlide = ref(1)
 const autoSlideInterval = ref(null)
 const isTransitioning = ref(false)
 const carouselRef = ref(null)
+const isMobile = ref(false)
 
 // Modal state
 const isModalOpen = ref(false)
@@ -38,13 +51,48 @@ const selectedItem = ref(null)
 // Create extended array with clones for infinite scroll
 const extendedItems = ref([])
 
+// Calculate current slides to show based on screen size
+const currentSlidesToShow = computed(() => {
+    return isMobile.value ? props.slidesToShowMobile : props.slidesToShow
+})
+
+// Calculate slide width based on current slides to show
+const slideWidth = computed(() => {
+    return 100 / currentSlidesToShow.value
+})
+
+// Get card number for a specific item
+const getCardNumber = (item) => {
+    // Find the original index in the items array
+    const originalIndex = props.items.findIndex(originalItem => 
+        originalItem.id === item.id || 
+        (originalItem.title === item.title && originalItem.date === item.date)
+    )
+    return originalIndex !== -1 ? originalIndex + 1 : 1
+}
+
+// Check if mobile
+const checkMobile = () => {
+    isMobile.value = window.innerWidth < 768 // md breakpoint
+}
+
 const initializeCarousel = () => {
     const original = props.items
-    // Add last item at beginning and first item at end for seamless looping
+    // Add clones at both ends for smooth infinite scroll
+    const maxSlides = Math.max(props.slidesToShow, props.slidesToShowMobile)
+    const clonesAtStart = original.slice(-maxSlides).map((item, index) => ({
+        ...item,
+        cloneId: `clone-start-${index}`
+    }))
+    const clonesAtEnd = original.slice(0, maxSlides).map((item, index) => ({
+        ...item,
+        cloneId: `clone-end-${index}`
+    }))
+    
     extendedItems.value = [
-        { ...original[original.length - 1], cloneId: 'clone-last' },
+        ...clonesAtStart,
         ...original,
-        { ...original[0], cloneId: 'clone-first' }
+        ...clonesAtEnd
     ]
 }
 
@@ -54,17 +102,14 @@ const nextSlide = async () => {
     
     currentSlide.value++
     
-    // If we've moved to the cloned first slide (at the end)
-    if (currentSlide.value === props.items.length + 1) {
+    // If we've moved past the original items
+    if (currentSlide.value > props.items.length) {
         await nextTick()
-        // Wait for transition to complete
         setTimeout(() => {
-            // Jump to the real first slide without transition
             if (carouselRef.value) {
                 carouselRef.value.style.transition = 'none'
                 currentSlide.value = 1
                 
-                // Re-enable transition after a brief moment
                 setTimeout(() => {
                     if (carouselRef.value) {
                         carouselRef.value.style.transition = 'transform 300ms ease-in-out'
@@ -86,17 +131,14 @@ const prevSlide = async () => {
     
     currentSlide.value--
     
-    // If we've moved to the cloned last slide (at the beginning)
-    if (currentSlide.value === 0) {
+    // If we've moved before the original items
+    if (currentSlide.value < 1) {
         await nextTick()
-        // Wait for transition to complete
         setTimeout(() => {
-            // Jump to the real last slide without transition
             if (carouselRef.value) {
                 carouselRef.value.style.transition = 'none'
                 currentSlide.value = props.items.length
                 
-                // Re-enable transition after a brief moment
                 setTimeout(() => {
                     if (carouselRef.value) {
                         carouselRef.value.style.transition = 'transform 300ms ease-in-out'
@@ -115,17 +157,24 @@ const prevSlide = async () => {
 const goToSlide = (index) => {
     if (isTransitioning.value) return
     isTransitioning.value = true
-    currentSlide.value = index + 1 // +1 because of clone at beginning
+    currentSlide.value = index + 1
     setTimeout(() => {
         isTransitioning.value = false
     }, 300)
 }
 
-// Get the actual slide index for indicators (0-based)
+// Get the actual slide index for indicators
 const getActualSlideIndex = () => {
-    if (currentSlide.value === 0) return props.items.length - 1
-    if (currentSlide.value === props.items.length + 1) return 0
+    if (currentSlide.value < 1) return props.items.length - 1
+    if (currentSlide.value > props.items.length) return 0
     return currentSlide.value - 1
+}
+
+// Calculate transform based on current slide and slides to show
+const getTransform = () => {
+    const maxSlides = Math.max(props.slidesToShow, props.slidesToShowMobile)
+    const slideIndex = currentSlide.value + maxSlides - 1
+    return slideIndex * slideWidth.value
 }
 
 // Modal functions
@@ -148,6 +197,10 @@ const handleKeydown = (event) => {
     if (event.key === 'Escape') {
         closeModal()
     }
+}
+
+const handleResize = () => {
+    checkMobile()
 }
 
 const startAutoSlide = () => {
@@ -185,8 +238,10 @@ const manualGoToSlide = (index) => {
 }
 
 onMounted(() => {
+    checkMobile()
     initializeCarousel()
     startAutoSlide()
+    window.addEventListener('resize', handleResize)
     if (props.enableModal) {
         document.addEventListener('keydown', handleKeydown)
     }
@@ -194,6 +249,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     stopAutoSlide()
+    window.removeEventListener('resize', handleResize)
     if (props.enableModal) {
         document.removeEventListener('keydown', handleKeydown)
         document.body.style.overflow = ''
@@ -203,7 +259,7 @@ onUnmounted(() => {
 
 <template>
     <div>
-        <div class="flex items-center max-w-6xl mx-auto gap-4" @mouseenter="stopAutoSlide" @mouseleave="startAutoSlide">
+        <div class="flex items-center max-w-7xl mx-auto gap-4" @mouseenter="stopAutoSlide" @mouseleave="startAutoSlide">
             <!-- Left Arrow -->
             <button
                 v-if="showArrows"
@@ -217,16 +273,30 @@ onUnmounted(() => {
                 <div 
                     ref="carouselRef"
                     class="flex transition-transform duration-300 ease-in-out"
-                    :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+                    :style="{ transform: `translateX(-${getTransform()}%)` }"
                 >
-                    <div v-for="item in extendedItems" :key="item.cloneId || item.id" class="w-full flex-shrink-0 px-2">
+                    <div 
+                        v-for="item in extendedItems" 
+                        :key="item.cloneId || item.id" 
+                        class="flex-shrink-0 px-2"
+                        :style="{ width: `${slideWidth}%` }"
+                    >
                         <div 
+                            class="relative"
                             :class="[
                                 enableModal ? 'cursor-pointer hover:shadow-lg transition-all duration-200' : ''
                             ]"
                             @click="openModal(item)"
                         >
                             <slot :item="item" />
+                            
+                            <!-- Card Number Indicator on each card -->
+                            <div 
+                                v-if="showCardNumber"
+                                class="absolute bottom-2 right-2 text-black/30 px-2 py-1 text-xs font-medium"
+                            >
+                                {{ getCardNumber(item) }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -242,7 +312,7 @@ onUnmounted(() => {
         </div>
 
         <!-- Dots Indicator -->
-        <div v-if="showDots" class="flex justify-center mt-6 space-x-2">
+        <div v-if="showDots" class="flex md:hidden justify-center mt-6 space-x-2">
             <button
                 v-for="(item, index) in items" 
                 :key="index" 
