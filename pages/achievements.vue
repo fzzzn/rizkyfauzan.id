@@ -42,7 +42,11 @@ const achievements = ref([
             Achievements
         </h1>
 
-        <cardCarousel :items="achievements" :auto-slide-delay="4000">
+        <cardCarousel 
+            :items="achievements" 
+            :auto-slide-delay="4000"
+            :enable-modal="true"
+        >
             <template #default="{ item }">
                 <div class="bg-white border border-gray-200 rounded-lg p-6">
                     <div class="flex flex-col md:flex-row gap-6">

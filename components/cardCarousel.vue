@@ -17,13 +17,23 @@ const props = defineProps({
     showArrows: {
         type: Boolean,
         default: true
+    },
+    enableModal: {
+        type: Boolean,
+        default: false
     }
 })
+
+const emit = defineEmits(['item-click'])
 
 const currentSlide = ref(1)
 const autoSlideInterval = ref(null)
 const isTransitioning = ref(false)
 const carouselRef = ref(null)
+
+// Modal state
+const isModalOpen = ref(false)
+const selectedItem = ref(null)
 
 // Create extended array with clones for infinite scroll
 const extendedItems = ref([])
@@ -118,6 +128,28 @@ const getActualSlideIndex = () => {
     return currentSlide.value - 1
 }
 
+// Modal functions
+const openModal = (item) => {
+    if (props.enableModal) {
+        selectedItem.value = item
+        isModalOpen.value = true
+        document.body.style.overflow = 'hidden'
+    }
+    emit('item-click', item)
+}
+
+const closeModal = () => {
+    isModalOpen.value = false
+    selectedItem.value = null
+    document.body.style.overflow = ''
+}
+
+const handleKeydown = (event) => {
+    if (event.key === 'Escape') {
+        closeModal()
+    }
+}
+
 const startAutoSlide = () => {
     autoSlideInterval.value = setInterval(() => {
         nextSlide()
@@ -155,54 +187,113 @@ const manualGoToSlide = (index) => {
 onMounted(() => {
     initializeCarousel()
     startAutoSlide()
+    if (props.enableModal) {
+        document.addEventListener('keydown', handleKeydown)
+    }
 })
 
 onUnmounted(() => {
     stopAutoSlide()
+    if (props.enableModal) {
+        document.removeEventListener('keydown', handleKeydown)
+        document.body.style.overflow = ''
+    }
 })
 </script>
 
 <template>
-    <div class="flex items-center max-w-6xl mx-auto gap-4" @mouseenter="stopAutoSlide" @mouseleave="startAutoSlide">
-        <!-- Left Arrow -->
-        <button
-            v-if="showArrows"
-            class="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors flex-shrink-0 flex items-center justify-center"
-            @click="manualPrevSlide">
-            <Icon name="heroicons:chevron-left" size="20" />
-        </button>
+    <div>
+        <div class="flex items-center max-w-6xl mx-auto gap-4" @mouseenter="stopAutoSlide" @mouseleave="startAutoSlide">
+            <!-- Left Arrow -->
+            <button
+                v-if="showArrows"
+                class="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors flex-shrink-0 flex items-center justify-center"
+                @click="manualPrevSlide">
+                <Icon name="heroicons:chevron-left" size="20" />
+            </button>
 
-        <!-- Slides Container -->
-        <div class="flex-1 overflow-hidden rounded-lg">
-            <div 
-                ref="carouselRef"
-                class="flex transition-transform duration-300 ease-in-out"
-                :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
-            >
-                <div v-for="item in extendedItems" :key="item.cloneId || item.id" class="w-full flex-shrink-0 px-2">
-                    <slot :item="item" />
+            <!-- Slides Container -->
+            <div class="flex-1 overflow-hidden rounded-lg">
+                <div 
+                    ref="carouselRef"
+                    class="flex transition-transform duration-300 ease-in-out"
+                    :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+                >
+                    <div v-for="item in extendedItems" :key="item.cloneId || item.id" class="w-full flex-shrink-0 px-2">
+                        <div 
+                            :class="[
+                                enableModal ? 'cursor-pointer hover:shadow-lg transition-all duration-200' : ''
+                            ]"
+                            @click="openModal(item)"
+                        >
+                            <slot :item="item" />
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Right Arrow -->
+            <button
+                v-if="showArrows"
+                class="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors flex-shrink-0 flex items-center justify-center"
+                @click="manualNextSlide">
+                <Icon name="heroicons:chevron-right" size="20" />
+            </button>
         </div>
 
-        <!-- Right Arrow -->
-        <button
-            v-if="showArrows"
-            class="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors flex-shrink-0 flex items-center justify-center"
-            @click="manualNextSlide">
-            <Icon name="heroicons:chevron-right" size="20" />
-        </button>
-    </div>
+        <!-- Dots Indicator -->
+        <div v-if="showDots" class="flex justify-center mt-6 space-x-2">
+            <button
+                v-for="(item, index) in items" 
+                :key="index" 
+                :class="[
+                    'w-3 h-3 rounded-full transition-colors',
+                    getActualSlideIndex() === index ? 'bg-black' : 'bg-gray-300'
+                ]" 
+                @click="manualGoToSlide(index)" />
+        </div>
 
-    <!-- Dots Indicator -->
-    <div v-if="showDots" class="flex justify-center mt-6 space-x-2">
-        <button
-            v-for="(item, index) in items" 
-            :key="index" 
-            :class="[
-                'w-3 h-3 rounded-full transition-colors',
-                getActualSlideIndex() === index ? 'bg-black' : 'bg-gray-300'
-            ]" 
-            @click="manualGoToSlide(index)" />
+        <!-- Modal -->
+        <Teleport v-if="enableModal" to="body">
+            <div 
+                v-if="isModalOpen && selectedItem"
+                class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75"
+                @click="closeModal"
+            >
+                <div class="relative max-w-4xl max-h-full">
+                    <!-- Close button -->
+                    <button
+                        class="absolute top-4 right-4 z-10 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-colors"
+                        aria-label="Close modal"
+                        @click="closeModal"
+                    >
+                        <Icon name="heroicons:x-mark" size="24" />
+                    </button>
+                    
+                    <!-- Modal content -->
+                    <div class="bg-white rounded-lg overflow-hidden max-w-4xl max-h-[90vh]">
+                        <!-- Modal slot for custom content -->
+                        <slot name="modal" :item="selectedItem">
+                            <!-- Default modal content -->
+                            <div class="relative">
+                                <NuxtImg 
+                                    v-if="selectedItem.image"
+                                    :src="selectedItem.image" 
+                                    :alt="selectedItem.title || 'Image'"
+                                    class="w-full object-contain"
+                                    @click.stop
+                                />
+                            </div>
+                            
+                            <div class="p-6">
+                                <div v-if="selectedItem.date" class="text-sm text-gray-500 mb-2">{{ selectedItem.date }}</div>
+                                <h3 v-if="selectedItem.title" class="text-3xl font-bold mb-4">{{ selectedItem.title }}</h3>
+                                <p v-if="selectedItem.description" class="text-gray-700 leading-relaxed text-lg">{{ selectedItem.description }}</p>
+                            </div>
+                        </slot>
+                    </div>
+                </div>
+            </div>
+        </Teleport>
     </div>
 </template>
