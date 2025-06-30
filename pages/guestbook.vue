@@ -24,11 +24,11 @@ v-if="error"
                     class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
                     <div class="flex items-center space-x-3 sm:space-x-4">
                         <img
-:src="user.user_metadata.avatar_url" :alt="user.user_metadata.full_name"
+                            :src="user.user_metadata.avatar_url" 
+                            :alt="user.user_metadata.full_name"
                             class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover flex-shrink-0">
                         <div class="min-w-0 flex-1">
-                            <h3 class="text-lg sm:text-xl font-bold text-black truncate">{{ user.user_metadata.full_name
-                                || user.user_metadata.user_name }}</h3>
+                            <h3 class="text-lg sm:text-xl font-bold text-black truncate">{{ user.user_metadata.full_name || user.user_metadata.user_name }}</h3>
                             <p class="text-xs sm:text-sm text-gray-500">Signed in</p>
                         </div>
                     </div>
@@ -44,12 +44,16 @@ v-if="error"
                     <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Leave a Message</h2>
                     <form @submit.prevent="submitMessage">
                         <textarea
-v-model="newMessage" placeholder="Write your message here..." rows="3"
+                            v-model="newMessage" 
+                            placeholder="Write your message here..." 
+                            rows="3"
                             class="w-full px-3 py-2.5 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-sm sm:text-base resize-none"
-                            required />
+                            required 
+                        />
                         <div class="mt-3 sm:mt-4 flex justify-end">
                             <button
-type="submit" :disabled="!newMessage.trim() || submitting"
+                                type="submit" 
+                                :disabled="!newMessage || newMessage.trim().length === 0 || submitting"
                                 class="bg-black text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:bg-gray-800 transition-colors font-semibold disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto">
                                 {{ submitting ? 'Posting...' : 'Post Message' }}
                             </button>
@@ -65,7 +69,7 @@ type="submit" :disabled="!newMessage.trim() || submitting"
                     thoughts and join the conversation!</p>
                 <div class="flex flex-col gap-3 sm:gap-4 sm:flex-row sm:justify-center sm:items-center">
                     <button
-:disabled="signingIn"
+                        :disabled="signingIn"
                         class="bg-black text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg hover:bg-gray-800 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithGoogle">
                         <Icon name="logos:google-icon" size="18" />
@@ -73,7 +77,7 @@ type="submit" :disabled="!newMessage.trim() || submitting"
                     </button>
 
                     <button
-:disabled="signingIn"
+                        :disabled="signingIn"
                         class="bg-gray-900 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg hover:bg-gray-700 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithGitHub">
                         <Icon name="mdi:github" size="18" />
@@ -98,8 +102,12 @@ type="submit" :disabled="!newMessage.trim() || submitting"
                 <h2 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Messages</h2>
                 <div class="space-y-4 sm:space-y-6">
                     <MessageCards
-v-for="message in messages" :key="message.id" :message="message" :current-user="user"
-                        @delete="deleteMessage" />
+                        v-for="message in messages" 
+                        :key="message.id" 
+                        :message="message" 
+                        :current-user="user"
+                        @delete="deleteMessage" 
+                    />
                 </div>
             </div>
         </div>
@@ -188,7 +196,7 @@ const fetchMessages = async () => {
 
 // Submit new message
 const submitMessage = async () => {
-    if (!newMessage.value.trim() || !user.value) return
+    if (!newMessage.value || newMessage.value.trim().length === 0 || !user.value) return
 
     submitting.value = true
     try {
