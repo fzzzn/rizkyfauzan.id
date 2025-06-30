@@ -3,68 +3,22 @@ useSeoMeta({
     title: 'Achievements',
     description: 'Explore my professional achievements.',
 })
-
-const achievements = ref([
-    {
-        id: 1,
-        title: "Network Security Excellence",
-        description: "Led implementation of enterprise-grade security protocols",
-        date: "2024",
-        image: "logo.png"
-    },
-    {
-        id: 2,
-        title: "Infrastructure Optimization",
-        description: "Reduced network latency by 40% through strategic optimization",
-        date: "2023",
-        image: "logo.png"
-    },
-    {
-        id: 3,
-        title: "Team Leadership Award",
-        description: "Recognized for outstanding team management and project delivery",
-        date: "2023",
-        image: "logo.png"
-    },
-    {
-        id: 4,
-        title: "Innovation in Networking",
-        description: "Developed custom solutions for complex network challenges",
-        date: "2022",
-        image: "logo.png"
-    }
-])
 </script>
 
 <template>
-    <div class="p-6">
-        <h1 class="text-3xl font-bold mb-8">
+    <div class="p-8">
+        <h1 class="text-6xl md:text-8xl leading-[1.2] font-[antonio] uppercase font-bold">
             Achievements
         </h1>
-
-        <cardCarousel 
-            :items="achievements" 
-            :auto-slide-delay="4000"
-            :enable-modal="true"
-            :slides-to-show="3"
-        >
-            <template #default="{ item }">
-                <div class="bg-white border border-gray-200 rounded-lg p-6">
-                    <div class="flex flex-col gap-4">
-                        <div>
-                            <NuxtImg
-                                :src="item.image" 
-                                :alt="item.title"
-                                class="w-full h-48 object-cover rounded-lg" />
-                        </div>
-                        <div>
-                            <div class="text-sm text-gray-500 mb-0.5">{{ item.date }}</div>
-                            <h3 class="text-xl font-bold mb-1.5">{{ item.title }}</h3>
-                            <p class="text-gray-700 leading-relaxed text-md">{{ item.description }}</p>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </cardCarousel>
+        <p class="mt-6 text-lg">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius sit debitis sed rerum inventore
+            possimus
+            repellendus fuga molestias culpa mollitia quam, vel nam similique laudantium cupiditate laboriosam
+            consequuntur quo itaque, asperiores quia! Itaque expedita ratione dolorum. Magnam temporibus,
+            perspiciatis
+            sunt praesentium maxime quisquam architecto neque, eveniet obcaecati fuga nobis omnis deserunt
+            consectetur
+            rem, amet nulla exercitationem sit nisi minima facilis ullam reiciendis.
+        </p>
     </div>
 </template>
