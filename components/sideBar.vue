@@ -77,6 +77,7 @@ const menuList = [
     { menu: "About", href: "/about", pageInfo: ">_<" },
     { menu: "Achievements", href: "/achievements", pageInfo: "\\o/" },
     { menu: "Certificates", href: "/certificates", pageInfo: "📜" },
+    { menu: "Guestbook", href: "/guestbook", pageInfo: "✍️" },
     { menu: "Contact", href: "/contact", pageInfo: "@_@" },
     { menu: "Resume", href: "/resume", pageInfo: "T_T" },
 ]

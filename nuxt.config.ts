@@ -10,6 +10,13 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  supabase: {
+    redirectOptions: {
+      login: "/guestbook",
+      callback: "/auth/callback",
+      exclude: ["*"],
+    },
+  },
   fonts: {
     families: [
       { name: "Antonio", provider: "google", global: true },
@@ -74,5 +81,6 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/scripts",
     "@nuxtjs/seo",
+    "@nuxtjs/supabase",
   ],
 });

@@ -56,6 +56,10 @@ const navItems = [
 		href: "/contact",
 	},
 	{
+		title: "Guestbook",
+		href: "/guestbook",
+	},
+	{
 		title: "Resume",
 		href: "/resume",
 	},
