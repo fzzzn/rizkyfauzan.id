@@ -1,9 +1,9 @@
 <template>
-    <div class="md:h-[94vh] lg:h-screen md:py-4 md:px-4 lg:py-6 lg:px-6 flex flex-col">
+    <div class=" lg:h-screen md:py-4 md:px-4 lg:py-6 lg:px-6 flex flex-col">
         <div class="flex-1 md:border md:rounded-xl md:border-black/30 flex flex-col md:overflow-hidden relative">
             <navigation-bar />
             <main class="flex-1 md:overflow-hidden relative">
-                <div class="min-h-[80vh] h-full p-6 overflow-y-auto relative">
+                <div class="min-h-[80vh] h-full overflow-y-auto relative">
                     <slot />
                 </div>
             </main>

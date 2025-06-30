@@ -4,3 +4,13 @@
   font-family: "geist", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }
+
+::selection {
+  background-color: black;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: black;
+  color: white;
+}
