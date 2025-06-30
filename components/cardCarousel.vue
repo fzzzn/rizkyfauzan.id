@@ -44,6 +44,12 @@ const isTransitioning = ref(false)
 const carouselRef = ref(null)
 const isMobile = ref(false)
 
+// Touch/Swipe state
+const touchStartX = ref(0)
+const touchEndX = ref(0)
+const isDragging = ref(false)
+const swipeThreshold = 50 // Minimum swipe distance
+
 // Modal state
 const isModalOpen = ref(false)
 const selectedItem = ref(null)
@@ -94,6 +100,69 @@ const initializeCarousel = () => {
         ...original,
         ...clonesAtEnd
     ]
+}
+
+// Touch event handlers
+const handleTouchStart = (e) => {
+    touchStartX.value = e.touches[0].clientX
+    isDragging.value = true
+    stopAutoSlide()
+}
+
+const handleTouchMove = (e) => {
+    if (!isDragging.value) return
+    touchEndX.value = e.touches[0].clientX
+}
+
+const handleTouchEnd = () => {
+    if (!isDragging.value) return
+    
+    const swipeDistance = touchStartX.value - touchEndX.value
+    
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+            // Swiped left - go to next slide
+            nextSlide()
+        } else {
+            // Swiped right - go to previous slide
+            prevSlide()
+        }
+    }
+    
+    isDragging.value = false
+    startAutoSlide() // Changed from restartAutoSlide to startAutoSlide
+}
+
+// Mouse event handlers for desktop drag support
+const handleMouseDown = (e) => {
+    touchStartX.value = e.clientX
+    isDragging.value = true
+    stopAutoSlide()
+    e.preventDefault()
+}
+
+const handleMouseMove = (e) => {
+    if (!isDragging.value) return
+    touchEndX.value = e.clientX
+}
+
+const handleMouseUp = () => {
+    if (!isDragging.value) return
+    
+    const swipeDistance = touchStartX.value - touchEndX.value
+    
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+            // Dragged left - go to next slide
+            nextSlide()
+        } else {
+            // Dragged right - go to previous slide
+            prevSlide()
+        }
+    }
+    
+    isDragging.value = false
+    startAutoSlide() // Changed from restartAutoSlide to startAutoSlide
 }
 
 const nextSlide = async () => {
@@ -179,6 +248,9 @@ const getTransform = () => {
 
 // Modal functions
 const openModal = (item) => {
+    // Prevent modal opening if we're dragging
+    if (isDragging.value) return
+    
     if (props.enableModal) {
         selectedItem.value = item
         isModalOpen.value = true
@@ -200,10 +272,22 @@ const handleKeydown = (event) => {
 }
 
 const handleResize = () => {
+    const wasMobile = isMobile.value
     checkMobile()
+    
+    // If screen size changed between mobile/desktop, restart auto-slide with fresh timing
+    if (wasMobile !== isMobile.value) {
+        stopAutoSlide()
+        setTimeout(() => {
+            startAutoSlide()
+        }, 100)
+    }
 }
 
 const startAutoSlide = () => {
+    // Clear any existing interval first
+    stopAutoSlide()
+    
     autoSlideInterval.value = setInterval(() => {
         nextSlide()
     }, props.autoSlideDelay)
@@ -216,32 +300,39 @@ const stopAutoSlide = () => {
     }
 }
 
-const restartAutoSlide = () => {
-    stopAutoSlide()
-    startAutoSlide()
-}
-
 // Manual navigation with auto-slide restart
 const manualNextSlide = () => {
     nextSlide()
-    restartAutoSlide()
+    startAutoSlide() // Changed from restartAutoSlide to startAutoSlide
 }
 
 const manualPrevSlide = () => {
     prevSlide()
-    restartAutoSlide()
+    startAutoSlide() // Changed from restartAutoSlide to startAutoSlide
 }
 
 const manualGoToSlide = (index) => {
     goToSlide(index)
-    restartAutoSlide()
+    startAutoSlide() // Changed from restartAutoSlide to startAutoSlide
 }
 
 onMounted(() => {
     checkMobile()
     initializeCarousel()
-    startAutoSlide()
+    
+    // Start auto-slide after a short delay to ensure everything is initialized
+    setTimeout(() => {
+        startAutoSlide()
+    }, 100)
+    
     window.addEventListener('resize', handleResize)
+    
+    // Add mouse event listeners for desktop drag
+    if (carouselRef.value) {
+        carouselRef.value.addEventListener('mouseleave', handleMouseUp)
+        document.addEventListener('mouseup', handleMouseUp)
+    }
+    
     if (props.enableModal) {
         document.addEventListener('keydown', handleKeydown)
     }
@@ -250,6 +341,8 @@ onMounted(() => {
 onUnmounted(() => {
     stopAutoSlide()
     window.removeEventListener('resize', handleResize)
+    document.removeEventListener('mouseup', handleMouseUp)
+    
     if (props.enableModal) {
         document.removeEventListener('keydown', handleKeydown)
         document.body.style.overflow = ''
@@ -269,10 +362,18 @@ onUnmounted(() => {
             </button>
 
             <!-- Slides Container -->
-            <div class="flex-1 overflow-hidden rounded-lg">
+            <div 
+                class="flex-1 overflow-hidden rounded-lg select-none"
+                @touchstart="handleTouchStart"
+                @touchmove="handleTouchMove"
+                @touchend="handleTouchEnd"
+                @mousedown="handleMouseDown"
+                @mousemove="handleMouseMove"
+            >
                 <div 
                     ref="carouselRef"
                     class="flex transition-transform duration-300 ease-in-out"
+                    :class="{ 'cursor-grabbing': isDragging, 'cursor-grab': !isDragging }"
                     :style="{ transform: `translateX(-${getTransform()}%)` }"
                 >
                     <div 
@@ -333,15 +434,15 @@ onUnmounted(() => {
                 <div class="relative max-w-4xl max-h-full">
                     <!-- Close button -->
                     <button
-                        class="absolute top-4 right-4 z-10 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-colors"
+                        class="flex-shrink-0 flex items-center justify-center absolute top-4 right-4 z-10 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-colors"
                         aria-label="Close modal"
                         @click="closeModal"
                     >
-                        <Icon name="heroicons:x-mark" size="24" />
+                        <Icon name="heroicons:x-mark" size="16" />
                     </button>
                     
                     <!-- Modal content -->
-                    <div class="bg-white rounded-lg overflow-hidden max-w-4xl max-h-[90vh]">
+                    <div class="bg-white rounded-2xl overflow-hidden max-w-4xl max-h-[90vh]">
                         <!-- Modal slot for custom content -->
                         <slot name="modal" :item="selectedItem">
                             <!-- Default modal content -->
@@ -357,8 +458,8 @@ onUnmounted(() => {
                             
                             <div class="p-6">
                                 <div v-if="selectedItem.date" class="text-sm text-gray-500 mb-2">{{ selectedItem.date }}</div>
-                                <h3 v-if="selectedItem.title" class="text-3xl font-bold mb-4">{{ selectedItem.title }}</h3>
-                                <p v-if="selectedItem.description" class="text-gray-700 leading-relaxed text-lg">{{ selectedItem.description }}</p>
+                                <h3 v-if="selectedItem.title" class="text-xl font-bold">{{ selectedItem.title }}</h3>
+                                <p v-if="selectedItem.description" class="text-gray-700 leading-relaxed text-md">{{ selectedItem.description }}</p>
                             </div>
                         </slot>
                     </div>

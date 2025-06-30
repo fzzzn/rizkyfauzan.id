@@ -111,7 +111,7 @@ v-if="isModalOpen"
 
                     <!-- Modal image -->
                     <NuxtImg
-src="/logo.png" class="max-w-full max-h-[90vh] object-contain rounded-lg"
+src="/logo.png" class="max-w-full max-h-[90vh] object-contain rounded-2xl"
                         alt="Rizky Fauzan Hanif - Full size" @click.stop />
                 </div>
             </div>

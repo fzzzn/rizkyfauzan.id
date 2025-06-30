@@ -60,7 +60,7 @@ const achievements = ref([
                         <div>
                             <div class="text-sm text-gray-500 mb-0.5">{{ item.date }}</div>
                             <h3 class="text-xl font-bold mb-1.5">{{ item.title }}</h3>
-                            <p class="text-gray-700 leading-relaxed text-sm">{{ item.description }}</p>
+                            <p class="text-gray-700 leading-relaxed text-md">{{ item.description }}</p>
                         </div>
                     </div>
                 </div>
