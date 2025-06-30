@@ -2,10 +2,10 @@
     <div class="p-4 sm:p-6">
         <!-- Header -->
         <div class="mb-8 sm:mb-12">
-            <h1 class="text-4xl sm:text-6xl md:text-8xl leading-[1.2] font-[antonio] uppercase font-bold">
+            <h1 class="text-6xl md:text-8xl leading-[1.2] font-[antonio] uppercase font-bold">
                 Guestbook
             </h1>
-            <p class="text-lg sm:text-xl md:text-xl text-gray-700 max-w-3xl mt-2 sm:mt-4">
+            <p class="text-lg text-gray-700 max-w-3xl mt-2 sm:mt-4">
                 Leave a message and join the conversation!
             </p>
         </div>
