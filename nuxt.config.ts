@@ -17,6 +17,11 @@ export default defineNuxtConfig({
       exclude: ["*"],
     },
   },
+  umami: {
+    id: "4819c176-2490-4516-88a2-ecbf77ff2ea2",
+    host: "https://u.zxn.my.id",
+    autoTrack: true,
+  },
   fonts: {
     families: [
       { name: "Antonio", provider: "google", global: true },
@@ -82,5 +87,6 @@ export default defineNuxtConfig({
     "@nuxt/scripts",
     "@nuxtjs/seo",
     "@nuxtjs/supabase",
+    "nuxt-umami",
   ],
 });
