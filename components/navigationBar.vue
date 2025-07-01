@@ -59,10 +59,6 @@ const navItems = [
 		title: "Guestbook",
 		href: "/guestbook",
 	},
-	{
-		title: "Resume",
-		href: "/resume",
-	},
 ]
 </script>
 

@@ -20,8 +20,8 @@
                     "{{ currentQuote }}"
                 </p>
             </div>
-            
-            <!-- Last updated link -->
+
+            <!-- Last commit link -->
             <!-- <div class="flex justify-center sm:justify-start">
                 <a 
                     v-if="commitData" 
@@ -54,6 +54,10 @@ const menuItems: MenuItem[] = [
     {
         menu: "LinkedIn",
         href: "https://www.linkedin.com/in/rizky-fauzan-hanif",
+    },
+    {
+        menu: "Resume",
+        href: "https://rizkyfauzan.id/resume",
     },
     {
         menu: "Notes",
