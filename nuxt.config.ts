@@ -44,16 +44,10 @@ export default defineNuxtConfig({
     cloudflare: {
       deployConfig: true,
       nodeCompat: true,
-      pages: {
-        routes: {
-          include: ["/*"],
-          exclude: ["/static/*", "/_nuxt/*"],
-        },
-      },
     },
     prerender: {
-      autoSubfolderIndex: false,
-      routes: ["/sitemap.xml"],
+      routes: ["/"],
+      crawlLinks: true,
     },
   },
   app: {
