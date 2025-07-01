@@ -6,16 +6,16 @@ useSeoMeta({
 
 const achievements = ref([
     {
-        title: "Network Security Excellence Award",
-        description: "Led implementation of enterprise-grade security protocols, reducing security incidents by 85% and protecting critical infrastructure across multiple data centers.",
+        title: "Juara 1 Olimpiade Jaringan MikroTik 2024",
+        // description: "",
         date: "2024",
-        image: "/logo.png",
+        image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-ojm-2024",
     },
     {
-        title: "Infrastructure Optimization Champion",
-        description: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        date: "2023",
-        image: "/logo.png",
+        title: "Juara 3 LKS ITNSA Provinsi DIY 2024",
+        // description: "",
+        date: "2024",
+        image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-lks-itnsa-2024",
     },
 ])
 </script>
@@ -24,7 +24,7 @@ const achievements = ref([
     <div class="p-6">
         <PageHeader 
             title="Achievements" 
-            description="Explore my professional achievements" 
+            description="Explore my achievements" 
         />
 
         <div class="mb-16">

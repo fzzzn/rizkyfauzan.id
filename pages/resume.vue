@@ -4,8 +4,8 @@ definePageMeta({
 })
 
 useSeoMeta({
-    title: 'Resume - Rizky Fauzan Hanif',
-    description: 'Resume - Rizky Fauzan Hanif',
+    title: 'Resume',
+    description: 'Resume of Rizky Fauzan Hanif',
 })
 
 const personalInfo = {
@@ -46,28 +46,31 @@ const navigationLinks = [
     },
     {
         title: 'Certificates',
-        link: '/certificates'
+        link: 'https://rizkyfauzan.id/certificates'
     }
 ]
 
 const aboutMe = 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+
 const skills = [
-    'Pemantauan Jaringan Internet dan Pemecahan Masalah',
-    'Mengelola dan mengkonfigurasi perangkat jaringan seperti Mikrotik, Cisco, dan berbagai perangkat jaringan lainnya',
-    'Pemahaman tentang protokol jaringan utama seperti TCP/IP, Routing, BGP, dan OSPF',
-    'Pemahaman tentang teknologi jaringan seperti VLAN, VPN, dan Wireless'
-]   
+    'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea consequat.',
+    'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+    'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui deserunt mollit anim id est laborum.',
+]
 
 const keyAbilities = [
-    'Sebagai seorang yang profesional saya berusaha untuk berpikir desain, terampil dalam berpikir kritis & pemecahan masalah.',
-    'Sangat mudah beradaptasi dan berkembang dalam lingkungan yang berorientasi pada tim maupun individu.',
-    'Saya juga dikenal karena kreativitas dan kemampuan saya untuk mendekati tugas dan tantangan dengan pola pikir yang inovatif.'
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea consequat.',
+    'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+    'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui deserunt mollit anim id est laborum.',
 ]
 
 const education = [
     {
         institution: 'SMKN 2 Depok Sleman',
-        period: '-',
+        period: '2023 - 2027',
         program: 'Sistem Informasi Jaringan dan Aplikasi',
         achievements: [
             'Juara 1 Olimpade Jaringan MikroTik 2024',
@@ -76,7 +79,7 @@ const education = [
     },
     {
         institution: 'SMP Negeri 2 Ngaglik',
-        period: '-',
+        period: '2020 - 2023',
     }
 ]
 
@@ -84,11 +87,11 @@ const experience = [
     {
         company: 'SMK Negeri 2 Depok Sleman',
         position: 'Network Operations Center (Volunteer)',
-        period: 'Juni 2024 - Sekarang',
+        period: 'Agustus 2024 - Sekarang',
         responsibilities: [
             'Melakukan monitoring dan maintenance infrastruktur jaringan',
-            'Troubleshooting masalah konektivitas dan performance jaringan',
-            'Konfigurasi perangkat MikroTik',
+            'Troubleshooting masalah konektivitas dan performa jaringan',
+            'Konfigurasi perangkat MikroTik dan perangkat jaringan lainnya',
             'Dokumentasi konfigurasi dan prosedur maintenance'
         ]
     },
@@ -97,25 +100,16 @@ const experience = [
 const certifications = [
     {
         name: 'MikroTik Certified Network Associate (MTCNA)',
-        date: 'Mar 2024',
-        expiry: 'Mar 2027',
-        link: "#"
+        link: "https://ik.imagekit.io/fauzan/certificates/Sertifikat%20MTCNA.png"
     },
     {
         name: 'MikroTik Certified Traffic Control Engineer (MTCTCE)',
-        date: 'Mei 2024',
-        expiry: 'Mei 2027',
-        link: "#"
+        link: "https://ik.imagekit.io/fauzan/certificates/Sertifikat%20MTCTCE.png"
     },
     {
         name: 'Hurricane Electric IPv6 Sage',
-        link: "#"
+        link: "https://ik.imagekit.io/fauzan/certificates/ipv6-certificate.png"
     },
-    {
-        name: 'Cisco Networking Basics',
-        date: 'Nov 2023',
-        link: "#"
-    }
 ]
 
 const printResume = () => {
@@ -127,12 +121,13 @@ const printResume = () => {
     <div class="max-w-3xl w-11/12 mx-auto">
         <main class="py-4 print:text-black">
             <!-- Header Section -->
-            <section class="w-full mb-4">
+            <section class="w-full mt-4 mb-4">
                 <h1 class="text-center text-3xl font-bold text-black">
                     {{ personalInfo.name }}
                 </h1>
                 <div class="space-x-4 text-center mt-1.5">
-                    <a v-for="navLink in navigationLinks" :key="navLink.title" :href="navLink.link"
+                    <a
+v-for="navLink in navigationLinks" :key="navLink.title" :href="navLink.link"
                         :target="navLink.title !== 'Email' ? '_blank' : undefined"
                         :rel="navLink.title !== 'Email' ? 'noopener noreferrer' : undefined"
                         class="relative inline-flex items-center print:underline hover:underline text-black font-semibold hover:after:w-full print:text-black">
@@ -146,14 +141,13 @@ const printResume = () => {
                 <section>
                     <div class="flex items-center justify-between pb-2.5 border-b-2 border-black">
                         <h3 class="text-xl font-bold text-black">Tentang Saya</h3>
-                        <button class="inline-flex items-center justify-center cursor-pointer print:hidden"
+                        <button
+class="inline-flex items-center justify-center cursor-pointer print:hidden"
                             @click="printResume">
                             <Icon name="heroicons:printer" class="text-black animate-pulse text-lg" />
                         </button>
                     </div>
-                    <ul class="list-disc list-inside mt-4 [&>li]:my-1">
-                        <li class="text-gray-800">{{ aboutMe }}</li>
-                    </ul>
+                    <p class="text-gray-800 mt-4">{{ aboutMe }}</p>
                 </section>
 
                 <!-- Skills -->
@@ -213,7 +207,8 @@ const printResume = () => {
                             <p class="text-sm font-semibold text-gray-700">{{ exp.period }}</p>
                         </div>
                         <ul class="list-disc list-inside [&>li]:my-1">
-                            <li v-for="responsibility in exp.responsibilities" :key="responsibility"
+                            <li
+v-for="responsibility in exp.responsibilities" :key="responsibility"
                                 class="text-gray-800">
                                 {{ responsibility }}
                             </li>
@@ -245,10 +240,12 @@ const printResume = () => {
                         Kontak Saya
                     </h3>
                     <ul>
-                        <li v-for="contact in contactInfo" :key="contact.title"
+                        <li
+v-for="contact in contactInfo" :key="contact.title"
                             class="mt-2.5 text-gray-800 [&:not(:first-of-type)]:mt-2.5">
                             <strong>{{ contact.title }}: </strong>
-                            <a :href="contact.link" class="hover:underline print:underline text-black" target="_blank"
+                            <a
+:href="contact.link" class="hover:underline print:underline text-black" target="_blank"
                                 rel="noopener noreferrer">
                                 {{ contact.link.replace(/^mailto:|^https?:\/\//, '') }}
                             </a>

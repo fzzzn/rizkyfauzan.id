@@ -6,28 +6,21 @@ useSeoMeta({
 
 const certificates = ref([
     {
-        title: "Network Security Excellence Award",
-        description: "Led implementation of enterprise-grade security protocols, reducing security incidents by 85% and protecting critical infrastructure across multiple data centers.",
-        date: "2024",
-        image: "/logo.png",
+        title: "Mikrotik Certified Network Associate (MTCNA)",
+        // date: "",
+        image: "https://ik.imagekit.io/fauzan/certificates/Sertifikat%20MTCNA.png",
     },
     {
-        title: "Infrastructure Optimization Champion",
-        description: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        date: "2023",
-        image: "/logo.png",
+        title: "Mikrotik Certified Traffic Control Engineer (MTCTCE)",
+        // description: "",
+        // date: "",
+        image: "https://ik.imagekit.io/fauzan/certificates/Sertifikat%20MTCTCE.png",
     },
     {
-        title: "Network Security Excellence Award",
-        description: "Led implementation of enterprise-grade security protocols, reducing security incidents by 85% and protecting critical infrastructure across multiple data centers.",
-        date: "2024",
-        image: "/logo.png",
-    },
-    {
-        title: "Infrastructure Optimization Champion",
-        description: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        date: "2023",
-        image: "/logo.png",
+        title: "IPv6 Sage by Hurricane Electric",
+        // description: "",
+        // date: "",
+        image: "https://ik.imagekit.io/fauzan/certificates/ipv6-certificate.png",
     },
 ])
 </script>
