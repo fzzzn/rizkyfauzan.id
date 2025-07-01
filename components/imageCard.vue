@@ -9,7 +9,7 @@
         <div class="flex-shrink-0">
           <NuxtImg
             :src="item.image" 
-            :alt="item.title"
+            :alt="`${item.title} - ${item.description || 'Certificate or achievement image'}`"
             class="w-full aspect-[3/2] object-cover rounded-lg hover:opacity-90 transition-opacity"
           />
         </div>

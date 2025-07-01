@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 useSeoMeta({
     title: 'About Me',
-    description: 'Learn more about Rizky Fauzan Hanif.',
+    description: 'Learn about Rizky Fauzan Hanif, a passionate Network Engineer student at SMKN 2 Depok Sleman with certifications in MikroTik MTCNA, MTCTCE, and IPv6 Sage.',
 })
 
 const isModalOpen = ref(false)

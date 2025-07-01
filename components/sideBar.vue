@@ -1,70 +1,94 @@
 <template>
     <div class="flex items-center h-full">
-        <button class="cursor-pointer text-black flex items-center h-full w-full justify-center" @click="handleOpen">
+        <button 
+            class="cursor-pointer text-black flex items-center h-full w-full justify-center" 
+            aria-label="Open navigation menu"
+            :aria-expanded="isOpen"
+            aria-controls="sidebar-panel"
+            @click="handleOpen">
             <Icon
-name="heroicons-outline:menu-alt-2" size="24"
+                name="heroicons-outline:menu-alt-2" 
+                size="24"
                 class="text-black/60 hover:text-black transition duration-200" />
         </button>
 
         <div
-v-show="isOpen" ref="backdrop" class="fixed inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
+            v-show="isOpen" 
+            ref="backdrop" 
+            class="fixed inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
             @click="handleClose" />
 
         <div
-v-show="isOpen" ref="sidebarPanel"
-            class="fixed md:absolute left-0 top-0 h-full w-[100vw] md:w-[60vw] lg:w-[40vw] bg-black md:rounded-lg z-40 md:z-50 overflow-hidden flex flex-col">
+            v-show="isOpen" 
+            id="sidebar-panel"
+            ref="sidebarPanel"
+            class="fixed md:absolute left-0 top-0 h-full w-[100vw] md:w-[60vw] lg:w-[40vw] bg-black md:rounded-lg z-40 md:z-50 overflow-hidden flex flex-col"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="sidebar-title">
             <div class="absolute -bottom-10 left-0 text-white/30 pointer-events-none">
-                <span class="text-[8rem] md:text-[10rem]">💤</span>
+                <span class="text-[8rem] md:text-[10rem]" aria-hidden="true">💤</span>
             </div>
 
             <!-- Header - Fixed -->
             <div class="flex-shrink-0 py-6 px-6">
                 <div class="flex justify-between">
                     <div class="items-center">
-                        <span class="text-base text-center font-light text-white/60 font-mono">Discover</span>
+                        <span id="sidebar-title" class="text-base text-center font-light text-white/60 font-mono">Discover</span>
                     </div>
-                    <button class="text-white items-center cursor-pointer" @click="handleClose">
+                    <button 
+                        class="text-white items-center cursor-pointer" 
+                        aria-label="Close navigation menu"
+                        @click="handleClose">
                         <Icon name="line-md:arrow-close-left" size="24" class="text-white" />
                     </button>
                 </div>
             </div>
 
             <!-- Menu List - Scrollable -->
-            <div class="flex-1 overflow-y-auto px-4 pb-6 scrollbar-hide">
+            <nav class="flex-1 overflow-y-auto px-4 pb-6 scrollbar-hide" aria-label="Main navigation">
                 <div class="space-y-2">
                     <NuxtLink
-    v-for="(item, index) in menuList" :key="index" :to="item.href" :class="[
-        'relative flex py-2 px-3 gap-2 group w-fit transition-all duration-300 rounded-lg',
-        isActiveRoute(item.href)
-            ? 'text-black bg-white'
-            : 'text-white hover:text-black'
-    ]" @mouseenter="onHover(index)" @mouseleave="onLeave(index)">
-    <span :ref="el => menuRef[index] = el" class="text-2xl md:text-5xl font-mono z-10">
-        {{ item.menu }}
-    </span>
-    <div
-        :class="[
-            'absolute inset-0 left-0 h-full rounded-lg transition-all duration-300 z-0',
-            isActiveRoute(item.href)
-                ? 'w-full rounded-lg bg-white'
-                : 'w-0 group-hover:w-full rounded-lg group-hover:bg-white'
-        ]" />
-    <span
-        :ref="el => infoRef[index] = el" :class="[
-            'text-sm md:text-lg transform-all duration-300 z-10',
-            isActiveRoute(item.href) ? 'block' : 'hidden group-hover:block'
-        ]">
-        {{ item.pageInfo }}
-    </span>
-</NuxtLink>
+                        v-for="(item, index) in menuList" 
+                        :key="index" 
+                        :to="item.href" 
+                        :class="[
+                            'relative flex py-2 px-3 gap-2 group w-fit transition-all duration-300 rounded-lg',
+                            isActiveRoute(item.href)
+                                ? 'text-black bg-white'
+                                : 'text-white hover:text-black'
+                        ]" 
+                        :aria-current="isActiveRoute(item.href) ? 'page' : undefined" 
+                        @mouseenter="onHover(index)"
+                        @mouseleave="onLeave(index)">
+                        <span :ref="el => menuRef[index] = el" class="text-2xl md:text-5xl font-mono z-10">
+                            {{ item.menu }}
+                        </span>
+                        <div
+                            :class="[
+                                'absolute inset-0 left-0 h-full rounded-lg transition-all duration-300 z-0',
+                                isActiveRoute(item.href)
+                                    ? 'w-full rounded-lg bg-white'
+                                    : 'w-0 group-hover:w-full rounded-lg group-hover:bg-white'
+                            ]" />
+                        <span
+                            :ref="el => infoRef[index] = el" 
+                            :class="[
+                                'text-sm md:text-lg transform-all duration-300 z-10',
+                                isActiveRoute(item.href) ? 'block' : 'hidden group-hover:block'
+                            ]"
+                            aria-hidden="true">
+                            {{ item.pageInfo }}
+                        </span>
+                    </NuxtLink>
                 </div>
-            </div>
+            </nav>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/all'
 
@@ -108,6 +132,14 @@ const handleOpen = () => {
     // Prevent body scroll
     document.body.style.overflow = 'hidden'
 
+    // Focus management for accessibility
+    nextTick(() => {
+        const firstLink = document.querySelector('#sidebar-panel a')
+        if (firstLink) {
+            firstLink.focus()
+        }
+    })
+
     gsap.to(backdrop.value, {
         opacity: 1,
         visibility: "visible",
@@ -138,6 +170,12 @@ const handleClose = () => {
             isOpen.value = false
             // Re-enable body scroll
             document.body.style.overflow = ''
+            
+            // Return focus to toggle button
+            const toggleButton = document.querySelector('[aria-label="Open navigation menu"]')
+            if (toggleButton) {
+                toggleButton.focus()
+            }
         }
     })
 }

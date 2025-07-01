@@ -31,8 +31,14 @@ export default defineNuxtConfig({
     ],
   },
   nitro: {
+    preset: "cloudflare_pages",
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true,
+    },
     prerender: {
       autoSubfolderIndex: false,
+      routes: ["/sitemap.xml"],
     },
   },
   app: {
@@ -47,19 +53,23 @@ export default defineNuxtConfig({
   },
   site: {
     url: "https://rizkyfauzan.id",
-    name: "Fauzan's Personal Website",
+    name: "Rizky Fauzan Hanif",
   },
   seo: {
     meta: {
       twitterCreator: "@fzzznh",
       author: "Rizky Fauzan Hanif",
-      applicationName: "Fauzan's Personal Website",
-      ogSiteName: "Fauzan's Personal Website",
+      applicationName: "Rizky Fauzan Hanif",
+      ogSiteName: "Rizky Fauzan Hanif",
       ogLocale: "en_US",
       ogType: "website",
       ogUrl: "https://rizkyfauzan.id",
-      ogTitle: "Fauzan's Personal Website",
+      ogTitle: "Rizky Fauzan Hanif",
+      ogDescription:
+        "Network Engineer and student at SMKN 2 Depok Sleman. Specialized in MikroTik, networking, and cybersecurity with MTCNA and MTCTCE certifications.",
       robots: "index, follow",
+      keywords:
+        "Rizky Fauzan Hanif, Network Engineer, MikroTik, MTCNA, MTCTCE, IPv6, Networking, Cybersecurity, Student, Indonesia",
     },
   },
   schemaOrg: {
