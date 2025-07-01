@@ -35,26 +35,26 @@ export default defineNuxtConfig({
     formats: ["webp"],
   },
   nitro: {
-    // preset: "cloudflare_pages",
+    preset: "cloudflare_pages",
     // output: {
     //   dir: "dist",
     //   serverDir: "dist/server",
     //   publicDir: "dist",
     // },
-    // cloudflare: {
-    //   deployConfig: true,
-    //   nodeCompat: true,
-    //   pages: {
-    //     routes: {
-    //       include: ["/*"],
-    //       exclude: ["/static/*", "/_nuxt/*"],
-    //     },
-    //   },
-    // },
-    // prerender: {
-    //   autoSubfolderIndex: false,
-    //   routes: ["/sitemap.xml"],
-    // },
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true,
+      pages: {
+        routes: {
+          include: ["/*"],
+          exclude: ["/static/*", "/_nuxt/*"],
+        },
+      },
+    },
+    prerender: {
+      autoSubfolderIndex: false,
+      routes: ["/sitemap.xml"],
+    },
   },
   app: {
     head: {
