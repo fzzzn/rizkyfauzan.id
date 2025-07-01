@@ -30,23 +30,14 @@ export default defineNuxtConfig({
       { name: "Geist", provider: "google", global: true },
     ],
   },
-  image: {
-    provider: "ipxStatic",
-    formats: ["webp"],
-  },
   nitro: {
     preset: "cloudflare_pages",
     cloudflare: {
-      pages: {
-        routes: {
-          include: ["/*", "/_ipx/*"],
-          exclude: ["/static/*", "/_nuxt/*"],
-        },
-      },
+      deployConfig: true,
+      nodeCompat: true,
     },
     prerender: {
       autoSubfolderIndex: false,
-      routes: ["/sitemap.xml"],
     },
   },
   app: {
