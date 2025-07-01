@@ -34,7 +34,7 @@ export default defineNuxtConfig({
     preset: "cloudflare_pages",
     output: {
       dir: "dist",
-      serverDir: "dist/_worker.js",
+      serverDir: "dist/server",
       publicDir: "dist",
     },
     cloudflare: {
