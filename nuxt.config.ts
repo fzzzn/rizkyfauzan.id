@@ -31,7 +31,7 @@ export default defineNuxtConfig({
     ],
   },
   image: {
-    provider: "ipx",
+    provider: "ipxStatic",
     formats: ["webp"],
   },
   nitro: {
