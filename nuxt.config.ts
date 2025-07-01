@@ -51,10 +51,10 @@ export default defineNuxtConfig({
     //     },
     //   },
     // },
-    prerender: {
-      autoSubfolderIndex: false,
-      routes: ["/sitemap.xml"],
-    },
+    // prerender: {
+    //   autoSubfolderIndex: false,
+    //   routes: ["/sitemap.xml"],
+    // },
   },
   app: {
     head: {
