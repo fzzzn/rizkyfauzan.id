@@ -31,8 +31,8 @@ export default defineNuxtConfig({
     ],
   },
   image: {
-    // provider: "ipxStatic",
-    // formats: ["webp"],
+    provider: "ipxStatic",
+    formats: ["webp"],
   },
   nitro: {
     preset: "cloudflare_pages",
