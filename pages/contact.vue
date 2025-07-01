@@ -43,7 +43,7 @@ v-if="showToast"
         <!-- Header -->
         <PageHeader 
             title="Contact" 
-            description="Get in touch with me through various platforms."
+            description="Get in touch with me through various platforms"
         />
 
         <!-- Contact Cards -->
