@@ -49,11 +49,13 @@ v-if="showToast"
         <!-- Contact Cards -->
         <div class="flex flex-wrap justify-center gap-6">
             <!-- Email -->
-            <a href="mailto:contact@rizkyfauzan.id"
+            <a
+href="mailto:contact@rizkyfauzan.id"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80">
                 <div class="flex items-center space-x-4">
                     <div class="flex-shrink-0">
-                        <Icon name="heroicons:envelope" size="24"
+                        <Icon
+name="heroicons:envelope" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
                     </div>
                     <div class="min-w-0 flex-1">
@@ -64,11 +66,13 @@ v-if="showToast"
             </a>
 
             <!-- X (Twitter) -->
-            <a href="https://x.com/fzzznh" target="_blank" rel="noopener noreferrer"
+            <a
+href="https://x.com/fzzznh" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80">
                 <div class="flex items-center space-x-4">
                     <div class="flex-shrink-0">
-                        <Icon name="simple-icons:x" size="24"
+                        <Icon
+name="simple-icons:x" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
                     </div>
                     <div class="min-w-0 flex-1">
@@ -79,11 +83,13 @@ v-if="showToast"
             </a>
 
             <!-- Bluesky -->
-            <a href="https://bsky.app/profile/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
+            <a
+href="https://bsky.app/profile/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80">
                 <div class="flex items-center space-x-4">
                     <div class="flex-shrink-0">
-                        <Icon name="simple-icons:bluesky" size="24"
+                        <Icon
+name="simple-icons:bluesky" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
                     </div>
                     <div class="min-w-0 flex-1">
@@ -94,11 +100,13 @@ v-if="showToast"
             </a>
 
             <!-- Instagram -->
-            <a href="https://instagram.com/fauzannnnh" target="_blank" rel="noopener noreferrer"
+            <a
+href="https://instagram.com/fauzannnnh" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80">
                 <div class="flex items-center space-x-4">
                     <div class="flex-shrink-0">
-                        <Icon name="simple-icons:instagram" size="24"
+                        <Icon
+name="simple-icons:instagram" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
                     </div>
                     <div class="min-w-0 flex-1">
@@ -109,11 +117,13 @@ v-if="showToast"
             </a>
 
             <!-- Discord -->
-            <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group cursor-pointer w-full sm:w-80"
+            <div
+class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group cursor-pointer w-full sm:w-80"
                 @click="copyDiscord">
                 <div class="flex items-center space-x-4">
                     <div class="flex-shrink-0">
-                        <Icon name="simple-icons:discord" size="24"
+                        <Icon
+name="simple-icons:discord" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
                     </div>
                     <div class="min-w-0 flex-1">
@@ -125,11 +135,13 @@ v-if="showToast"
             </div>
 
             <!-- GitHub -->
-            <a href="https://github.com/fzzzn" target="_blank" rel="noopener noreferrer"
+            <a
+href="https://github.com/fzzzn" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80">
                 <div class="flex items-center space-x-4">
                     <div class="flex-shrink-0">
-                        <Icon name="simple-icons:github" size="24"
+                        <Icon
+name="simple-icons:github" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
                     </div>
                     <div class="min-w-0 flex-1">
@@ -140,11 +152,13 @@ v-if="showToast"
             </a>
 
             <!-- LinkedIn -->
-            <a href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
+            <a
+href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80">
                 <div class="flex items-center space-x-4">
                     <div class="flex-shrink-0">
-                        <Icon name="simple-icons:linkedin" size="24"
+                        <Icon
+name="simple-icons:linkedin" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
                     </div>
                     <div class="min-w-0 flex-1">
