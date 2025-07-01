@@ -61,7 +61,7 @@
             <!-- Login prompt for non-authenticated users -->
             <div v-else class="bg-white border border-gray-200 rounded-lg p-6 sm:p-8 text-center">
                 <h2 class="text-xl sm:text-2xl font-bold text-black mb-2 sm:mb-3">Want to leave a message?</h2>
-                <p class="text-gray-700 mb-4 sm:mb-6 text-sm sm:text-base">Sign in with Google or GitHub to share your
+                <p class="text-gray-700 mb-4 sm:mb-6 text-sm sm:text-base">Sign in with Google, GitHub, or Discord to share your
                     thoughts and join the conversation!</p>
                 <div class="flex flex-col gap-3 sm:gap-4 sm:flex-row sm:justify-center sm:items-center">
                     <button
@@ -78,6 +78,14 @@
                         @click="signInWithGitHub">
                         <Icon name="mdi:github" size="18" />
                         <span>{{ signingIn === 'github' ? 'Signing In...' : 'GitHub' }}</span>
+                    </button>
+
+                    <button
+                        :disabled="signingIn"
+                        class="bg-indigo-600 text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-indigo-700 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
+                        @click="signInWithDiscord">
+                        <Icon name="simple-icons:discord" size="18" />
+                        <span>{{ signingIn === 'discord' ? 'Signing In...' : 'Discord' }}</span>
                     </button>
                 </div>
             </div>
@@ -161,6 +169,25 @@ const signInWithGitHub = async () => {
     } catch (error) {
         console.error('Error signing in with GitHub:', error.message)
         alert('Error signing in with GitHub: ' + error.message)
+    } finally {
+        signingIn.value = false
+    }
+}
+
+// Discord Sign In function
+const signInWithDiscord = async () => {
+    signingIn.value = 'discord'
+    try {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'discord',
+            options: {
+                redirectTo: `${window.location.origin}/auth/callback`
+            }
+        })
+        if (error) throw error
+    } catch (error) {
+        console.error('Error signing in with Discord:', error.message)
+        alert('Error signing in with Discord: ' + error.message)
     } finally {
         signingIn.value = false
     }
