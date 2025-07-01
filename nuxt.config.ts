@@ -30,6 +30,9 @@ export default defineNuxtConfig({
       { name: "Geist", provider: "google", global: true },
     ],
   },
+  image: {
+    provider: "ipxStatic",
+  },
   nitro: {
     preset: "cloudflare_pages",
     output: {
