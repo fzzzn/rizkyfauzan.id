@@ -31,8 +31,8 @@ export default defineNuxtConfig({
     ],
   },
   image: {
-    provider: "ipxStatic",
-    formats: ["webp"],
+    // provider: "ipxStatic",
+    // formats: ["webp"],
   },
   nitro: {
     preset: "cloudflare_pages",
@@ -46,8 +46,7 @@ export default defineNuxtConfig({
     },
     prerender: {
       autoSubfolderIndex: false,
-      routes: ["/", "/sitemap.xml"],
-      crawlLinks: true,
+      routes: ["/sitemap.xml"],
     },
   },
   app: {
