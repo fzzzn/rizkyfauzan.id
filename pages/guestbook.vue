@@ -66,7 +66,7 @@
                 <div class="flex flex-col gap-3 sm:gap-4 sm:flex-row sm:justify-center sm:items-center">
                     <button
                         :disabled="signingIn"
-                        class="bg-black text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg hover:bg-gray-800 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
+                        class="bg-black text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-gray-800 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithGoogle">
                         <Icon name="logos:google-icon" size="18" />
                         <span>{{ signingIn === 'google' ? 'Signing In...' : 'Google' }}</span>
@@ -74,7 +74,7 @@
 
                     <button
                         :disabled="signingIn"
-                        class="bg-gray-900 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg hover:bg-gray-700 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
+                        class="bg-gray-900 text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-gray-700 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithGitHub">
                         <Icon name="mdi:github" size="18" />
                         <span>{{ signingIn === 'github' ? 'Signing In...' : 'GitHub' }}</span>
