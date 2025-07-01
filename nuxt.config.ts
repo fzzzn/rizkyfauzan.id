@@ -31,23 +31,26 @@ export default defineNuxtConfig({
     ],
   },
   image: {
-    provider: "ipxStatic",
+    provider: "ipx",
+    formats: ["webp"],
   },
   nitro: {
-    preset: "cloudflare_pages",
-    output: {
-      dir: "dist",
-      serverDir: "dist/server",
-      publicDir: "dist",
-    },
-    cloudflare: {
-      pages: {
-        routes: {
-          include: ["/*"],
-          exclude: ["/static/*", "/_nuxt/*"],
-        },
-      },
-    },
+    // preset: "cloudflare_pages",
+    // output: {
+    //   dir: "dist",
+    //   serverDir: "dist/server",
+    //   publicDir: "dist",
+    // },
+    // cloudflare: {
+    //   deployConfig: true,
+    //   nodeCompat: true,
+    //   pages: {
+    //     routes: {
+    //       include: ["/*"],
+    //       exclude: ["/static/*", "/_nuxt/*"],
+    //     },
+    //   },
+    // },
     prerender: {
       autoSubfolderIndex: false,
       routes: ["/sitemap.xml"],
