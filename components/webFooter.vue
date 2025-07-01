@@ -6,7 +6,7 @@
                 <!-- Navigation links -->
                 <nav class="flex items-center gap-3">
                     <a
-v-for="item in menuItems" :key="item.menu" :href="item.href"
+v-for="item in menuItems" :key="item.menu" target="_blank" rel="noopener" :href="item.href"
                         class="uppercase font-bold text-sm hover:text-black transition-colors duration-200">
                         {{ item.menu }}
                     </a>
