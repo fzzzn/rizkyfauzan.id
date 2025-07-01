@@ -36,11 +36,11 @@ export default defineNuxtConfig({
   },
   nitro: {
     preset: "cloudflare_pages",
-    // output: {
-    //   dir: "dist",
-    //   serverDir: "dist/server",
-    //   publicDir: "dist",
-    // },
+    output: {
+      dir: "dist",
+      serverDir: "dist/server",
+      publicDir: "dist",
+    },
     cloudflare: {
       deployConfig: true,
       nodeCompat: true,
