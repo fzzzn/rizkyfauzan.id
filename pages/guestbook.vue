@@ -1,18 +1,14 @@
 <template>
-    <div class="p-4 sm:p-6">
+    <div class="p-6">
         <!-- Header -->
-        <div class="mb-8 sm:mb-12">
-            <h1 class="text-6xl md:text-8xl leading-[1.2] font-[antonio] uppercase font-bold">
-                Guestbook
-            </h1>
-            <p class="text-lg text-gray-700 max-w-3xl mt-2 sm:mt-4">
-                Leave a message and join the conversation!
-            </p>
-        </div>
+        <PageHeader 
+            title="Guestbook" 
+            description="Leave a message and join the conversation!" 
+        />
 
         <!-- Error Display -->
         <div
-v-if="error"
+            v-if="error"
             class="bg-red-50 border border-red-200 text-red-700 px-3 py-2 sm:px-4 sm:py-3 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base">
             Error: {{ error }}
         </div>

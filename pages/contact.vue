@@ -6,9 +6,10 @@ useSeoMeta({
 </script>
 
 <template>
-    <div>
-        <h1 class="text-3xl font-bold">
-            Contact
-        </h1>
+    <div class="p-6">
+        <PageHeader 
+            title="Contact" 
+            description="Get in touch with me" 
+        />
     </div>
 </template>

@@ -46,45 +46,24 @@ onUnmounted(() => {
                 <h1 class="text-6xl md:text-8xl leading-[1.2] font-[antonio] uppercase font-bold">
                     Hi, I am Rizky Fauzan Hanif!
                 </h1>
-                <p class="mt-6 text-lg">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius sit debitis sed rerum inventore
-                    possimus
-                    repellendus fuga molestias culpa mollitia quam, vel nam similique laudantium cupiditate laboriosam
-                    consequuntur quo itaque, asperiores quia! Itaque expedita ratione dolorum. Magnam temporibus,
-                    perspiciatis
-                    sunt praesentium maxime quisquam architecto neque, eveniet obcaecati fuga nobis omnis deserunt
-                    consectetur
-                    rem, amet nulla exercitationem sit nisi minima facilis ullam reiciendis.
+                <p class="mt-6 text-xl lg:text-2xl text-justify">
+                    A passionate student at SMKN 2 Depok Sleman, dedicated to mastering networking, DevOps and
+                    cybersecurity. I am fascinated by the power of networking technologies, from tunneling to building
+                    secure infrastructures.
                 </p>
-                <p class="mt-6 text-lg">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius sit debitis sed rerum inventore
-                    possimus
-                    repellendus fuga molestias culpa mollitia quam, vel nam similique laudantium cupiditate laboriosam
-                    consequuntur quo itaque, asperiores quia! Itaque expedita ratione dolorum. Magnam temporibus,
-                    perspiciatis
-                    sunt praesentium maxime quisquam architecto neque, eveniet obcaecati fuga nobis omnis deserunt
-                    consectetur
-                    rem, amet nulla exercitationem sit nisi minima facilis ullam reiciendis.
+                <p class="mt-6 text-xl lg:text-2xl text-justify">
+                    To deepen my knowledge, I earned the MikroTik Certified Network Associate (MTCNA), MikroTik
+                    Certified Traffic Control Engineer (MTCTCE), and IPv6 Sage by Hurricane Electric, honing my skills
+                    in network setup, configuration, and troubleshooting.
                 </p>
-                <p class="mt-6 text-lg">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius sit debitis sed rerum inventore
-                    possimus
-                    repellendus fuga molestias culpa mollitia quam, vel nam similique laudantium cupiditate laboriosam
-                    consequuntur quo itaque, asperiores quia! Itaque expedita ratione dolorum. Magnam temporibus,
-                    perspiciatis
-                    sunt praesentium maxime quisquam architecto neque, eveniet obcaecati fuga nobis omnis deserunt
-                    consectetur
-                    rem, amet nulla exercitationem sit nisi minima facilis ullam reiciendis.
+                <p class="mt-6 text-xl lg:text-2xl text-justify">
+                    With a strong focus on network engineering and security, I am constantly exploring new technologies
+                    to design secure, scalable networks. I've also earned certifications in cybersecurity and cloud
+                    computing, further strengthening my technical foundation.
                 </p>
-                <p class="mt-6 text-lg">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius sit debitis sed rerum inventore
-                    possimus
-                    repellendus fuga molestias culpa mollitia quam, vel nam similique laudantium cupiditate laboriosam
-                    consequuntur quo itaque, asperiores quia! Itaque expedita ratione dolorum. Magnam temporibus,
-                    perspiciatis
-                    sunt praesentium maxime quisquam architecto neque, eveniet obcaecati fuga nobis omnis deserunt
-                    consectetur
-                    rem, amet nulla exercitationem sit nisi minima facilis ullam reiciendis.
+                <p class="mt-6 text-xl lg:text-2xl text-justify">
+                    I am eager to take on complex networking challenges and contribute to innovative, cutting-edge
+                    solutions in the field!
                 </p>
             </div>
             <div class="lg:flex-2/6">
@@ -98,14 +77,13 @@ src="/logo.png"
         <!-- Modal -->
         <Teleport to="body">
             <div
-v-if="isModalOpen"
-                class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75"
+v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90"
                 @click="closeModal">
-                <div class="relative max-w-4xl max-h-full">
+                <div class="relative max-w-6xl max-h-full">
                     <!-- Close button -->
                     <button
-                        class="absolute flex-shrink-0 flex items-center justify-center top-4 right-4 z-10 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-colors"
-                        aria-label="Close modal" @click="closeModal">
+                        class="absolute top-4 right-4 z-20 w-8 h-8 bg-black hover:bg-black/80 text-white rounded-full transition duration-200 flex items-center justify-center cursor-pointer"
+                        aria-label="Close modal" @click.stop="closeModal">
                         <Icon name="heroicons:x-mark" size="16" />
                     </button>
 
