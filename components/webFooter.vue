@@ -5,16 +5,13 @@
             <div class="flex flex-col sm:flex-row gap-2.5 items-center justify-between">
                 <!-- Navigation links -->
                 <nav class="flex items-center gap-3">
-                    <a 
-                        v-for="item in menuItems" 
-                        :key="item.menu" 
-                        :href="item.href"
-                        class="uppercase font-bold text-sm hover:text-black transition-colors duration-200"
-                    >
+                    <a
+v-for="item in menuItems" :key="item.menu" :href="item.href"
+                        class="uppercase font-bold text-sm hover:text-black transition-colors duration-200">
                         {{ item.menu }}
                     </a>
                 </nav>
-                
+
                 <!-- Quote -->
                 <p class="mb-0 text-xs italic text-center sm:text-right">
                     "{{ currentQuote }}"
@@ -44,16 +41,8 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
     {
-        menu: "Email",
-        href: "mailto:contact@rizkyfauzan.id",
-    },
-    {
         menu: "Github",
         href: "https://github.com/fzzzn",
-    },
-    {
-        menu: "LinkedIn",
-        href: "https://www.linkedin.com/in/rizky-fauzan-hanif",
     },
     {
         menu: "Resume",
@@ -62,7 +51,12 @@ const menuItems: MenuItem[] = [
     {
         menu: "Notes",
         href: "https://notes.rizkyfauzan.id",
-    }
+    },
+    { menu: "Status", href: "https://status.rizkyfauzan.id" },
+    {
+        menu: "NMS",
+        href: "https://nms.rizkyfauzan.id/",
+    },
 ]
 
 const commitData = ref<{ date: string; sha: string } | null>(null)
@@ -74,7 +68,7 @@ onMounted(async () => {
         fetchLatestCommit(),
         Promise.resolve(getRandomQuote())
     ])
-    
+
     commitData.value = commit
     currentQuote.value = quote
 })

@@ -134,23 +134,6 @@ name="simple-icons:discord" size="24"
                 </div>
             </div>
 
-            <!-- GitHub -->
-            <a
-href="https://github.com/fzzzn" target="_blank" rel="noopener noreferrer"
-                class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80">
-                <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
-                        <Icon
-name="simple-icons:github" size="24"
-                            class="text-black/60 group-hover:text-black transition-colors" />
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <h3 class="text-lg font-bold text-black group-hover:text-gray-800">GitHub</h3>
-                        <p class="text-gray-600 text-sm">fzzzn</p>
-                    </div>
-                </div>
-            </a>
-
             <!-- LinkedIn -->
             <a
 href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
