@@ -6,7 +6,7 @@
                 <!-- Navigation links -->
                 <nav class="flex items-center gap-3">
                     <a
-v-for="item in menuItems" :key="item.menu" target="_blank" rel="noopener" :href="item.href"
+                        v-for="item in menuItems" :key="item.menu" target="_blank" rel="noopener" :href="item.href"
                         class="uppercase font-bold text-sm hover:text-black transition-colors duration-200">
                         {{ item.menu }}
                     </a>
@@ -18,17 +18,27 @@ v-for="item in menuItems" :key="item.menu" target="_blank" rel="noopener" :href=
                 </p>
             </div>
 
-            <!-- Last commit link -->
-            <!-- <div class="flex justify-center sm:justify-start">
+            <div class="flex justify-center sm:justify-end">
+                <!-- Source code link -->
                 <a 
+                    href="https://github.com/fzzzn/rizkyfauzan.id" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-xs hover:text-black transition-colors duration-200 flex items-center gap-1.5"
+                >
+                    <Icon name="mdi:github" size="14" />
+                    <span>Source Code</span>
+                </a>
+                
+                <!-- <a 
                     v-if="commitData" 
                     :href="getCommitUrl('fzzzn/rizkyfauzan.id', commitData.sha)" 
                     target="_blank"
                     class="text-xs hover:text-black transition-colors duration-200"
                 >
                     Last updated: {{ formatCommitDate(commitData.date) }}
-                </a>
-            </div> -->
+                </a> -->
+            </div>
         </div>
     </footer>
 </template>
