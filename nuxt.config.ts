@@ -32,9 +32,18 @@ export default defineNuxtConfig({
   },
   nitro: {
     preset: "cloudflare_pages",
+    output: {
+      dir: "dist",
+      serverDir: "dist/_worker.js",
+      publicDir: "dist",
+    },
     cloudflare: {
-      deployConfig: true,
-      nodeCompat: true,
+      pages: {
+        routes: {
+          include: ["/*"],
+          exclude: ["/static/*", "/_nuxt/*"],
+        },
+      },
     },
     prerender: {
       autoSubfolderIndex: false,
