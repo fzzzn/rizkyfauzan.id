@@ -8,11 +8,6 @@
 useHead({
     link: [
         {
-            rel: 'icon',
-            type: 'image/png',
-            href: '/logo.png'
-        },
-        {
             rel: 'og:image',
             href: '/og-image.png',
         },

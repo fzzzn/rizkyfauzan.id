@@ -461,28 +461,28 @@ const achievements = ref([
         title: "Network Security Excellence",
         description: "Led implementation of enterprise-grade security protocols",
         date: "2024",
-        image: "logo.png"
+        image: "avatar.png"
     },
     {
         id: 2,
         title: "Infrastructure Optimization",
         description: "Reduced network latency by 40% through strategic optimization",
         date: "2023",
-        image: "logo.png"
+        image: "avatar.png"
     },
     {
         id: 3,
         title: "Team Leadership Award",
         description: "Recognized for outstanding team management and project delivery",
         date: "2023",
-        image: "logo.png"
+        image: "avatar.png"
     },
     {
         id: 4,
         title: "Innovation in Networking",
         description: "Developed custom solutions for complex network challenges",
         date: "2022",
-        image: "logo.png"
+        image: "avatar.png"
     }
 ])
 </script>

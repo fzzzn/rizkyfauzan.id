@@ -42,7 +42,6 @@ export default defineNuxtConfig({
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { charset: "utf-8" },
       ],
-      link: [{ rel: "icon", type: "image/png", href: "/logo.png" }],
     },
     pageTransition: { name: "page", mode: "out-in" },
   },
@@ -71,7 +70,6 @@ export default defineNuxtConfig({
     identity: definePerson({
       name: "Rizky Fauzan Hanif",
       givenName: "Fauzan",
-      image: "/logo.png",
       description: "Network Engineer.",
       jobTitle: "Network Engineer",
       email: "contact@rizkyfauzan.id",

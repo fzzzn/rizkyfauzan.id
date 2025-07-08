@@ -68,7 +68,7 @@ onUnmounted(() => {
             </div>
             <div class="lg:flex-2/6">
                 <NuxtImg
-src="/logo.png"
+src="/avatar.png"
                     class="object-cover rounded-xl h-full w-full lg:h-[75vh] aspect-[5/3] lg:aspect-[3/4] cursor-pointer hover:opacity-90 transition-opacity"
                     alt="Rizky Fauzan Hanif" @click="openModal" />
             </div>
@@ -89,7 +89,7 @@ v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-
 
                     <!-- Modal image -->
                     <NuxtImg
-src="/logo.png" class="max-w-full max-h-[90vh] object-contain rounded-2xl"
+src="/avatar.png" class="max-w-full max-h-[90vh] object-contain rounded-2xl"
                         alt="Rizky Fauzan Hanif - Full size" @click.stop />
                 </div>
             </div>
