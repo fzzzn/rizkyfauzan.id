@@ -102,7 +102,7 @@ onMounted(() => {
         <PageHeader title="Contact" description="Get in touch with me through various platforms" />
 
         <!-- Contact Cards -->
-        <div class="flex flex-wrap justify-center gap-6">
+        <div class="flex flex-wrap justify-center gap-6 mb-12">
             <!-- Email -->
             <a
 href="mailto:contact@rizkyfauzan.id"

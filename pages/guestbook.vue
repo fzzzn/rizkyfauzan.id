@@ -104,7 +104,7 @@
 
             <div v-else>
                 <h2 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Messages</h2>
-                <div class="space-y-4 sm:space-y-6">
+                <div class="mb-12 space-y-4 sm:space-y-6">
                     <MessageCards
                         v-for="message in messages" 
                         :key="message.id" 

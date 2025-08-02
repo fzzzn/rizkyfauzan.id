@@ -41,7 +41,7 @@ onUnmounted(() => {
 <template>
     <div>
         <div
-            class="p-8 flex flex-col-reverse items-center justify-center lg:flex-row gap-2 lg:gap-10 lg:justify-end lg:items-start">
+            class="p-8 mb-12 flex flex-col-reverse items-center justify-center lg:flex-row gap-2 lg:gap-10 lg:justify-end lg:items-start">
             <div class="lg:flex-4/6">
                 <h1 class="text-6xl md:text-8xl leading-[1.2] font-[antonio] uppercase font-bold">
                     Hi, I am Rizky Fauzan Hanif!
