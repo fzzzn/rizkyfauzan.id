@@ -6,13 +6,13 @@ useSeoMeta({
 
 const achievements = ref([
     {
-        title: "Juara 1 Olimpiade Jaringan MikroTik 2024",
+        title: "1st Place in the 2024 MikroTik Networking Olympiad",
         // description: "",
         date: "2024",
         image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-ojm-2024",
     },
     {
-        title: "Juara 3 LKS ITNSA Provinsi DIY 2024",
+        title: "3rd Place in the 2024 DIY Province ITNSA LKS",
         // description: "",
         date: "2024",
         image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-lks-itnsa-2024",
