@@ -5,6 +5,7 @@
         :src="message.avatar_url" 
         :alt="message.username"
         class="h-12 w-12 rounded-full flex-shrink-0 object-cover"
+        @error="event => event.target.src = '/guest.png'"
       >
       <div class="flex-1 min-w-0">
         <div class="flex items-center justify-between">
