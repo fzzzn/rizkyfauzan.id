@@ -99,7 +99,7 @@ onMounted(() => {
         </Transition>
 
         <!-- Header -->
-        <PageHeader title="Contact" description="Get in touch with me through various platforms" />
+        <PageHeader title="Contact" />
 
         <!-- Contact Cards -->
         <div class="flex flex-wrap justify-center gap-6 mb-12">
@@ -216,7 +216,6 @@ v-if="!isLoadingStatus" :class="[
                             </span>
                         </div>
                         <p class="text-gray-600 text-sm font-mono">{{ DISCORD_USERNAME }}</p>
-                        <p class="text-xs text-gray-400 mt-1">Click to copy</p>
 
                         <!-- Activity preview -->
                         <div
