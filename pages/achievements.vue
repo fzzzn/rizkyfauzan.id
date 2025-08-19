@@ -24,7 +24,6 @@ const achievements = ref([
     <div class="p-6">
         <PageHeader 
             title="Achievements" 
-            description="Explore my achievements" 
         />
 
         <div class="mb-16">

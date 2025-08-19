@@ -47,23 +47,18 @@ onUnmounted(() => {
                     Hi, I am Rizky Fauzan Hanif!
                 </h1>
                 <p class="mt-6 text-xl lg:text-2xl text-justify">
-                    A passionate student at SMKN 2 Depok Sleman, dedicated to mastering networking, DevOps and
-                    cybersecurity. I am fascinated by the power of networking technologies, from tunneling to building
-                    secure infrastructures.
+                    A passionate Network Engineer with interests in Cloud Engineering and
+                    Cybersecurity, based in Sleman, Special Region of Yogyakarta. Currently, I am a student at SMK
+                    Negeri 2 Depok Sleman. I enjoy exploring and learning new technologies such as Kubernetes, Docker,
+                    virtualization, BGP, VPNs, firewalls, traffic control, IPv6, and network security.
                 </p>
                 <p class="mt-6 text-xl lg:text-2xl text-justify">
-                    To deepen my knowledge, I earned the MikroTik Certified Network Associate (MTCNA), MikroTik
-                    Certified Traffic Control Engineer (MTCTCE), and IPv6 Sage by Hurricane Electric, honing my skills
-                    in network setup, configuration, and troubleshooting.
+                    To deepen my knowledge, I have earned MikroTik Certified Network Associate (MTCNA), MikroTik
+                    Certified Traffic Control Engineer (MTCTCE), and IPv6 Sage by Hurricane Electric, as well as
+                    additional certifications in programming, cybersecurity, and cloud computing.
                 </p>
                 <p class="mt-6 text-xl lg:text-2xl text-justify">
-                    With a strong focus on network engineering and security, I am constantly exploring new technologies
-                    to design secure, scalable networks. I've also earned certifications in cybersecurity and cloud
-                    computing, further strengthening my technical foundation.
-                </p>
-                <p class="mt-6 text-xl lg:text-2xl text-justify">
-                    I am eager to take on complex networking challenges and contribute to innovative, cutting-edge
-                    solutions in the field!
+                    I care about infrastructure that is reliable, maintainable, and scalable.
                 </p>
             </div>
             <div class="lg:flex-2/6">

@@ -29,7 +29,7 @@ const certificates = ref([
     <div class="p-6">
         <PageHeader 
             title="Certificates" 
-            description="Explore my professional certificates" 
+            description="" 
         />
 
         <div class="mb-16">

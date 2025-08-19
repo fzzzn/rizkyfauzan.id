@@ -3,7 +3,6 @@
         <!-- Header -->
         <PageHeader 
             title="Guestbook" 
-            description="Leave a message and join the conversation!" 
         />
 
         <!-- Error Display -->
