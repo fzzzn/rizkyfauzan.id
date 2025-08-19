@@ -9,13 +9,13 @@ const achievements = ref([
         title: "1st Place in the 2024 MikroTik Networking Olympiad",
         // description: "",
         date: "2024",
-        image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-ojm-2024",
+        image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-ojm-2024?updatedAt=1729822824599",
     },
     {
         title: "3rd Place in the 2024 DIY Province ITNSA LKS",
         // description: "",
         date: "2024",
-        image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-lks-itnsa-2024",
+        image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-lks-itnsa-2024?updatedAt=1729822824599",
     },
 ])
 </script>

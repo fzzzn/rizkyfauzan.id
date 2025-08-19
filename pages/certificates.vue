@@ -7,20 +7,18 @@ useSeoMeta({
 const certificates = ref([
     {
         title: "Mikrotik Certified Network Associate (MTCNA)",
-        // date: "",
-        image: "https://ik.imagekit.io/fauzan/certificates/Sertifikat%20MTCNA.png",
+        date: "10 October 2024",
+        image: "https://ik.imagekit.io/fauzan/certificates/Sertifikat%20MTCNA%20Citraweb.png?updatedAt=1729822824599",
     },
     {
         title: "Mikrotik Certified Traffic Control Engineer (MTCTCE)",
-        // description: "",
-        // date: "",
-        image: "https://ik.imagekit.io/fauzan/certificates/Sertifikat%20MTCTCE.png",
+        date: "10 October 2024",
+        image: "https://ik.imagekit.io/fauzan/certificates/Sertifikat%20MTCTCE.png?updatedAt=1729822824599",
     },
     {
         title: "IPv6 Sage by Hurricane Electric",
-        // description: "",
-        // date: "",
-        image: "https://ik.imagekit.io/fauzan/certificates/ipv6-certificate.png",
+        date: "29 January 2025",
+        image: "https://ik.imagekit.io/fauzan/certificates/ipv6-certificate.png?updatedAt=1729822824599",
     },
 ])
 </script>
