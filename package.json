@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "build:cf-pages": "nuxt build --preset=cloudflare_pages",
-    "dev": "nuxt dev --host",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -30,5 +30,13 @@
     "typescript": "^5.8.3",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@iconify-json/heroicons": "^1.2.3",
+    "@iconify-json/heroicons-outline": "^1.2.1",
+    "@iconify-json/line-md": "^1.2.11",
+    "@iconify-json/logos": "^1.2.10",
+    "@iconify-json/mdi": "^1.2.3",
+    "@iconify-json/simple-icons": "^1.2.58"
   }
 }
