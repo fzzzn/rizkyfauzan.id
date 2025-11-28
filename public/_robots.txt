@@ -3,8 +3,3 @@ Allow: /
 
 # Sitemaps
 Sitemap: https://rizkyfauzan.id/sitemap.xml
-
-# Block unnecessary paths
-Disallow: /api/
-Disallow: /_nuxt/builds/
-Disallow: /auth/
