@@ -7,13 +7,13 @@
 						<side-bar />
 					</div>
 					<NuxtLink to="/" class="hidden md:flex items-center">
-						<h1 class="text-xl uppercase font-black">rizkyfauzan.id</h1>
+						<span class="text-xl uppercase font-black">rizkyfauzan.id</span>
 					</NuxtLink>
 				</div>
 
 				<!-- Mobile centered title -->
 				<NuxtLink to="/" class="flex md:hidden items-center absolute left-1/2 transform -translate-x-1/2">
-					<h1 class="text-xl uppercase font-black">rizkyfauzan.id</h1>
+					<span class="text-xl uppercase font-black">rizkyfauzan.id</span>
 				</NuxtLink>
 
 				<div class="hidden md:flex items-center gap-4">
