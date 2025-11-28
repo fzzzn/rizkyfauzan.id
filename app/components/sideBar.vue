@@ -22,7 +22,7 @@
             v-show="isOpen" 
             id="sidebar-panel"
             ref="sidebarPanel"
-            class="fixed md:absolute left-0 top-0 h-full w-[100vw] md:w-[60vw] lg:w-[40vw] bg-black md:rounded-lg z-40 md:z-50 overflow-hidden flex flex-col"
+            class="fixed md:absolute left-0 top-0 h-full w-screen md:w-[60vw] lg:w-[40vw] bg-black md:rounded-lg z-40 md:z-50 overflow-hidden flex flex-col"
             role="dialog"
             aria-modal="true"
             aria-labelledby="sidebar-title">
@@ -31,7 +31,7 @@
             </div>
 
             <!-- Header - Fixed -->
-            <div class="flex-shrink-0 py-6 px-6">
+            <div class="shrink-0 py-6 px-6">
                 <div class="flex justify-between">
                     <div class="items-center">
                         <span id="sidebar-title" class="text-base text-center font-light text-white/60 font-mono">Discover</span>

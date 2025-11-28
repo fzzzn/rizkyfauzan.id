@@ -356,7 +356,7 @@ onUnmounted(() => {
             <!-- Left Arrow -->
             <button
 v-if="showArrows"
-                class="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors flex-shrink-0 flex items-center justify-center"
+                class="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors shrink-0 flex items-center justify-center"
                 @click="manualPrevSlide">
                 <Icon name="heroicons:chevron-left" size="20" />
             </button>
@@ -371,7 +371,7 @@ ref="carouselRef" class="flex transition-transform duration-300 ease-in-out"
                     :class="{ 'cursor-grabbing': isDragging, 'cursor-grab': !isDragging }"
                     :style="{ transform: `translateX(-${getTransform()}%)` }">
                     <div
-v-for="item in extendedItems" :key="item.cloneId || item.id" class="flex-shrink-0 px-2"
+v-for="item in extendedItems" :key="item.cloneId || item.id" class="shrink-0 px-2"
                         :style="{ width: `${slideWidth}%` }">
                         <div
 class="relative" :class="[
@@ -393,7 +393,7 @@ v-if="showCardNumber"
             <!-- Right Arrow -->
             <button
 v-if="showArrows"
-                class="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors flex-shrink-0 flex items-center justify-center"
+                class="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors shrink-0 flex items-center justify-center"
                 @click="manualNextSlide">
                 <Icon name="heroicons:chevron-right" size="20" />
             </button>
@@ -417,7 +417,7 @@ v-if="isModalOpen && selectedItem"
                 <div class="relative max-w-4xl max-h-full">
                     <!-- Close button -->
                     <button
-                        class="flex-shrink-0 flex items-center justify-center absolute top-4 right-4 z-10 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-colors"
+                        class="shrink-0 flex items-center justify-center absolute top-4 right-4 z-10 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-colors"
                         aria-label="Close modal" @click="closeModal">
                         <Icon name="heroicons:x-mark" size="16" />
                     </button>

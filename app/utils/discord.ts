@@ -110,7 +110,7 @@ export const getPrimaryActivity = (
 
   // Prioritize non-custom activities
   const nonCustom = activities.find((a) => a.type !== 4);
-  return nonCustom || activities[0];
+  return nonCustom ?? activities[0] ?? null;
 };
 
 export const getDiscordStatusBadgeClasses = (status: string): string => {

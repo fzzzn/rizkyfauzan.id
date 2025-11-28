@@ -6,11 +6,11 @@
       @click="openModal"
     >
       <div class="flex flex-col gap-4 h-full">
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
           <NuxtImg
             :src="item.image" 
             :alt="`${item.title} - ${item.description || 'Certificate or achievement image'}`"
-            class="w-full aspect-[3/2] object-cover rounded-lg hover:opacity-90 transition-opacity"
+            class="w-full aspect-3/2 object-cover rounded-lg hover:opacity-90 transition-opacity"
             loading="lazy"
             format="webp"
             quality="80"
@@ -44,7 +44,7 @@
             </button>
             
             <!-- Image - Original aspect ratio with blur background -->
-            <div class="relative flex-shrink-0 flex items-center justify-center min-h-[200px] overflow-hidden">
+            <div class="relative shrink-0 flex items-center justify-center min-h-[200px] overflow-hidden">
               <!-- Blurred background -->
               <div class="absolute inset-0">
                 <NuxtImg

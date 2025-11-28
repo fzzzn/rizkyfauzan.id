@@ -64,7 +64,7 @@ onUnmounted(() => {
             <div class="lg:flex-2/6">
                 <NuxtImg
                     src="/avatar-with-bg.png"
-                    class="object-cover rounded-xl h-full w-full lg:h-[75vh] aspect-[5/3] lg:aspect-[3/4] cursor-pointer hover:opacity-90 transition-opacity"
+                    class="object-cover rounded-xl h-full w-full lg:h-[75vh] aspect-5/3 lg:aspect-3/4 cursor-pointer hover:opacity-90 transition-opacity"
                     alt="Rizky Fauzan Hanif"
                     loading="eager"
                     format="webp"

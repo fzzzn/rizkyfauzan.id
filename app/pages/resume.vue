@@ -315,7 +315,7 @@ const printResume = () => {
                     <ul>
                         <li
                             v-for="contact in contactInfo" :key="contact.title"
-                            class="mt-2.5 text-gray-800 [&:not(:first-of-type)]:mt-2.5">
+                            class="mt-2.5 text-gray-800 not-first-of-type:mt-2.5">
                             <strong>{{ contact.title }}: </strong>
                             <a
                                 :href="contact.link" class="hover:underline print:underline text-black" target="_blank"

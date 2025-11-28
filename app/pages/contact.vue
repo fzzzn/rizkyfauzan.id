@@ -108,7 +108,7 @@ onMounted(() => {
 href="mailto:contact@rizkyfauzan.id"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
+                    <div class="shrink-0">
                         <Icon
 name="heroicons:envelope" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
@@ -125,7 +125,7 @@ name="heroicons:envelope" size="24"
 href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0 relative">
+                    <div class="shrink-0 relative">
                         <Icon
 name="simple-icons:linkedin" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
@@ -142,7 +142,7 @@ name="simple-icons:linkedin" size="24"
 href="https://x.com/fzzznh" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
+                    <div class="shrink-0">
                         <Icon
 name="simple-icons:x" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
@@ -159,7 +159,7 @@ name="simple-icons:x" size="24"
 href="https://bsky.app/profile/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
+                    <div class="shrink-0">
                         <Icon
 name="simple-icons:bluesky" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
@@ -176,7 +176,7 @@ name="simple-icons:bluesky" size="24"
 href="https://instagram.com/fauzannnnh" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
+                    <div class="shrink-0">
                         <Icon
 name="simple-icons:instagram" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
@@ -193,7 +193,7 @@ name="simple-icons:instagram" size="24"
 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group cursor-pointer w-full sm:w-80 relative"
                 @click="copyDiscord">
                 <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0 relative">
+                    <div class="shrink-0 relative">
                         <Icon
 name="simple-icons:discord" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />
@@ -253,7 +253,7 @@ v-for="activity in discordActivities" :key="activity.id"
 href="https://t.me/Fauzannnnh" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
+                    <div class="shrink-0">
                         <Icon
 name="simple-icons:telegram" size="24"
                             class="text-black/60 group-hover:text-black transition-colors" />

@@ -21,7 +21,7 @@
                         <img
                             :src="user.user_metadata.avatar_url" 
                             :alt="user.user_metadata.full_name"
-                            class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover flex-shrink-0">
+                            class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover shrink-0">
                         <div class="min-w-0 flex-1">
                             <h3 class="text-lg sm:text-xl font-bold text-black truncate">{{ user.user_metadata.full_name || user.user_metadata.user_name }}</h3>
                             <p class="text-xs sm:text-sm text-gray-500">Signed in</p>

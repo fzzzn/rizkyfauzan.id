@@ -27,7 +27,7 @@ useSeoMeta({
             <p
                 class="mt-8 absolute left-0 text-sm md:text-base md:relative w-full bottom-5 flex flex-col md:flex-row items-center justify-between md:gap-3 font-bold">
                 <span>Want to know more about me?</span>
-                <span class="mt-1 h-[2px] flex-grow bg-black hidden md:block" />
+                <span class="mt-1 h-0.5 grow bg-black hidden md:block" />
                 <RouterLink to="/about" class="group" aria-label="Learn more about Rizky Fauzan Hanif">
                     <span class="relative">
                         Learn more about me

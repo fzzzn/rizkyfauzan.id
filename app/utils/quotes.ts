@@ -22,5 +22,5 @@ export const quotes = [
 ];
 
 export const getRandomQuote = (): string => {
-  return quotes[Math.floor(Math.random() * quotes.length)];
+  return quotes[Math.floor(Math.random() * quotes.length)]!;
 };
