@@ -4,11 +4,27 @@ import { definePerson } from "nuxt-schema-org/schema";
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   pages: true,
   css: ["~/assets/css/main.css"],
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      sourcemap: false,
+      minify: "esbuild",
+      cssMinify: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            gsap: ["gsap"],
+          },
+        },
+      },
+    },
+  },
+  experimental: {
+    payloadExtraction: true,
+    componentIslands: true,
   },
   supabase: {
     redirectOptions: {
@@ -34,6 +50,19 @@ export default defineNuxtConfig({
     preset: "cloudflare_pages",
     prerender: {
       autoSubfolderIndex: false,
+    },
+    compressPublicAssets: true,
+    minify: true,
+  },
+  routeRules: {
+    "/_nuxt/**": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+    },
+    "/favicon.ico": {
+      headers: { "cache-control": "public, max-age=86400" },
+    },
+    "/*.png": {
+      headers: { "cache-control": "public, max-age=86400" },
     },
   },
   app: {
@@ -91,4 +120,19 @@ export default defineNuxtConfig({
     "@nuxtjs/supabase",
     "nuxt-umami",
   ],
+  image: {
+    format: ["avif", "webp"],
+    quality: 80,
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+    },
+  },
+  icon: {
+    mode: "css",
+    cssLayer: "icons",
+  },
 });

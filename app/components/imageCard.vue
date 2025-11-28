@@ -11,6 +11,9 @@
             :src="item.image" 
             :alt="`${item.title} - ${item.description || 'Certificate or achievement image'}`"
             class="w-full aspect-[3/2] object-cover rounded-lg hover:opacity-90 transition-opacity"
+            loading="lazy"
+            format="webp"
+            quality="80"
           />
         </div>
         <div class="flex flex-col flex-1">
