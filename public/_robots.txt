@@ -4,9 +4,6 @@ Allow: /
 # Sitemaps
 Sitemap: https://rizkyfauzan.id/sitemap.xml
 
-# Crawl-delay for polite crawling
-Crawl-delay: 1
-
 # Block unnecessary paths
 Disallow: /api/
 Disallow: /_nuxt/builds/
