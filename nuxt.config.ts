@@ -49,12 +49,12 @@ export default defineNuxtConfig({
       subsets: ["latin"],
     },
     families: [
-      // Antonio - display font for headings (only bold weight)
-      { name: "Antonio", provider: "google", global: true, preload: true, weights: [700] },
-      // Geist - use variable font (single file for all weights)
-      { name: "Geist", provider: "google", global: true, preload: true, weights: ["100 900"] },
-      // JetBrains Mono - defer loading (not critical for LCP)
-      { name: "JetBrains Mono", provider: "google", global: true, preload: false, weights: [400] },
+      // Antonio - display font for headings only
+      { name: "Antonio", provider: "google", global: true, preload: true, weights: [700], subsets: ["latin"] },
+      // Geist - body font (only regular weight, bold uses CSS font-synthesis)
+      { name: "Geist", provider: "google", global: true, preload: true, weights: [400], subsets: ["latin"] },
+      // JetBrains Mono - code font, defer loading
+      { name: "JetBrains Mono", provider: "google", global: true, preload: false, weights: [400], subsets: ["latin"] },
     ],
     experimental: {
       processCSSVariables: true,
