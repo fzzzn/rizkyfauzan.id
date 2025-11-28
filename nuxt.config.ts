@@ -44,15 +44,16 @@ export default defineNuxtConfig({
   },
   fonts: {
     defaults: {
-      weights: [400, 700],
+      weights: [400],
       styles: ["normal"],
       subsets: ["latin"],
     },
     families: [
-      // Critical fonts - preload for LCP
+      // Antonio - display font for headings (only bold weight)
       { name: "Antonio", provider: "google", global: true, preload: true, weights: [700] },
-      { name: "Geist", provider: "google", global: true, preload: true, weights: [400, 700] },
-      // Non-critical - lazy load
+      // Geist - use variable font (single file for all weights)
+      { name: "Geist", provider: "google", global: true, preload: true, weights: ["100 900"] },
+      // JetBrains Mono - defer loading (not critical for LCP)
       { name: "JetBrains Mono", provider: "google", global: true, preload: false, weights: [400] },
     ],
     experimental: {
@@ -71,11 +72,24 @@ export default defineNuxtConfig({
     "/_nuxt/**": {
       headers: { "cache-control": "public, max-age=31536000, immutable" },
     },
-    "/favicon.ico": {
-      headers: { "cache-control": "public, max-age=86400" },
+    // Static assets - cache for 1 year
+    "/*.webp": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
     },
     "/*.png": {
-      headers: { "cache-control": "public, max-age=86400" },
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+    },
+    "/*.jpg": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+    },
+    "/*.svg": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+    },
+    "/*.ico": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+    },
+    "/*.woff2": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
     },
   },
   app: {
@@ -91,9 +105,6 @@ export default defineNuxtConfig({
         { name: "msapplication-TileColor", content: "#ffffff" },
       ],
       link: [
-        // Preconnect to font origins
-        { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous" },
-        { rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
         // Preconnect to analytics
         { rel: "preconnect", href: "https://u.zxn.my.id", crossorigin: "anonymous" },
         { rel: "dns-prefetch", href: "https://u.zxn.my.id" },
