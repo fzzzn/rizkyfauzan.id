@@ -8,7 +8,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "optimize-images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.4.1",

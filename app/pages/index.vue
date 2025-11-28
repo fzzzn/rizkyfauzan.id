@@ -10,13 +10,11 @@ useSeoMeta({
         class="lg:px-48 min-h-[83vh] flex-col gap-12 lg:gap-28 flex lg:flex-row lg:justify-between items-center justify-center">
         <section class="">
             <NuxtImg
-                src="/avatar-with-bg.png"
+                src="/avatar-with-bg.webp"
                 alt="Avatar of Rizky Fauzan Hanif"
                 class="object-cover w-[50vw] lg:w-[60vh] aspect-square rounded-xl"
                 loading="eager"
                 fetchpriority="high"
-                format="webp"
-                quality="80"
             />
         </section>
         <section class="text-center flex flex-col gap-1 lg:text-left">

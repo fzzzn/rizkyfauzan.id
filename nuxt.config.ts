@@ -121,7 +121,7 @@ export default defineNuxtConfig({
     "nuxt-umami",
   ],
   image: {
-    format: ["avif", "webp"],
+    provider: "ipx",
     quality: 80,
     screens: {
       xs: 320,
