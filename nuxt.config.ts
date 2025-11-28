@@ -39,12 +39,19 @@ export default defineNuxtConfig({
     autoTrack: true,
   },
   fonts: {
+    defaults: {
+      weights: [400, 700],
+      styles: ["normal"],
+      subsets: ["latin"],
+    },
     families: [
-      { name: "Antonio", provider: "google", global: true },
-      { name: "Inter", provider: "google", global: true },
-      { name: "JetBrains Mono", provider: "google", global: true },
-      { name: "Geist", provider: "google", global: true },
+      { name: "Antonio", provider: "google", global: true, preload: true, weights: [700] },
+      { name: "Geist", provider: "google", global: true, preload: true },
+      { name: "JetBrains Mono", provider: "google", global: true, weights: [400] },
     ],
+    experimental: {
+      processCSSVariables: true,
+    },
   },
   nitro: {
     preset: "cloudflare_pages",
@@ -70,6 +77,10 @@ export default defineNuxtConfig({
       meta: [
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { charset: "utf-8" },
+      ],
+      link: [
+        { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous" },
+        { rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
       ],
     },
     pageTransition: { name: "page", mode: "out-in" },
