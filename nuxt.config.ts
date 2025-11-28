@@ -49,9 +49,11 @@ export default defineNuxtConfig({
       subsets: ["latin"],
     },
     families: [
+      // Critical fonts - preload for LCP
       { name: "Antonio", provider: "google", global: true, preload: true, weights: [700] },
-      { name: "Geist", provider: "google", global: true, preload: true },
-      { name: "JetBrains Mono", provider: "google", global: true, preload: true, weights: [400] },
+      { name: "Geist", provider: "google", global: true, preload: true, weights: [400, 700] },
+      // Non-critical - lazy load
+      { name: "JetBrains Mono", provider: "google", global: true, preload: false, weights: [400] },
     ],
     experimental: {
       processCSSVariables: true,
@@ -83,8 +85,12 @@ export default defineNuxtConfig({
         { charset: "utf-8" },
       ],
       link: [
+        // Preconnect to font origins
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous" },
         { rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
+        // Preconnect to analytics
+        { rel: "preconnect", href: "https://u.zxn.my.id", crossorigin: "anonymous" },
+        { rel: "dns-prefetch", href: "https://u.zxn.my.id" },
       ],
     },
     pageTransition: { name: "page", mode: "out-in" },
