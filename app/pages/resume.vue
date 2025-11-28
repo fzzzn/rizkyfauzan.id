@@ -4,8 +4,11 @@ definePageMeta({
 })
 
 useSeoMeta({
-    title: 'Resume',
-    description: 'Resume of Rizky Fauzan Hanif',
+    title: 'Resume - Rizky Fauzan Hanif',
+    description: 'Professional resume of Rizky Fauzan Hanif - Network Engineer with MTCNA and MTCTCE certifications. Skills in MikroTik, Linux, network security, and cloud technologies.',
+    ogTitle: 'Resume - Rizky Fauzan Hanif',
+    ogDescription: 'Network Engineer resume featuring MikroTik expertise, certifications, technical skills, and professional experience.',
+    ogImage: 'https://rizkyfauzan.id/og-image.png',
 })
 
 const personalInfo = {

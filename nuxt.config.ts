@@ -80,9 +80,15 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      htmlAttrs: {
+        lang: "en",
+      },
       meta: [
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { charset: "utf-8" },
+        { name: "theme-color", content: "#ffffff" },
+        { name: "format-detection", content: "telephone=no" },
+        { name: "msapplication-TileColor", content: "#ffffff" },
       ],
       link: [
         // Preconnect to font origins
@@ -91,6 +97,14 @@ export default defineNuxtConfig({
         // Preconnect to analytics
         { rel: "preconnect", href: "https://u.zxn.my.id", crossorigin: "anonymous" },
         { rel: "dns-prefetch", href: "https://u.zxn.my.id" },
+        // Preconnect to image CDN
+        { rel: "preconnect", href: "https://ik.imagekit.io", crossorigin: "anonymous" },
+        { rel: "dns-prefetch", href: "https://ik.imagekit.io" },
+        // Favicon
+        { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+        { rel: "manifest", href: "/site.webmanifest" },
       ],
     },
     pageTransition: { name: "page", mode: "out-in" },
@@ -98,9 +112,29 @@ export default defineNuxtConfig({
   site: {
     url: "https://rizkyfauzan.id",
     name: "Rizky Fauzan Hanif",
+    description: "Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified.",
+    defaultLocale: "en",
+  },
+  ogImage: {
+    enabled: true,
+    defaults: {
+      width: 1200,
+      height: 630,
+    },
+  },
+  sitemap: {
+    strictNuxtContentPaths: true,
+  },
+  robots: {
+    allow: "/",
+    sitemap: "https://rizkyfauzan.id/sitemap.xml",
   },
   seo: {
     meta: {
+      title: "Rizky Fauzan Hanif - Network Engineer",
+      description: "Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.",
+      twitterCard: "summary_large_image",
+      twitterSite: "@fzzznh",
       twitterCreator: "@fzzznh",
       author: "Rizky Fauzan Hanif",
       applicationName: "Rizky Fauzan Hanif",
@@ -108,27 +142,43 @@ export default defineNuxtConfig({
       ogLocale: "en_US",
       ogType: "website",
       ogUrl: "https://rizkyfauzan.id",
-      ogTitle: "Rizky Fauzan Hanif",
-      ogDescription:
-        "Network Engineer and student at SMKN 2 Depok Sleman. Specialized in MikroTik, networking, and cybersecurity with MTCNA and MTCTCE certifications.",
-      robots: "index, follow",
-      keywords:
-        "Rizky Fauzan Hanif, Network Engineer, MikroTik, MTCNA, MTCTCE, IPv6, Networking, Cybersecurity, Student, Indonesia",
+      ogTitle: "Rizky Fauzan Hanif - Network Engineer",
+      ogDescription: "Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.",
+      ogImage: "https://rizkyfauzan.id/og-image.png",
+      robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      keywords: "Rizky Fauzan Hanif, Network Engineer, MikroTik, MTCNA, MTCTCE, IPv6, Networking, Cybersecurity, Indonesia, Yogyakarta, Cloud Engineer",
     },
   },
   schemaOrg: {
     identity: definePerson({
       name: "Rizky Fauzan Hanif",
-      givenName: "Fauzan",
-      description: "Network Engineer.",
+      givenName: "Rizky",
+      familyName: "Hanif",
+      additionalName: "Fauzan",
+      description: "Network Engineer specializing in MikroTik, networking, and cybersecurity with MTCNA and MTCTCE certifications.",
       jobTitle: "Network Engineer",
       email: "contact@rizkyfauzan.id",
       url: "https://rizkyfauzan.id",
+      image: "https://rizkyfauzan.id/avatar-with-bg.webp",
       sameAs: [
         "https://x.com/fzzznh",
         "https://github.com/fzzzn",
         "https://linkedin.com/in/rizky-fauzan-hanif",
         "https://instagram.com/fauzannnnh",
+        "https://bsky.app/profile/rizkyfauzan.id",
+        "https://t.me/Fauzannnnh",
+      ],
+      alumniOf: {
+        "@type": "EducationalOrganization",
+        name: "SMK Negeri 2 Depok Sleman",
+      },
+      knowsAbout: [
+        "MikroTik RouterOS",
+        "Network Engineering",
+        "Cybersecurity",
+        "IPv6",
+        "Cloud Computing",
+        "Linux Administration",
       ],
     }),
   },

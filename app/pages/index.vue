@@ -1,7 +1,17 @@
 <script lang="ts" setup>
 useSeoMeta({
-    title: 'Home',
-    description: 'Network Engineer and student at SMKN 2 Depok Sleman. Specialized in MikroTik networking, cybersecurity, and infrastructure management with professional certifications.',
+    title: 'Rizky Fauzan Hanif - Network Engineer',
+    description: 'Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.',
+    ogTitle: 'Rizky Fauzan Hanif - Network Engineer',
+    ogDescription: 'Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.',
+    ogImage: 'https://rizkyfauzan.id/og-image.png',
+    twitterCard: 'summary_large_image',
+})
+
+useHead({
+    htmlAttrs: {
+        lang: 'en',
+    },
 })
 </script>
 

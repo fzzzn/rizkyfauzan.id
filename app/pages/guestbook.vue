@@ -123,8 +123,11 @@ const user = useSupabaseUser()
 
 // Add SEO meta
 useSeoMeta({
-    title: 'Guestbook',
-    description: 'Leave a message and join the conversation on my guestbook.',
+    title: 'Guestbook - Rizky Fauzan Hanif',
+    description: 'Leave a message on the guestbook of Rizky Fauzan Hanif. Sign in with Google, GitHub, or Discord to share your thoughts.',
+    ogTitle: 'Guestbook - Rizky Fauzan Hanif',
+    ogDescription: 'Join the conversation and leave a message on the guestbook. Connect with the community.',
+    ogImage: 'https://rizkyfauzan.id/og-image.png',
 })
 
 // Reactive data

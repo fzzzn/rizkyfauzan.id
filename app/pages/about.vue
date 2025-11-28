@@ -2,8 +2,11 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
 useSeoMeta({
-    title: 'About Me',
-    description: 'Learn about Rizky Fauzan Hanif, a passionate Network Engineer student at SMKN 2 Depok Sleman with certifications in MikroTik MTCNA, MTCTCE, and IPv6 Sage.',
+    title: 'About - Rizky Fauzan Hanif',
+    description: 'Learn about Rizky Fauzan Hanif, a passionate Network Engineer specializing in MikroTik, cloud engineering, and cybersecurity with MTCNA, MTCTCE, and IPv6 Sage certifications.',
+    ogTitle: 'About - Rizky Fauzan Hanif',
+    ogDescription: 'Passionate Network Engineer with expertise in Kubernetes, Docker, BGP, VPNs, firewalls, and network security. Based in Yogyakarta, Indonesia.',
+    ogImage: 'https://rizkyfauzan.id/og-image.png',
 })
 
 const isModalOpen = ref(false)
