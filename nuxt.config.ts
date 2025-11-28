@@ -25,6 +25,10 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: true,
     componentIslands: true,
+    inlineRouteRules: true,
+  },
+  features: {
+    inlineStyles: true,
   },
   supabase: {
     redirectOptions: {
@@ -47,7 +51,7 @@ export default defineNuxtConfig({
     families: [
       { name: "Antonio", provider: "google", global: true, preload: true, weights: [700] },
       { name: "Geist", provider: "google", global: true, preload: true },
-      { name: "JetBrains Mono", provider: "google", global: true, weights: [400] },
+      { name: "JetBrains Mono", provider: "google", global: true, preload: true, weights: [400] },
     ],
     experimental: {
       processCSSVariables: true,
@@ -129,6 +133,7 @@ export default defineNuxtConfig({
     "@nuxt/scripts",
     "@nuxtjs/seo",
     "@nuxtjs/supabase",
+    "@nuxtjs/critters",
     "nuxt-umami",
   ],
   image: {
