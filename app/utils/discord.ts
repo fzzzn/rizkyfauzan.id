@@ -78,7 +78,7 @@ export const getActivityType = (type: number): string => {
     case 3:
       return "Watching";
     case 4:
-      return "Custom";
+      return "";
     case 5:
       return "Competing in";
     default:
