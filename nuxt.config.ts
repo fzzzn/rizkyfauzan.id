@@ -49,11 +49,8 @@ export default defineNuxtConfig({
       subsets: ["latin"],
     },
     families: [
-      // Antonio - display font for headings only
       { name: "Antonio", provider: "google", global: true, preload: true, weights: [700], subsets: ["latin"] },
-      // Geist - body font (only regular weight, bold uses CSS font-synthesis)
       { name: "Geist", provider: "google", global: true, preload: true, weights: [400], subsets: ["latin"] },
-      // JetBrains Mono - code font, defer loading
       { name: "JetBrains Mono", provider: "google", global: true, preload: false, weights: [400], subsets: ["latin"] },
     ],
     experimental: {
@@ -81,13 +78,10 @@ export default defineNuxtConfig({
         { name: "msapplication-TileColor", content: "#ffffff" },
       ],
       link: [
-        // Preconnect to analytics
         { rel: "preconnect", href: "https://u.zxn.my.id", crossorigin: "anonymous" },
         { rel: "dns-prefetch", href: "https://u.zxn.my.id" },
-        // Preconnect to image CDN
         { rel: "preconnect", href: "https://ik.imagekit.io", crossorigin: "anonymous" },
         { rel: "dns-prefetch", href: "https://ik.imagekit.io" },
-        // Favicon
         { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
@@ -148,17 +142,13 @@ export default defineNuxtConfig({
       url: "https://rizkyfauzan.id",
       image: "https://rizkyfauzan.id/avatar-with-bg.webp",
       sameAs: [
-        "https://x.com/fzzznh",
+        "https://x.com/rizkyfauzanid",
         "https://github.com/fzzzn",
         "https://linkedin.com/in/rizky-fauzan-hanif",
-        "https://instagram.com/fauzannnnh",
+        "https://instagram.com/rizkyfauzan.id",
         "https://bsky.app/profile/rizkyfauzan.id",
-        "https://t.me/Fauzannnnh",
+        "https://t.me/rizkyfauzanid",
       ],
-      alumniOf: {
-        "@type": "EducationalOrganization",
-        name: "SMK Negeri 2 Depok Sleman",
-      },
       knowsAbout: [
         "MikroTik RouterOS",
         "Network Engineering",
