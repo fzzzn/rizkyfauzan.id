@@ -32,10 +32,10 @@ useHead({
                 Rizky Fauzan Hanif
             </h1>
             <h2 class="text-2xl md:text-4xl mt-3 font-semibold">Network Engineer</h2>
-            <h3 class="text-base md:text-lg mt-2 text-gray-600">MikroTik Certified (MTCNA & MTCTCE)</h3>
-            <p class="mt-4 text-base md:text-lg text-gray-700 max-w-xl">
+            <!-- <h3 class="text-base md:text-lg mt-2 text-gray-600">MikroTik Certified (MTCNA & MTCTCE)</h3> -->
+            <!-- <p class="mt-4 text-base md:text-lg text-gray-700 max-w-xl">
                 Specializing in MikroTik RouterOS, network infrastructure, IPv6, and cybersecurity solutions. Based in Yogyakarta, Indonesia.
-            </p>
+            </p> -->
             <p
                 class="mt-8 absolute left-0 text-sm md:text-base md:relative w-full bottom-5 flex flex-col md:flex-row items-center justify-between md:gap-3 font-bold">
                 <span>Want to know more about me?</span>

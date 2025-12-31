@@ -142,7 +142,7 @@ name="simple-icons:linkedin" size="24"
 
             <!-- X (Twitter) -->
             <a
-href="https://x.com/fzzznh" target="_blank" rel="noopener noreferrer"
+href="https://x.com/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
                     <div class="shrink-0">
@@ -152,7 +152,7 @@ name="simple-icons:x" size="24"
                     </div>
                     <div class="min-w-0 flex-1">
                         <h3 class="text-lg font-bold text-black group-hover:text-gray-800">X (Twitter)</h3>
-                        <p class="text-gray-600 text-sm">@fzzznh</p>
+                        <p class="text-gray-600 text-sm">@rizkyfauzanid</p>
                     </div>
                 </div>
             </a>
@@ -176,7 +176,7 @@ name="simple-icons:bluesky" size="24"
 
             <!-- Instagram -->
             <a
-href="https://instagram.com/fauzannnnh" target="_blank" rel="noopener noreferrer"
+href="https://instagram.com/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
                     <div class="shrink-0">
@@ -186,7 +186,7 @@ name="simple-icons:instagram" size="24"
                     </div>
                     <div class="min-w-0 flex-1">
                         <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Instagram</h3>
-                        <p class="text-gray-600 text-sm">@fauzannnnh</p>
+                        <p class="text-gray-600 text-sm">@rizkyfauzan.id</p>
                     </div>
                 </div>
             </a>
@@ -253,7 +253,7 @@ v-for="activity in discordActivities" :key="activity.id"
 
             <!-- Telegram -->
             <a
-href="https://t.me/Fauzannnnh" target="_blank" rel="noopener noreferrer"
+href="https://t.me/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
                     <div class="shrink-0">
@@ -263,7 +263,7 @@ name="simple-icons:telegram" size="24"
                     </div>
                     <div class="min-w-0 flex-1">
                         <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Telegram</h3>
-                        <p class="text-gray-600 text-sm">@Fauzannnnh</p>
+                        <p class="text-gray-600 text-sm">@rizkyfauzanid</p>
                     </div>
                 </div>
             </a>
