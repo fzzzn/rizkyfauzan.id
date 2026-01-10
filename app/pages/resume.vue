@@ -5,9 +5,9 @@ definePageMeta({
 
 useSeoMeta({
     title: 'Resume - Rizky Fauzan Hanif',
-    description: 'Professional resume of Rizky Fauzan Hanif - Network Engineer',
+    description: 'Professional resume of Rizky Fauzan Hanif',
     ogTitle: 'Resume - Rizky Fauzan Hanif',
-    ogDescription: 'Professional resume of Rizky Fauzan Hanif - Network Engineer',
+    ogDescription: 'Professional resume of Rizky Fauzan Hanif',
 })
 
 const route = useRoute()
@@ -53,7 +53,7 @@ const translations = {
             location: 'Sleman, Yogyakarta, Indonesia',
         },
         sections: {
-            professionalSummary: 'Professional Summary',
+            aboutMe: 'About Me',
             softSkills: 'Soft Skills',
             technicalSkills: 'Technical Skills',
             projects: 'Projects',
@@ -62,7 +62,7 @@ const translations = {
             certifications: 'Licenses & certifications',
             contact: 'Contact',
         },
-        professionalSummary: [
+        aboutMe: [
             "I'm Rizky Fauzan Hanif, a passionate Network Engineer with interests in Cloud Computing and DevOps, based in Sleman, Special Region of Yogyakarta. Currently, I am a student at SMK Negeri 2 Depok Sleman. I enjoy exploring and learning new technologies such as Kubernetes, Docker, virtualization, BGP, VPNs, firewalls, traffic control, IPv6, and network security.",
             "To deepen my knowledge, I have earned MikroTik Certified Network Associate (MTCNA), MikroTik Certified Traffic Control Engineer (MTCTCE), and IPv6 Sage by Hurricane Electric, as well as additional certifications in programming, cybersecurity, and cloud computing.",
             "I care about infrastructure that is reliable, maintainable, and scalable."
@@ -111,10 +111,6 @@ const translations = {
                     '3rd Place LKS IT Network System Administration (ITNSA) DIY Province 2024',
                 ]
             },
-            {
-                institution: 'SMP Negeri 2 Ngaglik',
-                period: '2020 - 2023',
-            }
         ],
         experience: [
             {
@@ -224,7 +220,7 @@ const translations = {
             location: 'Sleman, Yogyakarta, Indonesia',
         },
         sections: {
-            professionalSummary: 'Ringkasan',
+            professionalSummary: 'Tentang Saya',
             softSkills: 'Keterampilan',
             technicalSkills: 'Keterampilan Teknis',
             projects: 'Proyek',
@@ -233,7 +229,7 @@ const translations = {
             certifications: 'Lisensi & Sertifikasi',
             contact: 'Kontak',
         },
-        professionalSummary: [
+        aboutMe: [
             "Saya Rizky Fauzan Hanif, seorang Network Engineer yang memiliki minat pada Cloud Computing dan DevOps, berbasis di Sleman, Daerah Istimewa Yogyakarta. Saat ini, saya adalah siswa di SMK Negeri 2 Depok Sleman. Saya senang mengeksplorasi dan mempelajari teknologi baru seperti Kubernetes, Docker, virtualisasi, BGP, VPN, firewall, traffic control, IPv6, dan keamanan jaringan.",
             "Untuk memperdalam pengetahuan saya, saya telah memperoleh MikroTik Certified Network Associate (MTCNA), MikroTik Certified Traffic Control Engineer (MTCTCE), dan IPv6 Sage oleh Hurricane Electric, serta sertifikasi tambahan dalam pemrograman, keamanan siber, dan cloud computing.",
             "Saya peduli terhadap infrastruktur yang andal, dapat dipelihara, dan skalabel."
@@ -282,10 +278,6 @@ const translations = {
                     'Juara 3 LKS IT Network System Administration (ITNSA) Provinsi DIY 2024',
                 ]
             },
-            {
-                institution: 'SMP Negeri 2 Ngaglik',
-                period: '2020 - 2023',
-            }
         ],
         experience: [
             {
@@ -435,7 +427,8 @@ const printResume = () => {
 </script>
 
 <template>
-    <div class="max-w-3xl w-11/12 mx-auto transition-opacity duration-200" :class="{ 'opacity-0': !isReady, 'opacity-100': isReady }">
+    <div class="max-w-3xl w-11/12 mx-auto transition-opacity duration-200"
+        :class="{ 'opacity-0': !isReady, 'opacity-100': isReady }">
         <main class="py-4 print:text-black">
             <!-- Header Section -->
             <section class="w-full mt-4 mb-4">
@@ -459,16 +452,16 @@ const printResume = () => {
             </section>
 
             <div class="space-y-8">
-                <!-- Professional Summary -->
+                <!-- About Me -->
                 <section>
                     <div class="flex items-center justify-between pb-2.5 border-b-2 border-black">
-                        <h3 class="text-xl font-bold text-black">{{ t.sections.professionalSummary }}</h3>
+                        <h3 class="text-xl font-bold text-black">{{ t.sections.aboutMe }}</h3>
                         <div class="flex items-center gap-2">
                             <button
                                 class="inline-flex items-center justify-center cursor-pointer print:hidden px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
                                 @click="toggleLanguage">
                                 <span class="text-sm font-medium text-black">{{ currentLang === 'en' ? 'ID' : 'EN'
-                                    }}</span>
+                                }}</span>
                             </button>
                             <button
                                 class="inline-flex items-center justify-center cursor-pointer print:hidden px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
@@ -478,7 +471,7 @@ const printResume = () => {
                         </div>
                     </div>
                     <div class="mt-4">
-                        <p v-for="(paragraph, idx) in t.professionalSummary" :key="idx" class="text-gray-800 mb-2">{{
+                        <p v-for="(paragraph, idx) in t.aboutMe" :key="idx" class="text-gray-800 mb-2">{{
                             paragraph }}</p>
                     </div>
                 </section>
@@ -586,7 +579,7 @@ const printResume = () => {
                     <div v-for="cert in t.certifications" :key="cert.name" class="mb-4">
                         <div class="flex items-start justify-between mb-1">
                             <h4 class="font-semibold text-black">
-                                <a :href="cert.link" target="_blank" class="hover:underline">
+                                <a :href="cert.link" target="_blank" class="print:underline hover:underline">
                                     {{ cert.name }}
                                 </a>
                             </h4>
@@ -623,7 +616,7 @@ const printResume = () => {
 @media print {
     @page {
         size: A4 portrait !important;
-        margin: 0.5in 0.4in !important;
+        margin: 0.4in 0.5in !important;
     }
 
     * {
@@ -632,8 +625,8 @@ const printResume = () => {
     }
 
     body {
-        font-size: 12pt !important;
-        line-height: 1.3 !important;
+        font-size: 10.5pt !important;
+        line-height: 1.25 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
@@ -654,6 +647,7 @@ const printResume = () => {
     section {
         break-inside: avoid;
         page-break-inside: avoid;
+        margin-bottom: 1.25rem !important;
     }
 
     /* Prevent orphaned lines */
@@ -666,13 +660,92 @@ const printResume = () => {
     }
 
     /* Adjust spacing for print */
-    .space-y-8>*+* {
-        margin-top: 1rem !important;
+    .space-y-4>*+* {
+        margin-top: 0.5rem !important;
+    }
+
+    /* Smaller headings */
+    h1 {
+        font-size: 20pt !important;
+        margin-bottom: 0.3rem !important;
+    }
+
+    h2 {
+        font-size: 12pt !important;
+        margin-top: 0.2rem !important;
+    }
+
+    h3 {
+        font-size: 13pt !important;
+        margin-bottom: 0.5rem !important;
+        padding-bottom: 0.25rem !important;
+    }
+
+    h4 {
+        font-size: 11pt !important;
+    }
+
+    h6 {
+        font-size: 10.5pt !important;
+    }
+
+    /* Reduce list spacing */
+    ul {
+        margin-top: 0.25rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    li {
+        margin-top: 0.2rem !important;
+        margin-bottom: 0.2rem !important;
+        font-size: 10.5pt !important;
+    }
+
+    /* Reduce paragraph spacing */
+    p {
+        margin-bottom: 0.3rem !important;
+        font-size: 10.5pt !important;
+    }
+
+    /* Compact project and experience items */
+    .mb-6 {
+        margin-bottom: 0.75rem !important;
+    }
+
+    .mb-4 {
+        margin-bottom: 0.5rem !important;
+    }
+
+    .mb-2 {
+        margin-bottom: 0.25rem !important;
+    }
+
+    .mt-4 {
+        margin-top: 0.5rem !important;
+    }
+
+    .mt-3 {
+        margin-top: 0.4rem !important;
+    }
+
+    /* Contact links and list items */
+    a {
+        font-size: 10.5pt !important;
+    }
+
+    /* Small text elements */
+    .text-sm {
+        font-size: 9.5pt !important;
+    }
+
+    .text-xs {
+        font-size: 8.5pt !important;
     }
 
     /* Ensure text is readable */
     .text-gray-800 {
         color: #1f2937 !important;
+        font-size: 10.5pt !important;
     }
 
     .text-gray-700 {
