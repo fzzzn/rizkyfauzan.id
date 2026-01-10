@@ -10,14 +10,34 @@ useSeoMeta({
     ogDescription: 'Professional resume of Rizky Fauzan Hanif - Network Engineer',
 })
 
-const currentLang = ref('en')
+const route = useRoute()
 
-// Load language from localStorage on mount
-onMounted(() => {
-    const savedLang = localStorage.getItem('resume-language')
-    if (savedLang && (savedLang === 'en' || savedLang === 'id')) {
-        currentLang.value = savedLang
+// Initialize language immediately from query or localStorage
+const getInitialLang = () => {
+    if (process.client) {
+        // Check query parameter first
+        const queryLang = route.query.lang
+        if (queryLang && (queryLang === 'en' || queryLang === 'id')) {
+            localStorage.setItem('resume-language', queryLang)
+            return queryLang
+        }
+        // Fall back to localStorage
+        const savedLang = localStorage.getItem('resume-language')
+        if (savedLang && (savedLang === 'en' || savedLang === 'id')) {
+            return savedLang
+        }
     }
+    return 'en'
+}
+
+const currentLang = ref(getInitialLang())
+const isReady = ref(false)
+
+onMounted(() => {
+    // Small delay to ensure proper initialization
+    setTimeout(() => {
+        isReady.value = true
+    }, 0)
 })
 
 const toggleLanguage = () => {
@@ -415,7 +435,7 @@ const printResume = () => {
 </script>
 
 <template>
-    <div class="max-w-3xl w-11/12 mx-auto">
+    <div class="max-w-3xl w-11/12 mx-auto transition-opacity duration-200" :class="{ 'opacity-0': !isReady, 'opacity-100': isReady }">
         <main class="py-4 print:text-black">
             <!-- Header Section -->
             <section class="w-full mt-4 mb-4">
