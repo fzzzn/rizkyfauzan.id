@@ -5,17 +5,16 @@ definePageMeta({
 
 useSeoMeta({
     title: 'Resume - Rizky Fauzan Hanif',
-    description: 'Professional resume of Rizky Fauzan Hanif - Network Engineer with MTCNA and MTCTCE certifications. Skills in MikroTik, Linux, network security, and cloud technologies.',
+    description: 'Professional resume of Rizky Fauzan Hanif - Network Engineer',
     ogTitle: 'Resume - Rizky Fauzan Hanif',
-    ogDescription: 'Network Engineer resume featuring MikroTik expertise, certifications, technical skills, and professional experience.',
-    ogImage: 'https://rizkyfauzan.id/og-image.png',
+    ogDescription: 'Professional resume of Rizky Fauzan Hanif - Network Engineer',
 })
 
 const personalInfo = {
     name: 'Rizky Fauzan Hanif',
     title: 'Network Engineer',
     location: 'Sleman, Yogyakarta, Indonesia',
-}   
+}
 
 const contactInfo = [
     {
@@ -52,48 +51,49 @@ const navigationLinks = [
         title: 'Website',
         link: 'https://rizkyfauzan.id'
     },
-    {
-        title: 'Certificates',
-        link: 'https://rizkyfauzan.id/certificates'
-    }
 ]
 
 const professionalSummary = [
-    "I'm Rizky Fauzan Hanif, a passionate Network Engineer with interests in Cloud Engineering and Cybersecurity, based in Sleman, Special Region of Yogyakarta. Currently, I am a student at SMK Negeri 2 Depok Sleman. I enjoy exploring and learning new technologies such as Kubernetes, Docker, virtualization, BGP, VPNs, firewalls, traffic control, IPv6, and network security.",
+    "I'm Rizky Fauzan Hanif, a passionate Network Engineer with interests in Cloud Computing and DevOps, based in Sleman, Special Region of Yogyakarta. Currently, I am a student at SMK Negeri 2 Depok Sleman. I enjoy exploring and learning new technologies such as Kubernetes, Docker, virtualization, BGP, VPNs, firewalls, traffic control, IPv6, and network security.",
     "To deepen my knowledge, I have earned MikroTik Certified Network Associate (MTCNA), MikroTik Certified Traffic Control Engineer (MTCTCE), and IPv6 Sage by Hurricane Electric, as well as additional certifications in programming, cybersecurity, and cloud computing.",
     "I care about infrastructure that is reliable, maintainable, and scalable."
 ]
 
 const skills = [
-    'MikroTik RouterOS - Routing, firewall, and traffic control configuration',
-    'Network Monitoring - SNMP, bandwidth monitoring, and performance analysis',
-    'IPv6 Implementation - Dual-stack configuration and IPv6 transition technologies',
+    'MikroTik RouterOS - Routing, firewall, VPN, and traffic control configuration',
+    'Monitoring - SNMP Exporter, Node Exporter, Prometheus, Influxdb, Grafana, Beszel',
+    'IPv6 Implementation - Dual-stack configuration and IPv6 transition technologies with tunnel or native',
     'Network Security - Firewall rules, VPN configuration, and access control',
-    'Linux Administration - Network services configuration and system administration'
+    'Linux Administration - Network services configuration and system administration',
+    'Virtualization - Proxmox VE and Libvirt',
+    'Containerization - Docker and Kubernetes',
+    'Automation - Ansible and Terraform',
+    'Programming - Javascript, Typescript, Python, and Bash',
+    'CI/CD - GitHub Actions and GitLab CI/CD',
 ]
 
 const projects = [
     {
         name: 'Personal Website & Portfolio',
         technology: 'Nuxt 3, TypeScript, Tailwind CSS, Supabase',
-        period: '2025 ',
-        description: 'Personal portfolio website with guestbook, multi-provider authentication, and responsive design',
+        period: '2025 - Present',
+        description: 'Personal portfolio website with responsive design and guestbook with multi-provider authentication.',
         link: 'https://rizkyfauzan.id'
     },
     {
         name: 'School Network Infrastructure',
-        technology: 'MikroTik RouterOS, VLAN, QoS',
-        period: '2024 - 2025',
-        description: 'Implementation and maintenance of school network infrastructure with VLAN configuration, QoS, and monitoring'
+        technology: 'MikroTik RouterOS, Cambium, Ruijie, Firewall, Linux Server, Virtualization, Fiber Optics, VPN, Monitoring Tools',
+        period: '2024 - Present',
+        description: 'Monitoring, troubleshooting, and maintenance of school network infrastructure.'
     }
 ]
 
 const keyAbilities = [
-    'Systematic network problem analysis and resolution',
+    'Systematic network problem analysis and troubleshooting',
     'Effective teamwork and communication skills',
     'Quick adaptation to latest networking technologies',
     'Time management and prioritization in dynamic work environments',
-    'Self-directed learning and continuous skill development'
+    'Self-directed learning and continuous skill development',
 ]
 
 const education = [
@@ -120,10 +120,33 @@ const experience = [
         responsibilities: [
             'Monitoring and maintaining network infrastructure',
             'Troubleshooting connectivity and network performance issues',
-            'Configuring MikroTik and other network devices',
+            'Configuring MikroTik, Ruijie, and Cambium network devices',
             'Documenting configurations and maintenance procedures'
         ]
     },
+    {
+        company: 'Raznar Hosting',
+        position: 'Network Operations Center Engineer',
+        period: 'September 2025 - Present',
+        responsibilities: [
+            'Set up VyOS routers for bare metal game servers with 10G uplink.',
+            'Managed floating IPv4 for servers and virtual machines.',
+            'Implemented IPv6 for scalable and future-ready networking.',
+            'Deployed and managed Proxmox hypervisors for virtualization.',
+            'Monitored network performance using Prometheus and Grafana.',
+            'Deploy containerized applications using Portainer and Docker.',
+            'Managed game server using Pterodactyl panel.'
+        ]
+    },
+    {
+        company: 'PT Solusi Karya Technology Indonesia (SKTECH)',
+        position: 'DevOps Engineer',
+        period: 'April 2025 - Present',
+        responsibilities: [
+            'Implemented CI/CD pipelines using Gitlab.',
+            'Collaborated with development teams to optimize deployment processes.'
+        ]
+    }
 ]
 
 const certifications = [
@@ -147,6 +170,49 @@ const certifications = [
         date: '29 January 2025',
         link: "https://ik.imagekit.io/fauzan/certificates/ipv6-certificate.png?updatedAt=1729822824599"
     },
+    {
+        name: 'Google Cybersecurity Professional Certificate V2',
+        issuer: 'Credly (Google)',
+        date: '22 May 2024',
+        link: 'https://www.credly.com/badges/94f81a62-4b08-4839-8a42-f50972ff6c78'
+    },
+    {
+        name: 'Connect and Protect: Networks and Network Security',
+        issuer: 'Coursera (Google)',
+        date: '10 May 2024',
+        link: 'https://www.coursera.org/account/accomplishments/verify/7DEM3LJMQMF6'
+    },
+    {
+        name: 'Foundations of Cybersecurity',
+        issuer: 'Coursera (Google)',
+        date: '26 April 2024',
+        link: 'https://www.coursera.org/account/accomplishments/verify/UXPYSW35JY7Y'
+    },
+    {
+        name: 'Preparing for Your Professional Cloud Network Engineer Journey',
+        issuer: 'Google Skills',
+        date: '18 May 2024',
+        link: 'https://www.skills.google/public_profiles/fabd4c7c-80a9-441c-9663-7edc266ee498/badges/9063868'
+    },
+    {
+        name: 'Belajar Dasar-Dasar DevOps',
+        issuer: 'Dicoding',
+        date: '12 October 2023',
+        link: 'https://www.dicoding.com/certificates/53XE41G9VZRN'
+    },
+    {
+        name: 'Belajar Dasar Cloud dan Gen AI di AWS',
+        issuer: 'Dicoding',
+        date: '19 December 2023',
+        link: 'https://www.dicoding.com/certificates/1OP8N5O81XQK'
+    },
+    {
+        name: 'Belajar Dasar Google Cloud',
+        issuer: 'Dicoding',
+        date: '15 October 2023',
+        link: 'https://www.dicoding.com/certificates/GRX520J4RX0M'
+    },
+
 ]
 
 const printResume = () => {
@@ -169,8 +235,7 @@ const printResume = () => {
                     {{ personalInfo.location }}
                 </p>
                 <div class="space-x-4 text-center mt-3">
-                    <a
-                        v-for="navLink in navigationLinks" :key="navLink.title" :href="navLink.link"
+                    <a v-for="navLink in navigationLinks" :key="navLink.title" :href="navLink.link"
                         :target="navLink.title !== 'Email' ? '_blank' : undefined"
                         :rel="navLink.title !== 'Email' ? 'noopener noreferrer' : undefined"
                         class="relative inline-flex items-center print:underline hover:underline text-black font-semibold hover:after:w-full print:text-black">
@@ -184,15 +249,27 @@ const printResume = () => {
                 <section>
                     <div class="flex items-center justify-between pb-2.5 border-b-2 border-black">
                         <h3 class="text-xl font-bold text-black">Professional Summary</h3>
-                        <button
-                            class="inline-flex items-center justify-center cursor-pointer print:hidden"
+                        <button class="inline-flex items-center justify-center cursor-pointer print:hidden"
                             @click="printResume">
                             <Icon name="heroicons:printer" class="text-black animate-pulse text-lg" />
                         </button>
                     </div>
                     <div class="mt-4">
-                        <p v-for="(paragraph, idx) in professionalSummary" :key="idx" class="text-gray-800 mb-2">{{ paragraph }}</p>
+                        <p v-for="(paragraph, idx) in professionalSummary" :key="idx" class="text-gray-800 mb-2">{{
+                            paragraph }}</p>
                     </div>
+                </section>
+
+                <!-- Soft Skills -->
+                <section>
+                    <h3 class="mb-4 pb-2.5 border-b-2 border-black text-xl font-bold text-black">
+                        Soft Skills
+                    </h3>
+                    <ul class="list-disc list-inside [&>li]:my-1">
+                        <li v-for="ability in keyAbilities" :key="ability" class="text-gray-800">
+                            {{ ability }}
+                        </li>
+                    </ul>
                 </section>
 
                 <!-- Technical Skills -->
@@ -229,18 +306,6 @@ const printResume = () => {
                         </div>
                         <p class="text-gray-800">{{ project.description }}</p>
                     </div>
-                </section>
-
-                <!-- Soft Skills -->
-                <section>
-                    <h3 class="mb-4 pb-2.5 border-b-2 border-black text-xl font-bold text-black">
-                        Soft Skills
-                    </h3>
-                    <ul class="list-disc list-inside [&>li]:my-1">
-                        <li v-for="ability in keyAbilities" :key="ability" class="text-gray-800">
-                            {{ ability }}
-                        </li>
-                    </ul>
                 </section>
 
                 <!-- Education -->
@@ -282,8 +347,7 @@ const printResume = () => {
                             <p class="text-sm font-semibold text-gray-700">{{ exp.period }}</p>
                         </div>
                         <ul class="list-disc list-inside [&>li]:my-1">
-                            <li
-                                v-for="responsibility in exp.responsibilities" :key="responsibility"
+                            <li v-for="responsibility in exp.responsibilities" :key="responsibility"
                                 class="text-gray-800">
                                 {{ responsibility }}
                             </li>
@@ -291,10 +355,10 @@ const printResume = () => {
                     </div>
                 </section>
 
-                <!-- Certifications -->
+                <!-- Licenses & certifications -->
                 <section>
                     <h3 class="mb-4 pb-2.5 border-b-2 border-black text-xl font-bold text-black">
-                        Certificates
+                        Licenses & certifications
                     </h3>
                     <div v-for="cert in certifications" :key="cert.name" class="mb-4">
                         <div class="flex items-start justify-between mb-1">
@@ -306,7 +370,8 @@ const printResume = () => {
                             <p class="text-sm text-gray-600">{{ cert.date }}</p>
                         </div>
                         <p class="text-gray-700 text-sm">{{ cert.issuer }}</p>
-                        <p v-if="cert.credentialId" class="text-gray-600 text-xs">Credential ID: {{ cert.credentialId }}</p>
+                        <p v-if="cert.credentialId" class="text-gray-600 text-xs">Credential ID: {{ cert.credentialId }}
+                        </p>
                     </div>
                 </section>
 
@@ -316,12 +381,10 @@ const printResume = () => {
                         Contact
                     </h3>
                     <ul>
-                        <li
-                            v-for="contact in contactInfo" :key="contact.title"
+                        <li v-for="contact in contactInfo" :key="contact.title"
                             class="mt-2.5 text-gray-800 not-first-of-type:mt-2.5">
                             <strong>{{ contact.title }}: </strong>
-                            <a
-                                :href="contact.link" class="hover:underline print:underline text-black" target="_blank"
+                            <a :href="contact.link" class="hover:underline print:underline text-black" target="_blank"
                                 rel="noopener noreferrer">
                                 {{ contact.displayText || contact.link.replace(/^mailto:|^https?:\/\/|^tel:/, '') }}
                             </a>
@@ -371,13 +434,16 @@ const printResume = () => {
     }
 
     /* Prevent orphaned lines */
-    h1, h2, h3, h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
         break-after: avoid;
         page-break-after: avoid;
     }
 
     /* Adjust spacing for print */
-    .space-y-8 > * + * {
+    .space-y-8>*+* {
         margin-top: 1rem !important;
     }
 
