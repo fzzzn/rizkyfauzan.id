@@ -27,7 +27,7 @@ const getInitialLang = () => {
             return savedLang
         }
     }
-    return 'en'
+    return 'id'
 }
 
 const currentLang = ref(getInitialLang())
@@ -220,7 +220,7 @@ const translations = {
             location: 'Sleman, Yogyakarta, Indonesia',
         },
         sections: {
-            professionalSummary: 'Tentang Saya',
+            aboutMe: 'Tentang Saya',
             softSkills: 'Keterampilan',
             technicalSkills: 'Keterampilan Teknis',
             projects: 'Proyek',
