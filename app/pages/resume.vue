@@ -68,16 +68,16 @@ const translations = {
             "I care about infrastructure that is reliable, maintainable, and scalable."
         ],
         skills: [
-            'MikroTik RouterOS - Routing, firewall, VPN, and traffic control configuration',
-            'Monitoring - SNMP Exporter, Node Exporter, Prometheus, Influxdb, Grafana, Beszel',
-            'IPv6 Implementation - Dual-stack configuration and IPv6 transition technologies with tunnel or native',
-            'Network Security - Firewall rules, VPN configuration, and access control',
-            'Linux Administration - Network services configuration and system administration',
-            'Virtualization - Proxmox VE and Libvirt',
-            'Containerization - Docker and Kubernetes',
-            'Automation - Ansible and Terraform',
-            'Programming - Javascript, Typescript, Python, and Bash',
-            'CI/CD - GitHub Actions and GitLab CI/CD',
+            'MikroTik RouterOS - Routing, firewall, VPN, and traffic control configuration.',
+            'Monitoring - SNMP Exporter, Node Exporter, Prometheus, Influxdb, Grafana, Beszel.',
+            'IPv6 Implementation - Dual-stack configuration and IPv6 transition technologies with tunnel or native.',
+            'Network Security - Firewall rules, VPN configuration, and access control.',
+            'Linux Administration - Network services configuration and system administration.',
+            'Virtualization - Proxmox VE and Libvirt.',
+            'Containerization - Docker and Kubernetes.',
+            'Automation - Ansible and Terraform.',
+            'Programming - Javascript, Typescript, Python, and Bash.',
+            'CI/CD - GitHub Actions and GitLab CI/CD.',
         ],
         projects: [
             {
@@ -95,11 +95,11 @@ const translations = {
             }
         ],
         keyAbilities: [
-            'Systematic network problem analysis and troubleshooting',
-            'Effective teamwork and communication skills',
-            'Quick adaptation to latest networking technologies',
-            'Time management and prioritization in dynamic work environments',
-            'Self-directed learning and continuous skill development',
+            'Systematic network problem analysis and troubleshooting.',
+            'Effective teamwork and communication skills.',
+            'Quick adaptation to latest networking technologies.',
+            'Time management and prioritization in dynamic work environments.',
+            'Self-directed learning and continuous skill development.',
         ],
         education: [
             {
@@ -118,10 +118,10 @@ const translations = {
                 position: 'Network Operations Center (Volunteer)',
                 period: 'August 2024 - Present',
                 responsibilities: [
-                    'Monitoring and maintaining network infrastructure',
-                    'Troubleshooting connectivity and network performance issues',
-                    'Configuring MikroTik, Ruijie, and Cambium network devices',
-                    'Documenting configurations and maintenance procedures'
+                    'Monitoring and maintaining network infrastructure.',
+                    'Troubleshooting connectivity and network performance issues.',
+                    'Configuring MikroTik, Ruijie, and Cambium network devices.',
+                    'Documenting configurations and maintenance procedures.'
                 ]
             },
             {
@@ -230,28 +230,28 @@ const translations = {
             contact: 'Kontak',
         },
         aboutMe: [
-            "Saya Rizky Fauzan Hanif, seorang Network Engineer yang memiliki minat pada Cloud Computing dan DevOps, berbasis di Sleman, Daerah Istimewa Yogyakarta. Saat ini, saya adalah siswa di SMK Negeri 2 Depok Sleman. Saya senang mengeksplorasi dan mempelajari teknologi baru seperti Kubernetes, Docker, virtualisasi, BGP, VPN, firewall, traffic control, IPv6, dan keamanan jaringan.",
+            "Saya Rizky Fauzan Hanif, seorang Network Engineer yang memiliki minat pada Cloud Computing dan DevOps, berbasis di Sleman, Daerah Istimewa Yogyakarta. Saya siswa program studi Sistem Informasi Jaringan dan Aplikasi (SIJA) di SMK Negeri 2 Depok Sleman. Saya senang mengeksplorasi dan mempelajari teknologi baru seperti Kubernetes, Docker, virtualisasi, BGP, VPN, firewall, traffic control, IPv6, dan keamanan jaringan.",
             "Untuk memperdalam pengetahuan saya, saya telah memperoleh MikroTik Certified Network Associate (MTCNA), MikroTik Certified Traffic Control Engineer (MTCTCE), dan IPv6 Sage oleh Hurricane Electric, serta sertifikasi tambahan dalam pemrograman, keamanan siber, dan cloud computing.",
             "Saya peduli terhadap infrastruktur yang andal, dapat dipelihara, dan skalabel."
         ],
         skills: [
-            'MikroTik RouterOS - Konfigurasi routing, firewall, VPN, dan traffic control',
-            'Monitoring - SNMP Exporter, Node Exporter, Prometheus, Influxdb, Grafana, Beszel',
-            'Implementasi IPv6 - Konfigurasi dual-stack dan teknologi transisi IPv6 dengan tunnel atau native',
-            'Keamanan Jaringan - Konfigurasi firewall, konfigurasi VPN, dan akses kontrol',
-            'Administrasi Linux - Konfigurasi layanan jaringan dan administrasi sistem',
-            'Virtualisasi - Proxmox VE dan Libvirt',
-            'Kontainerisasi - Docker dan Kubernetes',
-            'Otomasi - Ansible dan Terraform',
-            'Pemrograman - Javascript, Typescript, Python, dan Bash',
-            'CI/CD - GitHub Actions dan GitLab CI/CD',
+            'MikroTik RouterOS - Konfigurasi routing, firewall, VPN, dan traffic control.',
+            'Monitoring - SNMP Exporter, Node Exporter, Prometheus, Influxdb, Grafana, Beszel.',
+            'Implementasi IPv6 - Konfigurasi dual-stack dan teknologi transisi IPv6 dengan tunnel atau native.',
+            'Keamanan Jaringan - Konfigurasi firewall, konfigurasi VPN, dan akses kontrol.',
+            'Administrasi Linux - Konfigurasi layanan jaringan dan administrasi sistem.',
+            'Virtualisasi - Proxmox VE dan Libvirt.',
+            'Kontainerisasi - Docker dan Kubernetes.',
+            'Otomasi - Ansible dan Terraform.',
+            'Pemrograman - Javascript, Typescript, Python, dan Bash.',
+            'CI/CD - GitHub Actions dan GitLab CI/CD.',
         ],
         projects: [
             {
                 name: 'Website & Portfolio Pribadi',
                 technology: 'Nuxt 3, TypeScript, Tailwind CSS, Supabase',
                 period: '2025 - Sekarang',
-                description: 'Website portfolio pribadi dengan desain responsif dan buku tamu dengan autentikasi multi-provider.',
+                description: 'Website portfolio pribadi dengan desain responsif dan halaman buku tamu dengan autentikasi multi-provider.',
                 link: 'https://rizkyfauzan.id'
             },
             {
@@ -262,11 +262,11 @@ const translations = {
             }
         ],
         keyAbilities: [
-            'Analisis dan troubleshooting masalah jaringan secara sistematis',
-            'Keterampilan kerja sama tim dan komunikasi yang efektif',
-            'Adaptasi cepat terhadap teknologi jaringan terkini',
-            'Manajemen waktu dan prioritas dalam lingkungan kerja yang dinamis',
-            'Pembelajaran mandiri dan pengembangan keterampilan berkelanjutan',
+            'Analisis dan troubleshooting masalah jaringan secara sistematis.',
+            'Keterampilan kerja sama tim dan komunikasi yang efektif.',
+            'Adaptasi cepat terhadap teknologi jaringan terkini.',
+            'Manajemen waktu dan prioritas dalam lingkungan kerja yang dinamis.',
+            'Pembelajaran mandiri dan pengembangan keterampilan berkelanjutan.',
         ],
         education: [
             {
@@ -285,10 +285,10 @@ const translations = {
                 position: 'Network Operations Center (Relawan)',
                 period: 'Agustus 2024 - Sekarang',
                 responsibilities: [
-                    'Monitoring dan pemeliharaan infrastruktur jaringan',
-                    'Troubleshooting masalah konektivitas dan performa jaringan',
-                    'Konfigurasi perangkat jaringan MikroTik, Ruijie, dan Cambium',
-                    'Dokumentasi konfigurasi dan prosedur pemeliharaan'
+                    'Monitoring dan pemeliharaan infrastruktur jaringan.',
+                    'Troubleshooting masalah konektivitas dan performa jaringan.',
+                    'Konfigurasi perangkat jaringan MikroTik, Ruijie, dan Cambium.',
+                    'Dokumentasi konfigurasi dan prosedur pemeliharaan.'
                 ]
             },
             {
