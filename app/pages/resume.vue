@@ -64,7 +64,7 @@ const translations = {
         },
         aboutMe: [
             "I'm Rizky Fauzan Hanif, a passionate Network Engineer with interests in Cloud Computing and DevOps, based in Sleman, Special Region of Yogyakarta. Currently, I am a student at SMK Negeri 2 Depok Sleman. I enjoy exploring and learning new technologies such as Kubernetes, Docker, virtualization, BGP, VPNs, firewalls, traffic control, IPv6, and network security.",
-            "To deepen my knowledge, I have earned MikroTik Certified Network Associate (MTCNA), MikroTik Certified Traffic Control Engineer (MTCTCE), and IPv6 Sage by Hurricane Electric, as well as additional certifications in programming, cybersecurity, and cloud computing.",
+            "I have earned MikroTik Certified Network Associate (MTCNA), MikroTik Certified Traffic Control Engineer (MTCTCE), and IPv6 Sage by Hurricane Electric, as well as additional certifications in programming, cybersecurity, and cloud computing.",
             "I care about infrastructure that is reliable, maintainable, and scalable."
         ],
         skills: [
@@ -73,7 +73,7 @@ const translations = {
             'IPv6 Implementation - Dual-stack configuration and IPv6 transition technologies with tunnel or native.',
             'Network Security - Firewall rules, VPN configuration, and access control.',
             'Linux Administration - Network services configuration and system administration.',
-            'Virtualization - Proxmox VE and Libvirt.',
+            'Virtualization - Proxmox VE, Libvirt, and LXD.',
             'Containerization - Docker and Kubernetes.',
             'Automation - Ansible and Terraform.',
             'Programming - Javascript, Typescript, Python, and Bash.',
@@ -95,10 +95,10 @@ const translations = {
             }
         ],
         keyAbilities: [
-            'Systematic network problem analysis and troubleshooting.',
+            'Systematic technical problem analysis and troubleshooting.',
             'Effective teamwork and communication skills.',
-            'Quick adaptation to latest networking technologies.',
-            'Time management and prioritization in dynamic work environments.',
+            'Quick adaptation to latest technologies.',
+            'Time management and prioritization.',
             'Self-directed learning and continuous skill development.',
         ],
         education: [
@@ -126,7 +126,7 @@ const translations = {
             },
             {
                 company: 'Raznar Hosting',
-                position: 'Network Operations Center Engineer',
+                position: 'Network Operations Center Engineer (Part-time)',
                 period: 'September 2025 - Present',
                 responsibilities: [
                     'Set up VyOS routers for bare metal game servers with 10G uplink.',
@@ -140,7 +140,7 @@ const translations = {
             },
             {
                 company: 'PT Solusi Karya Technology Indonesia (SKTECH)',
-                position: 'DevOps Engineer',
+                position: 'DevOps Engineer (Part-time)',
                 period: 'April 2025 - Present',
                 responsibilities: [
                     'Implemented CI/CD pipelines using Gitlab.',
@@ -231,7 +231,7 @@ const translations = {
         },
         aboutMe: [
             "Saya Rizky Fauzan Hanif, seorang Network Engineer yang memiliki minat pada Cloud Computing dan DevOps, berbasis di Sleman, Daerah Istimewa Yogyakarta. Saya siswa program studi Sistem Informasi Jaringan dan Aplikasi (SIJA) di SMK Negeri 2 Depok Sleman. Saya senang mengeksplorasi dan mempelajari teknologi baru seperti Kubernetes, Docker, virtualisasi, BGP, VPN, firewall, traffic control, IPv6, dan keamanan jaringan.",
-            "Untuk memperdalam pengetahuan saya, saya telah memperoleh MikroTik Certified Network Associate (MTCNA), MikroTik Certified Traffic Control Engineer (MTCTCE), dan IPv6 Sage oleh Hurricane Electric, serta sertifikasi tambahan dalam pemrograman, keamanan siber, dan cloud computing.",
+            "Saya telah memperoleh MikroTik Certified Network Associate (MTCNA), MikroTik Certified Traffic Control Engineer (MTCTCE), dan IPv6 Sage oleh Hurricane Electric, serta sertifikasi tambahan dalam pemrograman, keamanan siber, dan cloud computing.",
             "Saya peduli terhadap infrastruktur yang andal, dapat dipelihara, dan skalabel."
         ],
         skills: [
@@ -240,7 +240,7 @@ const translations = {
             'Implementasi IPv6 - Konfigurasi dual-stack dan teknologi transisi IPv6 dengan tunnel atau native.',
             'Keamanan Jaringan - Konfigurasi firewall, konfigurasi VPN, dan akses kontrol.',
             'Administrasi Linux - Konfigurasi layanan jaringan dan administrasi sistem.',
-            'Virtualisasi - Proxmox VE dan Libvirt.',
+            'Virtualisasi - Proxmox VE, Libvirt, LXD.',
             'Kontainerisasi - Docker dan Kubernetes.',
             'Otomasi - Ansible dan Terraform.',
             'Pemrograman - Javascript, Typescript, Python, dan Bash.',
@@ -262,11 +262,11 @@ const translations = {
             }
         ],
         keyAbilities: [
-            'Analisis dan troubleshooting masalah jaringan secara sistematis.',
+            'Analisis dan troubleshooting masalah teknis secara sistematis.',
             'Keterampilan kerja sama tim dan komunikasi yang efektif.',
-            'Adaptasi cepat terhadap teknologi jaringan terkini.',
-            'Manajemen waktu dan prioritas dalam lingkungan kerja yang dinamis.',
-            'Pembelajaran mandiri dan pengembangan keterampilan berkelanjutan.',
+            'Adaptasi cepat terhadap teknologi terbaru.',
+            'Manajemen waktu dan prioritas dalam lingkungan kerja.',
+            'Belajar secara mandiri dan mengembangkan keterampilan secara berkelanjutan.',
         ],
         education: [
             {
@@ -282,7 +282,7 @@ const translations = {
         experience: [
             {
                 company: 'SMK Negeri 2 Depok Sleman',
-                position: 'Network Operations Center (Relawan)',
+                position: 'Network Operations Center (Sukarelawan)',
                 period: 'Agustus 2024 - Sekarang',
                 responsibilities: [
                     'Monitoring dan pemeliharaan infrastruktur jaringan.',
@@ -293,10 +293,10 @@ const translations = {
             },
             {
                 company: 'Raznar Hosting',
-                position: 'Network Operations Center Engineer',
+                position: 'Network Operations Center Engineer (Paruh waktu)',
                 period: 'September 2025 - Sekarang',
                 responsibilities: [
-                    'Mengkonfigurasi router VyOS untuk bare metal game server dengan uplink 10G.',
+                    'Mengkonfigurasi router VyOS untuk bare metal game server.',
                     'Mengelola floating IPv4 untuk server dan mesin virtual.',
                     'Mengimplementasikan IPv6 untuk jaringan yang skalabel.',
                     'Mendeploy dan mengelola hypervisor Proxmox untuk virtualisasi.',
@@ -307,7 +307,7 @@ const translations = {
             },
             {
                 company: 'PT Solusi Karya Technology Indonesia (SKTECH)',
-                position: 'DevOps Engineer',
+                position: 'DevOps Engineer (Paruh waktu)',
                 period: 'April 2025 - Sekarang',
                 responsibilities: [
                     'Mengimplementasikan pipeline CI/CD menggunakan Gitlab.',
@@ -386,6 +386,10 @@ const t = computed(() => translations[currentLang.value])
 
 const navigationLinks = [
     {
+        title: 'Website',
+        link: 'https://rizkyfauzan.id'
+    },
+    {
         title: 'Email',
         link: 'mailto:contact@rizkyfauzan.id'
     },
@@ -393,32 +397,29 @@ const navigationLinks = [
         title: 'LinkedIn',
         link: 'https://linkedin.com/in/rizky-fauzan-hanif'
     },
-    {
-        title: 'GitHub',
-        link: 'https://github.com/fzzzn'
-    },
-    {
-        title: 'Website',
-        link: 'https://rizkyfauzan.id'
-    },
 ]
 
 const contactInfo = [
-    {
-        title: 'Email',
-        link: 'mailto:contact@rizkyfauzan.id',
-        displayText: 'contact@rizkyfauzan.id'
-    },
     {
         title: 'Website',
         link: 'https://rizkyfauzan.id',
         displayText: 'rizkyfauzan.id'
     },
     {
+        title: 'Email',
+        link: 'mailto:contact@rizkyfauzan.id',
+        displayText: 'contact@rizkyfauzan.id'
+    },
+    {
         title: 'LinkedIn',
         link: 'https://linkedin.com/in/rizky-fauzan-hanif',
         displayText: 'linkedin.com/in/rizky-fauzan-hanif'
     },
+    {
+        title: 'GitHub',
+        link: 'https://github.com/fzzzn',
+        displayText: 'github.com/fzzzn'
+    }
 ]
 
 const printResume = () => {
