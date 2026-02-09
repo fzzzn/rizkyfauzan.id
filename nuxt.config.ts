@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   pages: true,
   css: ["~/assets/css/main.css"],
   vite: {
+    // @ts-expect-error - Type incompatibility between @tailwindcss/vite and Vite 7.3 types
     plugins: [tailwindcss()],
     build: {
       sourcemap: false,
@@ -169,17 +170,6 @@ export default defineNuxtConfig({
     "@nuxtjs/critters",
     "nuxt-umami",
   ],
-  image: {
-    provider: "ipx",
-    quality: 80,
-    screens: {
-      xs: 320,
-      sm: 640,
-      md: 768,
-      lg: 1024,
-      xl: 1280,
-    },
-  },
   icon: {
     mode: "css",
     cssLayer: "icons",

@@ -22,12 +22,12 @@
             v-show="isOpen" 
             id="sidebar-panel"
             ref="sidebarPanel"
-            class="fixed md:absolute left-0 top-0 h-full w-screen md:w-[60vw] lg:w-[40vw] bg-black md:rounded-lg z-40 md:z-50 overflow-hidden flex flex-col"
+            class="fixed lg:absolute left-0 top-0 h-full w-screen lg:w-[40vw] bg-black lg:rounded-lg z-40 lg:z-50 overflow-hidden flex flex-col"
             role="dialog"
             aria-modal="true"
             aria-labelledby="sidebar-title">
             <div class="absolute -bottom-10 left-0 text-white/30 pointer-events-none">
-                <span class="text-[8rem] md:text-[10rem]" aria-hidden="true">💤</span>
+                <span class="text-[8rem] lg:text-[10rem]" aria-hidden="true">💤</span>
             </div>
 
             <!-- Header - Fixed -->
@@ -61,7 +61,7 @@
                         :aria-current="isActiveRoute(item.href) ? 'page' : undefined" 
                         @mouseenter="onHover(index)"
                         @mouseleave="onLeave(index)">
-                        <span :ref="el => menuRef[index] = el" class="text-2xl md:text-5xl font-mono z-10">
+                        <span :ref="el => menuRef[index] = el" class="text-5xl font-mono z-10">
                             {{ item.menu }}
                         </span>
                         <div
@@ -74,7 +74,7 @@
                         <span
                             :ref="el => infoRef[index] = el" 
                             :class="[
-                                'text-sm md:text-lg transform-all duration-300 z-10',
+                                'text-lg transform-all duration-300 z-10',
                                 isActiveRoute(item.href) ? 'block' : 'hidden group-hover:block'
                             ]"
                             aria-hidden="true">
