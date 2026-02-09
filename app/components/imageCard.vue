@@ -42,7 +42,7 @@
             </button>
             
             <!-- Image - Original aspect ratio with blur background -->
-            <div class="relative shrink-0 flex items-center justify-center min-h-[200px] overflow-hidden">
+            <div class="relative shrink-0 flex items-center justify-center min-h-50 overflow-hidden">
               <!-- Blurred background -->
               <div class="absolute inset-0">
                 <NuxtImg
