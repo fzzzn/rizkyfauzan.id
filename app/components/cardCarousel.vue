@@ -1,355 +1,3 @@
-<script setup>
-import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
-
-const props = defineProps({
-    items: {
-        type: Array,
-        required: true
-    },
-    autoSlideDelay: {
-        type: Number,
-        default: 4000
-    },
-    showDots: {
-        type: Boolean,
-        default: true
-    },
-    showArrows: {
-        type: Boolean,
-        default: true
-    },
-    enableModal: {
-        type: Boolean,
-        default: false
-    },
-    slidesToShow: {
-        type: Number,
-        default: 3
-    },
-    slidesToShowMobile: {
-        type: Number,
-        default: 1
-    },
-    showCardNumber: {
-        type: Boolean,
-        default: true
-    }
-})
-
-const emit = defineEmits(['item-click'])
-
-const currentSlide = ref(1)
-const autoSlideInterval = ref(null)
-const isTransitioning = ref(false)
-const carouselRef = ref(null)
-const isMobile = ref(false)
-
-// Touch/Swipe state
-const touchStartX = ref(0)
-const touchEndX = ref(0)
-const isDragging = ref(false)
-const swipeThreshold = 50 // Minimum swipe distance
-
-// Modal state
-const isModalOpen = ref(false)
-const selectedItem = ref(null)
-
-// Create extended array with clones for infinite scroll
-const extendedItems = ref([])
-
-// Calculate current slides to show based on screen size
-const currentSlidesToShow = computed(() => {
-    return isMobile.value ? props.slidesToShowMobile : props.slidesToShow
-})
-
-// Calculate slide width based on current slides to show
-const slideWidth = computed(() => {
-    return 100 / currentSlidesToShow.value
-})
-
-// Get card number for a specific item
-const getCardNumber = (item) => {
-    // Find the original index in the items array
-    const originalIndex = props.items.findIndex(originalItem =>
-        originalItem.id === item.id ||
-        (originalItem.title === item.title && originalItem.date === item.date)
-    )
-    return originalIndex !== -1 ? originalIndex + 1 : 1
-}
-
-// Check if mobile
-const checkMobile = () => {
-    isMobile.value = window.innerWidth < 768 // md breakpoint
-}
-
-const initializeCarousel = () => {
-    const original = props.items
-    // Add clones at both ends for smooth infinite scroll
-    const maxSlides = Math.max(props.slidesToShow, props.slidesToShowMobile)
-    const clonesAtStart = original.slice(-maxSlides).map((item, index) => ({
-        ...item,
-        cloneId: `clone-start-${index}`
-    }))
-    const clonesAtEnd = original.slice(0, maxSlides).map((item, index) => ({
-        ...item,
-        cloneId: `clone-end-${index}`
-    }))
-
-    extendedItems.value = [
-        ...clonesAtStart,
-        ...original,
-        ...clonesAtEnd
-    ]
-}
-
-// Touch event handlers
-const handleTouchStart = (e) => {
-    touchStartX.value = e.touches[0].clientX
-    isDragging.value = true
-    stopAutoSlide()
-}
-
-const handleTouchMove = (e) => {
-    if (!isDragging.value) return
-    touchEndX.value = e.touches[0].clientX
-}
-
-const handleTouchEnd = () => {
-    if (!isDragging.value) return
-
-    const swipeDistance = touchStartX.value - touchEndX.value
-
-    if (Math.abs(swipeDistance) > swipeThreshold) {
-        if (swipeDistance > 0) {
-            // Swiped left - go to next slide
-            nextSlide()
-        } else {
-            // Swiped right - go to previous slide
-            prevSlide()
-        }
-    }
-
-    isDragging.value = false
-    startAutoSlide() // Changed from restartAutoSlide to startAutoSlide
-}
-
-// Mouse event handlers for desktop drag support
-const handleMouseDown = (e) => {
-    touchStartX.value = e.clientX
-    isDragging.value = true
-    stopAutoSlide()
-    e.preventDefault()
-}
-
-const handleMouseMove = (e) => {
-    if (!isDragging.value) return
-    touchEndX.value = e.clientX
-}
-
-const handleMouseUp = () => {
-    if (!isDragging.value) return
-
-    const swipeDistance = touchStartX.value - touchEndX.value
-
-    if (Math.abs(swipeDistance) > swipeThreshold) {
-        if (swipeDistance > 0) {
-            // Dragged left - go to next slide
-            nextSlide()
-        } else {
-            // Dragged right - go to previous slide
-            prevSlide()
-        }
-    }
-
-    isDragging.value = false
-    startAutoSlide() // Changed from restartAutoSlide to startAutoSlide
-}
-
-const nextSlide = async () => {
-    if (isTransitioning.value) return
-    isTransitioning.value = true
-
-    currentSlide.value++
-
-    // If we've moved past the original items
-    if (currentSlide.value > props.items.length) {
-        await nextTick()
-        setTimeout(() => {
-            if (carouselRef.value) {
-                carouselRef.value.style.transition = 'none'
-                currentSlide.value = 1
-
-                setTimeout(() => {
-                    if (carouselRef.value) {
-                        carouselRef.value.style.transition = 'transform 300ms ease-in-out'
-                    }
-                    isTransitioning.value = false
-                }, 50)
-            }
-        }, 300)
-    } else {
-        setTimeout(() => {
-            isTransitioning.value = false
-        }, 300)
-    }
-}
-
-const prevSlide = async () => {
-    if (isTransitioning.value) return
-    isTransitioning.value = true
-
-    currentSlide.value--
-
-    // If we've moved before the original items
-    if (currentSlide.value < 1) {
-        await nextTick()
-        setTimeout(() => {
-            if (carouselRef.value) {
-                carouselRef.value.style.transition = 'none'
-                currentSlide.value = props.items.length
-
-                setTimeout(() => {
-                    if (carouselRef.value) {
-                        carouselRef.value.style.transition = 'transform 300ms ease-in-out'
-                    }
-                    isTransitioning.value = false
-                }, 50)
-            }
-        }, 300)
-    } else {
-        setTimeout(() => {
-            isTransitioning.value = false
-        }, 300)
-    }
-}
-
-const goToSlide = (index) => {
-    if (isTransitioning.value) return
-    isTransitioning.value = true
-    currentSlide.value = index + 1
-    setTimeout(() => {
-        isTransitioning.value = false
-    }, 300)
-}
-
-// Get the actual slide index for indicators
-const getActualSlideIndex = () => {
-    if (currentSlide.value < 1) return props.items.length - 1
-    if (currentSlide.value > props.items.length) return 0
-    return currentSlide.value - 1
-}
-
-// Calculate transform based on current slide and slides to show
-const getTransform = () => {
-    const maxSlides = Math.max(props.slidesToShow, props.slidesToShowMobile)
-    const slideIndex = currentSlide.value + maxSlides - 1
-    return slideIndex * slideWidth.value
-}
-
-// Modal functions
-const openModal = (item) => {
-    // Prevent modal opening if we're dragging
-    if (isDragging.value) return
-
-    if (props.enableModal) {
-        selectedItem.value = item
-        isModalOpen.value = true
-        document.body.style.overflow = 'hidden'
-    }
-    emit('item-click', item)
-}
-
-const closeModal = () => {
-    isModalOpen.value = false
-    selectedItem.value = null
-    document.body.style.overflow = ''
-}
-
-const handleKeydown = (event) => {
-    if (event.key === 'Escape') {
-        closeModal()
-    }
-}
-
-const handleResize = () => {
-    const wasMobile = isMobile.value
-    checkMobile()
-
-    // If screen size changed between mobile/desktop, restart auto-slide with fresh timing
-    if (wasMobile !== isMobile.value) {
-        stopAutoSlide()
-        setTimeout(() => {
-            startAutoSlide()
-        }, 100)
-    }
-}
-
-const startAutoSlide = () => {
-    // Clear any existing interval first
-    stopAutoSlide()
-
-    autoSlideInterval.value = setInterval(() => {
-        nextSlide()
-    }, props.autoSlideDelay)
-}
-
-const stopAutoSlide = () => {
-    if (autoSlideInterval.value) {
-        clearInterval(autoSlideInterval.value)
-        autoSlideInterval.value = null
-    }
-}
-
-// Manual navigation with auto-slide restart
-const manualNextSlide = () => {
-    nextSlide()
-    startAutoSlide() // Changed from restartAutoSlide to startAutoSlide
-}
-
-const manualPrevSlide = () => {
-    prevSlide()
-    startAutoSlide() // Changed from restartAutoSlide to startAutoSlide
-}
-
-const manualGoToSlide = (index) => {
-    goToSlide(index)
-    startAutoSlide() // Changed from restartAutoSlide to startAutoSlide
-}
-
-onMounted(() => {
-    checkMobile()
-    initializeCarousel()
-
-    // Start auto-slide after a short delay to ensure everything is initialized
-    setTimeout(() => {
-        startAutoSlide()
-    }, 100)
-
-    window.addEventListener('resize', handleResize)
-
-    // Add mouse event listeners for desktop drag
-    if (carouselRef.value) {
-        carouselRef.value.addEventListener('mouseleave', handleMouseUp)
-        document.addEventListener('mouseup', handleMouseUp)
-    }
-
-    if (props.enableModal) {
-        document.addEventListener('keydown', handleKeydown)
-    }
-})
-
-onUnmounted(() => {
-    stopAutoSlide()
-    window.removeEventListener('resize', handleResize)
-    document.removeEventListener('mouseup', handleMouseUp)
-
-    if (props.enableModal) {
-        document.removeEventListener('keydown', handleKeydown)
-        document.body.style.overflow = ''
-    }
-})
-</script>
-
 <template>
     <div>
         <div class="flex items-center max-w-7xl mx-auto gap-4" @mouseenter="stopAutoSlide" @mouseleave="startAutoSlide">
@@ -448,6 +96,361 @@ v-if="selectedItem.image" :src="selectedItem.image"
     </div>
 </template>
 
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, nextTick, computed, type Ref, type ComputedRef } from 'vue'
+
+interface CarouselItem {
+    id: string | number
+    title?: string
+    description?: string
+    date?: string
+    image?: string
+    [key: string]: any
+}
+
+interface ExtendedItem extends CarouselItem {
+    cloneId?: string
+}
+
+interface Props {
+    items: CarouselItem[]
+    autoSlideDelay?: number
+    showDots?: boolean
+    showArrows?: boolean
+    enableModal?: boolean
+    slidesToShow?: number
+    slidesToShowMobile?: number
+    showCardNumber?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    autoSlideDelay: 4000,
+    showDots: true,
+    showArrows: true,
+    enableModal: false,
+    slidesToShow: 3,
+    slidesToShowMobile: 1,
+    showCardNumber: true
+})
+
+const emit = defineEmits<{
+    'item-click': [item: CarouselItem]
+}>()
+
+const currentSlide: Ref<number> = ref(1)
+const autoSlideInterval: Ref<number | null> = ref(null)
+const isTransitioning: Ref<boolean> = ref(false)
+const carouselRef: Ref<HTMLElement | null> = ref(null)
+const isMobile: Ref<boolean> = ref(false)
+
+// Touch/Swipe state
+const touchStartX: Ref<number> = ref(0)
+const touchEndX: Ref<number> = ref(0)
+const isDragging: Ref<boolean> = ref(false)
+const swipeThreshold: number = 50 // Minimum swipe distance
+
+// Modal state
+const isModalOpen: Ref<boolean> = ref(false)
+const selectedItem: Ref<CarouselItem | null> = ref(null)
+
+// Create extended array with clones for infinite scroll
+const extendedItems: Ref<ExtendedItem[]> = ref([])
+
+// Calculate current slides to show based on screen size
+const currentSlidesToShow: ComputedRef<number> = computed(() => {
+    return isMobile.value ? props.slidesToShowMobile : props.slidesToShow
+})
+
+// Calculate slide width based on current slides to show
+const slideWidth: ComputedRef<number> = computed(() => {
+    return 100 / currentSlidesToShow.value
+})
+
+// Get card number for a specific item
+const getCardNumber = (item: ExtendedItem): number => {
+    // Find the original index in the items array
+    const originalIndex = props.items.findIndex((originalItem: CarouselItem) =>
+        originalItem.id === item.id ||
+        (originalItem.title === item.title && originalItem.date === item.date)
+    )
+    return originalIndex !== -1 ? originalIndex + 1 : 1
+}
+
+// Check if mobile
+const checkMobile = (): void => {
+    isMobile.value = window.innerWidth < 768 // md breakpoint
+}
+
+const initializeCarousel = (): void => {
+    const original = props.items
+    // Add clones at both ends for smooth infinite scroll
+    const maxSlides = Math.max(props.slidesToShow, props.slidesToShowMobile)
+    const clonesAtStart = original.slice(-maxSlides).map((item, index) => ({
+        ...item,
+        cloneId: `clone-start-${index}`
+    }))
+    const clonesAtEnd = original.slice(0, maxSlides).map((item, index) => ({
+        ...item,
+        cloneId: `clone-end-${index}`
+    }))
+
+    extendedItems.value = [
+        ...clonesAtStart,
+        ...original,
+        ...clonesAtEnd
+    ]
+}
+
+// Touch event handlers
+const handleTouchStart = (e: TouchEvent): void => {
+    if (e.touches[0]) {
+        touchStartX.value = e.touches[0].clientX
+        isDragging.value = true
+        stopAutoSlide()
+    }
+}
+
+const handleTouchMove = (e: TouchEvent): void => {
+    if (!isDragging.value || !e.touches[0]) return
+    touchEndX.value = e.touches[0].clientX
+}
+
+const handleTouchEnd = (): void => {
+    if (!isDragging.value) return
+
+    const swipeDistance = touchStartX.value - touchEndX.value
+
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+            // Swiped left - go to next slide
+            nextSlide()
+        } else {
+            // Swiped right - go to previous slide
+            prevSlide()
+        }
+    }
+
+    isDragging.value = false
+    startAutoSlide()
+}
+
+// Mouse event handlers for desktop drag support
+const handleMouseDown = (e: MouseEvent): void => {
+    touchStartX.value = e.clientX
+    isDragging.value = true
+    stopAutoSlide()
+    e.preventDefault()
+}
+
+const handleMouseMove = (e: MouseEvent): void => {
+    if (!isDragging.value) return
+    touchEndX.value = e.clientX
+}
+
+const handleMouseUp = (): void => {
+    if (!isDragging.value) return
+
+    const swipeDistance = touchStartX.value - touchEndX.value
+
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+            // Dragged left - go to next slide
+            nextSlide()
+        } else {
+            // Dragged right - go to previous slide
+            prevSlide()
+        }
+    }
+
+    isDragging.value = false
+    startAutoSlide()
+}
+
+const nextSlide = async (): Promise<void> => {
+    if (isTransitioning.value) return
+    isTransitioning.value = true
+
+    currentSlide.value++
+
+    // If we've moved past the original items
+    if (currentSlide.value > props.items.length) {
+        await nextTick()
+        setTimeout(() => {
+            if (carouselRef.value) {
+                carouselRef.value.style.transition = 'none'
+                currentSlide.value = 1
+
+                setTimeout(() => {
+                    if (carouselRef.value) {
+                        carouselRef.value.style.transition = 'transform 300ms ease-in-out'
+                    }
+                    isTransitioning.value = false
+                }, 50)
+            }
+        }, 300)
+    } else {
+        setTimeout(() => {
+            isTransitioning.value = false
+        }, 300)
+    }
+}
+
+const prevSlide = async (): Promise<void> => {
+    if (isTransitioning.value) return
+    isTransitioning.value = true
+
+    currentSlide.value--
+
+    // If we've moved before the original items
+    if (currentSlide.value < 1) {
+        await nextTick()
+        setTimeout(() => {
+            if (carouselRef.value) {
+                carouselRef.value.style.transition = 'none'
+                currentSlide.value = props.items.length
+
+                setTimeout(() => {
+                    if (carouselRef.value) {
+                        carouselRef.value.style.transition = 'transform 300ms ease-in-out'
+                    }
+                    isTransitioning.value = false
+                }, 50)
+            }
+        }, 300)
+    } else {
+        setTimeout(() => {
+            isTransitioning.value = false
+        }, 300)
+    }
+}
+
+const goToSlide = (index: number): void => {
+    if (isTransitioning.value) return
+    isTransitioning.value = true
+    currentSlide.value = index + 1
+    setTimeout(() => {
+        isTransitioning.value = false
+    }, 300)
+}
+
+// Get the actual slide index for indicators
+const getActualSlideIndex = (): number => {
+    if (currentSlide.value < 1) return props.items.length - 1
+    if (currentSlide.value > props.items.length) return 0
+    return currentSlide.value - 1
+}
+
+// Calculate transform based on current slide and slides to show
+const getTransform = (): number => {
+    const maxSlides = Math.max(props.slidesToShow, props.slidesToShowMobile)
+    const slideIndex = currentSlide.value + maxSlides - 1
+    return slideIndex * slideWidth.value
+}
+
+// Modal functions
+const openModal = (item: ExtendedItem): void => {
+    // Prevent modal opening if we're dragging
+    if (isDragging.value) return
+
+    if (props.enableModal) {
+        selectedItem.value = item
+        isModalOpen.value = true
+        document.body.style.overflow = 'hidden'
+    }
+    emit('item-click', item)
+}
+
+const closeModal = (): void => {
+    isModalOpen.value = false
+    selectedItem.value = null
+    document.body.style.overflow = ''
+}
+
+const handleKeydown = (event: KeyboardEvent): void => {
+    if (event.key === 'Escape') {
+        closeModal()
+    }
+}
+
+const handleResize = (): void => {
+    const wasMobile = isMobile.value
+    checkMobile()
+
+    // If screen size changed between mobile/desktop, restart auto-slide with fresh timing
+    if (wasMobile !== isMobile.value) {
+        stopAutoSlide()
+        setTimeout(() => {
+            startAutoSlide()
+        }, 100)
+    }
+}
+
+const startAutoSlide = (): void => {
+    // Clear any existing interval first
+    stopAutoSlide()
+
+    autoSlideInterval.value = window.setInterval(() => {
+        nextSlide()
+    }, props.autoSlideDelay)
+}
+
+const stopAutoSlide = (): void => {
+    if (autoSlideInterval.value !== null) {
+        clearInterval(autoSlideInterval.value)
+        autoSlideInterval.value = null
+    }
+}
+
+// Manual navigation with auto-slide restart
+const manualNextSlide = (): void => {
+    nextSlide()
+    startAutoSlide()
+}
+
+const manualPrevSlide = (): void => {
+    prevSlide()
+    startAutoSlide()
+}
+
+const manualGoToSlide = (index: number): void => {
+    goToSlide(index)
+    startAutoSlide()
+}
+
+onMounted(() => {
+    checkMobile()
+    initializeCarousel()
+
+    // Start auto-slide after a short delay to ensure everything is initialized
+    setTimeout(() => {
+        startAutoSlide()
+    }, 100)
+
+    window.addEventListener('resize', handleResize)
+
+    // Add mouse event listeners for desktop drag
+    if (carouselRef.value) {
+        carouselRef.value.addEventListener('mouseleave', handleMouseUp)
+        document.addEventListener('mouseup', handleMouseUp)
+    }
+
+    if (props.enableModal) {
+        document.addEventListener('keydown', handleKeydown)
+    }
+})
+
+onUnmounted(() => {
+    stopAutoSlide()
+    window.removeEventListener('resize', handleResize)
+    document.removeEventListener('mouseup', handleMouseUp)
+
+    if (props.enableModal) {
+        document.removeEventListener('keydown', handleKeydown)
+        document.body.style.overflow = ''
+    }
+})
+</script>
+
 <!-- USAGE -->
 <!-- <script setup>
 useSeoMeta({
@@ -519,3 +522,4 @@ const achievements = ref([
         </cardCarousel>
     </div>
 </template> -->
+

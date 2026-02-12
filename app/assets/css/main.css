@@ -1,9 +1,13 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  font-family: "Geist", system-ui, -apple-system, sans-serif;
+  font-family:
+    'Geist',
+    system-ui,
+    -apple-system,
+    sans-serif;
   font-synthesis: weight; /* Allow browser to synthesize bold */
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
 ::selection {

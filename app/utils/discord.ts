@@ -11,7 +11,7 @@ export interface DiscordActivity {
 }
 
 export interface DiscordUser {
-  discord_status: "online" | "idle" | "dnd" | "offline";
+  discord_status: 'online' | 'idle' | 'dnd' | 'offline';
   activities: DiscordActivity[];
 }
 
@@ -21,7 +21,7 @@ export interface DiscordResponse {
 }
 
 export const fetchDiscordStatus = async (
-  userId: string
+  userId: string,
 ): Promise<DiscordUser | null> => {
   try {
     const response = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
@@ -36,58 +36,58 @@ export const fetchDiscordStatus = async (
 
     return null;
   } catch (error) {
-    console.error("Failed to fetch Discord status:", error);
+    console.error('Failed to fetch Discord status:', error);
     return null;
   }
 };
 
 export const getDiscordStatusColor = (status: string): string => {
   switch (status) {
-    case "online":
-      return "bg-green-500";
-    case "idle":
-      return "bg-yellow-500";
-    case "dnd":
-      return "bg-red-500";
+    case 'online':
+      return 'bg-green-500';
+    case 'idle':
+      return 'bg-yellow-500';
+    case 'dnd':
+      return 'bg-red-500';
     default:
-      return "bg-gray-400";
+      return 'bg-gray-400';
   }
 };
 
 export const getDiscordStatusText = (status: string): string => {
   switch (status) {
-    case "online":
-      return "Online";
-    case "idle":
-      return "Idle";
-    case "dnd":
-      return "Do Not Disturb";
+    case 'online':
+      return 'Online';
+    case 'idle':
+      return 'Idle';
+    case 'dnd':
+      return 'Do Not Disturb';
     default:
-      return "Offline";
+      return 'Offline';
   }
 };
 
 export const getActivityType = (type: number): string => {
   switch (type) {
     case 0:
-      return "Playing";
+      return 'Playing';
     case 1:
-      return "Streaming";
+      return 'Streaming';
     case 2:
-      return "Listening to";
+      return 'Listening to';
     case 3:
-      return "Watching";
+      return 'Watching';
     case 4:
-      return "";
+      return '';
     case 5:
-      return "Competing in";
+      return 'Competing in';
     default:
-      return "Activity";
+      return 'Activity';
   }
 };
 
 export const formatActivity = (activity: DiscordActivity): string => {
-  if (!activity) return "";
+  if (!activity) return '';
 
   const type = getActivityType(activity.type);
   let text = `${type} ${activity.name}`;
@@ -104,7 +104,7 @@ export const formatActivity = (activity: DiscordActivity): string => {
 };
 
 export const getPrimaryActivity = (
-  activities: DiscordActivity[]
+  activities: DiscordActivity[],
 ): DiscordActivity | null => {
   if (!activities || activities.length === 0) return null;
 
@@ -114,14 +114,14 @@ export const getPrimaryActivity = (
 };
 
 export const getDiscordStatusBadgeClasses = (status: string): string => {
-  const baseClasses = "text-xs px-2 py-1 rounded-full border font-medium";
+  const baseClasses = 'text-xs px-2 py-1 rounded-full border font-medium';
 
   switch (status) {
-    case "online":
+    case 'online':
       return `${baseClasses} bg-white border-green-500 text-green-700`;
-    case "idle":
+    case 'idle':
       return `${baseClasses} bg-white border-yellow-500 text-yellow-700`;
-    case "dnd":
+    case 'dnd':
       return `${baseClasses} bg-white border-red-500 text-red-700`;
     default:
       return `${baseClasses} bg-white border-gray-300 text-gray-700`;
@@ -129,13 +129,13 @@ export const getDiscordStatusBadgeClasses = (status: string): string => {
 };
 
 export const copyDiscordUsername = async (
-  username: string
+  username: string,
 ): Promise<boolean> => {
   try {
     await navigator.clipboard.writeText(username);
     return true;
   } catch (error) {
-    console.error("Failed to copy Discord username:", error);
+    console.error('Failed to copy Discord username:', error);
     return false;
   }
 };
