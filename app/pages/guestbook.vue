@@ -1,13 +1,10 @@
 <template>
     <div class="p-6">
         <!-- Header -->
-        <PageHeader 
-            title="Guestbook" 
-        />
+        <PageHeader title="Guestbook" />
 
         <!-- Error Display -->
-        <div
-            v-if="error"
+        <div v-if="error"
             class="bg-red-50 border border-red-200 text-red-700 px-3 py-2 sm:px-4 sm:py-3 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base">
             Error: {{ error }}
         </div>
@@ -18,12 +15,11 @@
                 <div
                     class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
                     <div class="flex items-center space-x-3 sm:space-x-4">
-                        <img
-                            :src="user.user_metadata.avatar_url" 
-                            :alt="user.user_metadata.full_name"
+                        <img :src="(user.user_metadata as SupabaseUserMetadata)?.avatar_url || '/guest.png'" :alt="(user.user_metadata as SupabaseUserMetadata)?.full_name || 'User'"
                             class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover shrink-0">
                         <div class="min-w-0 flex-1">
-                            <h3 class="text-lg sm:text-xl font-bold text-black truncate">{{ user.user_metadata.full_name || user.user_metadata.user_name }}</h3>
+                            <h3 class="text-lg sm:text-xl font-bold text-black truncate">{{ (user.user_metadata as SupabaseUserMetadata)?.full_name
+                                || (user.user_metadata as SupabaseUserMetadata)?.user_name || 'User' }}</h3>
                             <p class="text-xs sm:text-sm text-gray-500">Signed in</p>
                         </div>
                     </div>
@@ -38,16 +34,11 @@
                 <div>
                     <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Leave a Message</h2>
                     <form @submit.prevent="submitMessage">
-                        <textarea
-                            v-model="newMessage" 
-                            placeholder="Write your message here..." 
-                            rows="3"
+                        <textarea v-model="newMessage" placeholder="Write your message here..." rows="3"
                             class="w-full px-3 py-2.5 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-sm sm:text-base resize-none"
-                            required 
-                        />
+                            required />
                         <div class="mt-3 sm:mt-4 flex justify-end">
-                            <button
-                                type="submit" 
+                            <button type="submit"
                                 :disabled="!newMessage || newMessage.trim().length === 0 || submitting"
                                 class="bg-black text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:bg-gray-800 transition-colors font-semibold disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto">
                                 {{ submitting ? 'Posting...' : 'Post Message' }}
@@ -60,27 +51,25 @@
             <!-- Login prompt for non-authenticated users -->
             <div v-else class="bg-white border border-gray-200 rounded-lg p-6 sm:p-8 text-center">
                 <h2 class="text-xl sm:text-2xl font-bold text-black mb-2 sm:mb-3">Want to leave a message?</h2>
-                <p class="text-gray-700 mb-4 sm:mb-6 text-sm sm:text-base">Sign in with Google, GitHub, or Discord to share your
+                <p class="text-gray-700 mb-4 sm:mb-6 text-sm sm:text-base">Sign in with Google, GitHub, or Discord to
+                    share your
                     thoughts and join the conversation!</p>
                 <div class="flex flex-col gap-3 sm:gap-4 sm:flex-row sm:justify-center sm:items-center">
-                    <button
-                        :disabled="signingIn"
+                    <button :disabled="!!signingIn"
                         class="bg-black text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-gray-800 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithGoogle">
                         <Icon name="logos:google-icon" size="18" />
                         <span>{{ signingIn === 'google' ? 'Signing In...' : 'Google' }}</span>
                     </button>
 
-                    <button
-                        :disabled="signingIn"
+                    <button :disabled="!!signingIn"
                         class="bg-gray-900 text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-gray-700 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithGitHub">
                         <Icon name="mdi:github" size="18" />
                         <span>{{ signingIn === 'github' ? 'Signing In...' : 'GitHub' }}</span>
                     </button>
 
-                    <button
-                        :disabled="signingIn"
+                    <button :disabled="!!signingIn"
                         class="bg-indigo-600 text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-indigo-700 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithDiscord">
                         <Icon name="simple-icons:discord" size="18" />
@@ -104,20 +93,35 @@
             <div v-else>
                 <h2 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Messages</h2>
                 <div class="mb-12 space-y-4 sm:space-y-6">
-                    <MessageCards
-                        v-for="message in messages" 
-                        :key="message.id" 
-                        :message="message" 
-                        :current-user="user"
-                        @delete="deleteMessage" 
-                    />
+                    <MessageCards v-for="message in messages" :key="message.id" :message="message" :current-user="user ? { id: user.id } : null"
+                        @delete="deleteMessage" />
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { ref, watch, onMounted, onUnmounted, type Ref } from 'vue'
+import type { RealtimeChannel } from '@supabase/supabase-js'
+
+interface GuestbookMessage {
+    id: number | string
+    user_id: string
+    username: string
+    avatar_url: string
+    message: string
+    created_at: string
+}
+
+interface SupabaseUserMetadata {
+    full_name?: string
+    user_name?: string
+    avatar_url?: string
+}
+
+type SignInProvider = 'google' | 'github' | 'discord' | false
+
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 
@@ -131,72 +135,72 @@ useSeoMeta({
 })
 
 // Reactive data
-const messages = ref([])
-const newMessage = ref('')
-const loading = ref(true)
-const submitting = ref(false)
-const error = ref(null)
-const signingIn = ref(false)
+const messages: Ref<GuestbookMessage[]> = ref([])
+const newMessage: Ref<string> = ref('')
+const loading: Ref<boolean> = ref(true)
+const submitting: Ref<boolean> = ref(false)
+const error: Ref<string | null> = ref(null)
+const signingIn: Ref<SignInProvider> = ref(false)
 
 // Google Sign In function
-const signInWithGoogle = async () => {
+const signInWithGoogle = async (): Promise<void> => {
     signingIn.value = 'google'
     try {
-        const { error } = await supabase.auth.signInWithOAuth({
+        const { error: authError } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
                 redirectTo: `${window.location.origin}/auth/callback`
             }
         })
-        if (error) throw error
-    } catch (error) {
-        console.error('Error signing in with Google:', error.message)
-        alert('Error signing in with Google: ' + error.message)
+        if (authError) throw authError
+    } catch (err: any) {
+        console.error('Error signing in with Google:', err.message)
+        alert('Error signing in with Google: ' + err.message)
     } finally {
         signingIn.value = false
     }
 }
 
 // GitHub Sign In function
-const signInWithGitHub = async () => {
+const signInWithGitHub = async (): Promise<void> => {
     signingIn.value = 'github'
     try {
-        const { error } = await supabase.auth.signInWithOAuth({
+        const { error: authError } = await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
                 redirectTo: `${window.location.origin}/auth/callback`
             }
         })
-        if (error) throw error
-    } catch (error) {
-        console.error('Error signing in with GitHub:', error.message)
-        alert('Error signing in with GitHub: ' + error.message)
+        if (authError) throw authError
+    } catch (err: any) {
+        console.error('Error signing in with GitHub:', err.message)
+        alert('Error signing in with GitHub: ' + err.message)
     } finally {
         signingIn.value = false
     }
 }
 
 // Discord Sign In function
-const signInWithDiscord = async () => {
+const signInWithDiscord = async (): Promise<void> => {
     signingIn.value = 'discord'
     try {
-        const { error } = await supabase.auth.signInWithOAuth({
+        const { error: authError } = await supabase.auth.signInWithOAuth({
             provider: 'discord',
             options: {
                 redirectTo: `${window.location.origin}/auth/callback`
             }
         })
-        if (error) throw error
-    } catch (error) {
-        console.error('Error signing in with Discord:', error.message)
-        alert('Error signing in with Discord: ' + error.message)
+        if (authError) throw authError
+    } catch (err: any) {
+        console.error('Error signing in with Discord:', err.message)
+        alert('Error signing in with Discord: ' + err.message)
     } finally {
         signingIn.value = false
     }
 }
 
 // Fetch messages
-const fetchMessages = async () => {
+const fetchMessages = async (): Promise<void> => {
     loading.value = true
     error.value = null
     try {
@@ -210,8 +214,8 @@ const fetchMessages = async () => {
             throw fetchError
         }
 
-        messages.value = data || []
-    } catch (err) {
+        messages.value = (data || []) as GuestbookMessage[]
+    } catch (err: any) {
         console.error('Error fetching messages:', err)
         error.value = err.message
     } finally {
@@ -220,19 +224,22 @@ const fetchMessages = async () => {
 }
 
 // Submit new message
-const submitMessage = async () => {
+const submitMessage = async (): Promise<void> => {
     if (!newMessage.value || newMessage.value.trim().length === 0 || !user.value) return
 
     submitting.value = true
     try {
+        const userMetadata = user.value.user_metadata as SupabaseUserMetadata
+        const messageData = {
+            user_id: user.value.id,
+            username: userMetadata?.full_name || userMetadata?.user_name || 'Anonymous',
+            avatar_url: userMetadata?.avatar_url || '/guest.png',
+            message: newMessage.value.trim()
+        }
+        
         const { error: insertError } = await supabase
             .from('guestbook')
-            .insert({
-                user_id: user.value.id,
-                username: user.value.user_metadata.full_name || user.value.user_metadata.user_name,
-                avatar_url: user.value.user_metadata.avatar_url,
-                message: newMessage.value.trim()
-            })
+            .insert(messageData as any)
             .select()
 
         if (insertError) {
@@ -242,7 +249,7 @@ const submitMessage = async () => {
 
         newMessage.value = ''
         await fetchMessages()
-    } catch (err) {
+    } catch (err: any) {
         console.error('Error submitting message:', err)
         alert('Error submitting message: ' + err.message)
     } finally {
@@ -251,7 +258,7 @@ const submitMessage = async () => {
 }
 
 // Delete message
-const deleteMessage = async (messageId) => {
+const deleteMessage = async (messageId: string | number): Promise<void> => {
     try {
         const { error: deleteError } = await supabase
             .from('guestbook')
@@ -261,17 +268,17 @@ const deleteMessage = async (messageId) => {
         if (deleteError) throw deleteError
 
         await fetchMessages()
-    } catch (err) {
+    } catch (err: any) {
         console.error('Error deleting message:', err)
         alert('Error deleting message: ' + err.message)
     }
 }
 
 // Sign out
-const signOut = async () => {
+const signOut = async (): Promise<void> => {
     try {
         await supabase.auth.signOut()
-    } catch (err) {
+    } catch (err: any) {
         console.error('Error signing out:', err)
     }
 }
@@ -288,7 +295,7 @@ watch(user, async () => {
 
 // Real-time subscription
 onMounted(() => {
-    const channel = supabase
+    const channel: RealtimeChannel = supabase
         .channel('guestbook_changes')
         .on('postgres_changes',
             { event: '*', schema: 'public', table: 'guestbook' },

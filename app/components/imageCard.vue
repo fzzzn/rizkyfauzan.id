@@ -75,28 +75,36 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  item: {
-    type: Object,
-    required: true
-  }
-})
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, type Ref } from 'vue'
+
+interface Item {
+  image: string
+  title: string
+  description?: string
+  date: string
+}
+
+interface Props {
+  item: Item
+}
+
+defineProps<Props>()
 
 // Modal state
-const isModalOpen = ref(false)
+const isModalOpen: Ref<boolean> = ref(false)
 
-const openModal = () => {
+const openModal = (): void => {
   isModalOpen.value = true
   document.body.style.overflow = 'hidden'
 }
 
-const closeModal = () => {
+const closeModal = (): void => {
   isModalOpen.value = false
   document.body.style.overflow = ''
 }
 
-const handleKeydown = (event) => {
+const handleKeydown = (event: KeyboardEvent): void => {
   if (event.key === 'Escape') {
     closeModal()
   }

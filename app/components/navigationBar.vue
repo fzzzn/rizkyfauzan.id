@@ -17,14 +17,12 @@
 				</NuxtLink>
 
 				<div class="hidden lg:flex items-center gap-4">
-					<NuxtLink
-v-for="item in navItems" :key="item.title" :to="item.href"
-						:class="[
-							'relative px-2 py-1 uppercase text-sm transition-all duration-200 rounded-lg group',
-							$route.path === item.href || ($route.path.startsWith(item.href) && item.href !== '/')
-								? 'text-white bg-black'
-								: 'hover:text-white hover:bg-black'
-						]">
+					<NuxtLink v-for="item in navItems" :key="item.title" :to="item.href" :class="[
+						'relative px-2 py-1 uppercase text-sm transition-all duration-200 rounded-lg group',
+						$route.path === item.href || ($route.path.startsWith(item.href) && item.href !== '/')
+							? 'text-white bg-black'
+							: 'hover:text-white hover:bg-black'
+					]">
 						<span class="relative z-10 font-bold">{{ item.title }}</span>
 					</NuxtLink>
 				</div>
@@ -33,7 +31,7 @@ v-for="item in navItems" :key="item.title" :to="item.href"
 	</header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const navItems = [
 	{
 		title: "Home",
@@ -61,4 +59,3 @@ const navItems = [
 	},
 ]
 </script>
-

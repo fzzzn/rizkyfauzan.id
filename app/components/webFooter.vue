@@ -31,7 +31,7 @@ href="https://github.com/fzzzn/rizkyfauzan.id" target="_blank" rel="noopener nor
     </footer>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 interface MenuItem {
     menu: string
     href: string

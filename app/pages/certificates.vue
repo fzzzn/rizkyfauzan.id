@@ -1,4 +1,18 @@
-<script setup>
+<template>
+    <div class="p-6">
+        <PageHeader title="Certificates" description="" />
+
+        <div class="mb-16">
+            <div class="flex flex-wrap justify-center gap-6">
+                <ImageCard v-for="certificate in certificates" :key="certificate.id" :item="certificate" />
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
 useSeoMeta({
     title: 'Certificates - Rizky Fauzan Hanif',
     description: 'Professional certifications: MikroTik MTCNA, MTCTCE, and IPv6 Sage by Hurricane Electric. View verified networking and cybersecurity credentials.',
@@ -9,38 +23,22 @@ useSeoMeta({
 
 const certificates = ref([
     {
+        id: 1,
         title: "Mikrotik Certified Network Associate (MTCNA)",
         date: "10 October 2024",
         image: "https://ik.imagekit.io/fauzan/certificates/Sertifikat%20MTCNA%20Citraweb.png?updatedAt=1729822824599",
     },
     {
+        id: 2,
         title: "Mikrotik Certified Traffic Control Engineer (MTCTCE)",
         date: "10 October 2024",
         image: "https://ik.imagekit.io/fauzan/certificates/Sertifikat%20MTCTCE.png?updatedAt=1729822824599",
     },
     {
+        id: 3,
         title: "IPv6 Sage by Hurricane Electric",
         date: "29 January 2025",
         image: "https://ik.imagekit.io/fauzan/certificates/ipv6-certificate.png?updatedAt=1729822824599",
     },
 ])
 </script>
-
-<template>
-    <div class="p-6">
-        <PageHeader 
-            title="Certificates" 
-            description="" 
-        />
-
-        <div class="mb-16">
-            <div class="flex flex-wrap justify-center gap-6">
-                <ImageCard
-                    v-for="certificate in certificates" 
-                    :key="certificate.id"
-                    :item="certificate"
-                />
-            </div>
-        </div>
-    </div>
-</template>
