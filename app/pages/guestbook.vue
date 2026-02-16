@@ -225,6 +225,17 @@ const signOut = async (): Promise<void> => {
 
 // Fetch user and messages on mount
 onMounted(async () => {
+    // Show auth errors from callback redirect
+    const route = useRoute()
+    if (route.query.error) {
+        const errorMessages: Record<string, string> = {
+            missing_code: 'Authentication failed: no authorization code received.',
+            missing_verifier: 'Authentication failed: session expired. Please try again.',
+            auth_failed: 'Authentication failed. Please try again.',
+        }
+        error.value = errorMessages[route.query.error as string] || `Authentication error: ${route.query.error}`
+    }
+
     await fetchUser()
     await fetchMessages()
 })

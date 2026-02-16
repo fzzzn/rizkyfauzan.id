@@ -10,14 +10,18 @@ export default defineEventHandler(async (event) => {
   }
 
   const { url: supabaseUrl } = getSupabaseConfig(event)
-  const origin = getRequestURL(event).origin
+  const requestUrl = getRequestURL(event)
+  // Force https in production (Cloudflare terminates TLS before the worker)
+  const origin = requestUrl.hostname === 'localhost'
+    ? requestUrl.origin
+    : `https://${requestUrl.host}`
 
   // Generate PKCE values
   const codeVerifier = generateCodeVerifier()
   const codeChallenge = await generateCodeChallenge(codeVerifier)
 
   // Store code_verifier in httpOnly cookie
-  const isSecure = !getRequestURL(event).hostname.includes('localhost')
+  const isSecure = requestUrl.hostname !== 'localhost'
   setCookie(event, 'sb-pkce-verifier', codeVerifier, {
     httpOnly: true,
     secure: isSecure,
