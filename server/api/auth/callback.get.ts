@@ -1,5 +1,3 @@
-import { createClient } from '@supabase/supabase-js'
-
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   const code = query.code as string
@@ -15,38 +13,33 @@ export default defineEventHandler(async (event) => {
 
   const { url: supabaseUrl, key: supabaseKey } = getSupabaseConfig(event)
 
-  // Extract the project ref from the URL for the storage key
-  const projectRef = new URL(supabaseUrl).hostname.split('.')[0]
-  const storageKey = `sb-${projectRef}-auth-token`
-
-  // Create a Supabase client with a custom storage that has the code verifier
-  const storage: Record<string, string> = {
-    [`${storageKey}-code-verifier`]: codeVerifier,
-  }
-
-  const supabase = createClient(supabaseUrl, supabaseKey, {
-    auth: {
-      flowType: 'pkce',
-      autoRefreshToken: false,
-      persistSession: false,
-      detectSessionInUrl: false,
-      storage: {
-        getItem: (key: string) => storage[key] ?? null,
-        setItem: (key: string, value: string) => { storage[key] = value },
-        removeItem: (key: string) => { delete storage[key] },
-      },
+  // Exchange code for session directly via Supabase REST API
+  // This avoids the client library's storage issues with PKCE
+  const tokenResponse = await $fetch<{
+    access_token: string
+    refresh_token: string
+    user: { id: string; email?: string; user_metadata: Record<string, unknown> }
+  }>(`${supabaseUrl}/auth/v1/token?grant_type=pkce`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': supabaseKey,
     },
+    body: {
+      auth_code: code,
+      code_verifier: codeVerifier,
+    },
+  }).catch((err) => {
+    console.error('Token exchange error:', err.data || err.message)
+    return null
   })
 
-  const { data, error } = await supabase.auth.exchangeCodeForSession(code)
-
-  if (error || !data.session) {
-    console.error('Auth callback error:', error?.message)
-    return sendRedirect(event, '/guestbook?error=auth_failed')
+  if (!tokenResponse?.access_token) {
+    return sendRedirect(event, '/guestbook?error=token_exchange_failed')
   }
 
   // Set session tokens in httpOnly cookies
-  const isSecure = !getRequestURL(event).hostname.includes('localhost')
+  const isSecure = getRequestURL(event).hostname !== 'localhost'
   const cookieOptions = {
     httpOnly: true,
     secure: isSecure,
@@ -55,8 +48,8 @@ export default defineEventHandler(async (event) => {
     maxAge: 28800, // 8 hours
   }
 
-  setCookie(event, 'sb-access-token', data.session.access_token, cookieOptions)
-  setCookie(event, 'sb-refresh-token', data.session.refresh_token, cookieOptions)
+  setCookie(event, 'sb-access-token', tokenResponse.access_token, cookieOptions)
+  setCookie(event, 'sb-refresh-token', tokenResponse.refresh_token, cookieOptions)
 
   // Clean up PKCE cookie
   deleteCookie(event, 'sb-pkce-verifier')
