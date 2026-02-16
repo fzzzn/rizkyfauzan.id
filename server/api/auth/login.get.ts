@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const config = useRuntimeConfig()
+  const config = useRuntimeConfig(event)
   const origin = getRequestURL(event).origin
 
   // Generate PKCE values

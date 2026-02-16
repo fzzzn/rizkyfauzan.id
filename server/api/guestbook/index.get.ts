@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig()
+  const config = useRuntimeConfig(event)
   
   if (!config.supabaseUrl || !config.supabaseKey) {
     throw createError({
@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const supabase = createAnonSupabaseClient()
+  const supabase = createAnonSupabaseClient(event)
 
   const { data, error } = await supabase
     .from('guestbook')

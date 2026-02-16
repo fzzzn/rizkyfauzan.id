@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     return sendRedirect(event, '/guestbook?error=missing_verifier')
   }
 
-  const config = useRuntimeConfig()
+  const config = useRuntimeConfig(event)
   const supabaseUrl = config.supabaseUrl as string
   const supabaseKey = config.supabaseKey as string
 

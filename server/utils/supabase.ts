@@ -1,8 +1,8 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { H3Event } from 'h3'
 
-function getSupabaseConfig() {
-  const config = useRuntimeConfig()
+function getSupabaseConfig(event: H3Event) {
+  const config = useRuntimeConfig(event)
   return {
     url: config.supabaseUrl as string,
     key: config.supabaseKey as string,
@@ -12,8 +12,8 @@ function getSupabaseConfig() {
 /**
  * Create a Supabase client for anonymous/public operations (e.g. fetching messages).
  */
-export function createAnonSupabaseClient(): SupabaseClient {
-  const { url, key } = getSupabaseConfig()
+export function createAnonSupabaseClient(event: H3Event): SupabaseClient {
+  const { url, key } = getSupabaseConfig(event)
   return createClient(url, key, {
     auth: {
       autoRefreshToken: false,
@@ -35,7 +35,7 @@ export async function createAuthenticatedSupabaseClient(event: H3Event) {
     return { client: null, user: null }
   }
 
-  const { url, key } = getSupabaseConfig()
+  const { url, key } = getSupabaseConfig(event)
   const supabase = createClient(url, key, {
     auth: {
       autoRefreshToken: false,
