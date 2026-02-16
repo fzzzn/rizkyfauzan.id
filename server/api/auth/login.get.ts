@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const config = useRuntimeConfig(event)
+  const { url: supabaseUrl } = getSupabaseConfig(event)
   const origin = getRequestURL(event).origin
 
   // Generate PKCE values
@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
     code_challenge_method: 'S256',
   })
 
-  const authUrl = `${config.supabaseUrl}/auth/v1/authorize?${params}`
+  const authUrl = `${supabaseUrl}/auth/v1/authorize?${params}`
 
   return sendRedirect(event, authUrl)
 })

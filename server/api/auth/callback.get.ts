@@ -13,9 +13,7 @@ export default defineEventHandler(async (event) => {
     return sendRedirect(event, '/guestbook?error=missing_verifier')
   }
 
-  const config = useRuntimeConfig(event)
-  const supabaseUrl = config.supabaseUrl as string
-  const supabaseKey = config.supabaseKey as string
+  const { url: supabaseUrl, key: supabaseKey } = getSupabaseConfig(event)
 
   // Extract the project ref from the URL for the storage key
   const projectRef = new URL(supabaseUrl).hostname.split('.')[0]

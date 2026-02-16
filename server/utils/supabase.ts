@@ -1,12 +1,16 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { H3Event } from 'h3'
 
-function getSupabaseConfig(event: H3Event) {
+export function getSupabaseConfig(event: H3Event) {
   const config = useRuntimeConfig(event)
-  return {
-    url: config.supabaseUrl as string,
-    key: config.supabaseKey as string,
-  }
+
+  // Cloudflare Pages bindings fallback
+  const cfEnv = (event.context?.cloudflare?.env || {}) as Record<string, string>
+
+  const url = config.supabaseUrl || cfEnv.NUXT_SUPABASE_URL || ''
+  const key = config.supabaseKey || cfEnv.NUXT_SUPABASE_KEY || ''
+
+  return { url, key }
 }
 
 /**

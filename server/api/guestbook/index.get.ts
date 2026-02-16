@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig(event)
+  const { url, key } = getSupabaseConfig(event)
   
-  if (!config.supabaseUrl || !config.supabaseKey) {
+  if (!url || !key) {
     throw createError({
       statusCode: 500,
       statusMessage: 'Supabase configuration is missing. Set NUXT_SUPABASE_URL and NUXT_SUPABASE_KEY environment variables.',
