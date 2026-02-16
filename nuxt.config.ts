@@ -31,13 +31,6 @@ export default defineNuxtConfig({
   features: {
     inlineStyles: true,
   },
-  supabase: {
-    redirectOptions: {
-      login: "/guestbook",
-      callback: "/auth/callback",
-      exclude: ["*"],
-    },
-  },
   umami: {
     id: "4819c176-2490-4516-88a2-ecbf77ff2ea2",
     host: "https://u.zxn.my.id",
@@ -57,6 +50,10 @@ export default defineNuxtConfig({
     experimental: {
       processCSSVariables: true,
     },
+  },
+  runtimeConfig: {
+    supabaseUrl: '',
+    supabaseKey: '',
   },
   nitro: {
     preset: "cloudflare_pages",
@@ -166,7 +163,6 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/scripts",
     "@nuxtjs/seo",
-    "@nuxtjs/supabase",
     "@nuxtjs/critters",
     "nuxt-umami",
   ],

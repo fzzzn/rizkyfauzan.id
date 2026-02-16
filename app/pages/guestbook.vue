@@ -15,11 +15,11 @@
                 <div
                     class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
                     <div class="flex items-center space-x-3 sm:space-x-4">
-                        <img :src="(user.user_metadata as SupabaseUserMetadata)?.avatar_url || '/guest.png'" :alt="(user.user_metadata as SupabaseUserMetadata)?.full_name || 'User'"
+                        <img :src="user.user_metadata?.avatar_url || '/guest.png'" :alt="user.user_metadata?.full_name || 'User'"
                             class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover shrink-0">
                         <div class="min-w-0 flex-1">
-                            <h3 class="text-lg sm:text-xl font-bold text-black truncate">{{ (user.user_metadata as SupabaseUserMetadata)?.full_name
-                                || (user.user_metadata as SupabaseUserMetadata)?.user_name || 'User' }}</h3>
+                            <h3 class="text-lg sm:text-xl font-bold text-black truncate">{{ user.user_metadata?.full_name
+                                || user.user_metadata?.user_name || 'User' }}</h3>
                             <p class="text-xs sm:text-sm text-gray-500">Signed in</p>
                         </div>
                     </div>
@@ -102,8 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, onUnmounted, type Ref } from 'vue'
-import type { RealtimeChannel } from '@supabase/supabase-js'
+import { ref, onMounted, type Ref } from 'vue'
 
 interface GuestbookMessage {
     id: number | string
@@ -114,16 +113,17 @@ interface GuestbookMessage {
     created_at: string
 }
 
-interface SupabaseUserMetadata {
-    full_name?: string
-    user_name?: string
-    avatar_url?: string
+interface AuthUser {
+    id: string
+    email?: string
+    user_metadata: {
+        full_name?: string
+        user_name?: string
+        avatar_url?: string
+    }
 }
 
 type SignInProvider = 'google' | 'github' | 'discord' | false
-
-const supabase = useSupabaseClient()
-const user = useSupabaseUser()
 
 // Add SEO meta
 useSeoMeta({
@@ -135,6 +135,7 @@ useSeoMeta({
 })
 
 // Reactive data
+const user: Ref<AuthUser | null> = ref(null)
 const messages: Ref<GuestbookMessage[]> = ref([])
 const newMessage: Ref<string> = ref('')
 const loading: Ref<boolean> = ref(true)
@@ -142,82 +143,36 @@ const submitting: Ref<boolean> = ref(false)
 const error: Ref<string | null> = ref(null)
 const signingIn: Ref<SignInProvider> = ref(false)
 
-// Google Sign In function
-const signInWithGoogle = async (): Promise<void> => {
-    signingIn.value = 'google'
+// Fetch current user from server
+const fetchUser = async (): Promise<void> => {
     try {
-        const { error: authError } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-                redirectTo: `${window.location.origin}/auth/callback`
-            }
-        })
-        if (authError) throw authError
-    } catch (err: any) {
-        console.error('Error signing in with Google:', err.message)
-        alert('Error signing in with Google: ' + err.message)
-    } finally {
-        signingIn.value = false
+        const data = await $fetch<AuthUser | null>('/api/auth/user')
+        user.value = data
+    } catch {
+        user.value = null
     }
 }
 
-// GitHub Sign In function
-const signInWithGitHub = async (): Promise<void> => {
-    signingIn.value = 'github'
-    try {
-        const { error: authError } = await supabase.auth.signInWithOAuth({
-            provider: 'github',
-            options: {
-                redirectTo: `${window.location.origin}/auth/callback`
-            }
-        })
-        if (authError) throw authError
-    } catch (err: any) {
-        console.error('Error signing in with GitHub:', err.message)
-        alert('Error signing in with GitHub: ' + err.message)
-    } finally {
-        signingIn.value = false
-    }
+// Sign in via server-side OAuth (redirects to provider)
+const signInWithProvider = (provider: 'google' | 'github' | 'discord'): void => {
+    signingIn.value = provider
+    window.location.href = `/api/auth/login?provider=${provider}`
 }
 
-// Discord Sign In function
-const signInWithDiscord = async (): Promise<void> => {
-    signingIn.value = 'discord'
-    try {
-        const { error: authError } = await supabase.auth.signInWithOAuth({
-            provider: 'discord',
-            options: {
-                redirectTo: `${window.location.origin}/auth/callback`
-            }
-        })
-        if (authError) throw authError
-    } catch (err: any) {
-        console.error('Error signing in with Discord:', err.message)
-        alert('Error signing in with Discord: ' + err.message)
-    } finally {
-        signingIn.value = false
-    }
-}
+const signInWithGoogle = (): void => signInWithProvider('google')
+const signInWithGitHub = (): void => signInWithProvider('github')
+const signInWithDiscord = (): void => signInWithProvider('discord')
 
 // Fetch messages
 const fetchMessages = async (): Promise<void> => {
     loading.value = true
     error.value = null
     try {
-        const { data, error: fetchError } = await supabase
-            .from('guestbook')
-            .select('*')
-            .order('created_at', { ascending: false })
-
-        if (fetchError) {
-            console.error('Supabase error:', fetchError)
-            throw fetchError
-        }
-
-        messages.value = (data || []) as GuestbookMessage[]
+        const data = await $fetch<GuestbookMessage[]>('/api/guestbook')
+        messages.value = data || []
     } catch (err: any) {
         console.error('Error fetching messages:', err)
-        error.value = err.message
+        error.value = err.data?.statusMessage || err.message
     } finally {
         loading.value = false
     }
@@ -229,29 +184,16 @@ const submitMessage = async (): Promise<void> => {
 
     submitting.value = true
     try {
-        const userMetadata = user.value.user_metadata as SupabaseUserMetadata
-        const messageData = {
-            user_id: user.value.id,
-            username: userMetadata?.full_name || userMetadata?.user_name || 'Anonymous',
-            avatar_url: userMetadata?.avatar_url || '/guest.png',
-            message: newMessage.value.trim()
-        }
-        
-        const { error: insertError } = await supabase
-            .from('guestbook')
-            .insert(messageData as any)
-            .select()
-
-        if (insertError) {
-            console.error('Insert error:', insertError)
-            throw insertError
-        }
+        await $fetch('/api/guestbook', {
+            method: 'POST',
+            body: { message: newMessage.value.trim() },
+        })
 
         newMessage.value = ''
         await fetchMessages()
     } catch (err: any) {
         console.error('Error submitting message:', err)
-        alert('Error submitting message: ' + err.message)
+        alert('Error submitting message: ' + (err.data?.statusMessage || err.message))
     } finally {
         submitting.value = false
     }
@@ -260,53 +202,30 @@ const submitMessage = async (): Promise<void> => {
 // Delete message
 const deleteMessage = async (messageId: string | number): Promise<void> => {
     try {
-        const { error: deleteError } = await supabase
-            .from('guestbook')
-            .delete()
-            .eq('id', messageId)
-
-        if (deleteError) throw deleteError
+        await $fetch(`/api/guestbook/${messageId}`, {
+            method: 'DELETE',
+        })
 
         await fetchMessages()
     } catch (err: any) {
         console.error('Error deleting message:', err)
-        alert('Error deleting message: ' + err.message)
+        alert('Error deleting message: ' + (err.data?.statusMessage || err.message))
     }
 }
 
 // Sign out
 const signOut = async (): Promise<void> => {
     try {
-        await supabase.auth.signOut()
+        await $fetch('/api/auth/signout', { method: 'POST' })
+        user.value = null
     } catch (err: any) {
         console.error('Error signing out:', err)
     }
 }
 
-// Fetch messages on mount
+// Fetch user and messages on mount
 onMounted(async () => {
+    await fetchUser()
     await fetchMessages()
-})
-
-// Watch for auth changes and refetch messages
-watch(user, async () => {
-    await fetchMessages()
-}, { immediate: true })
-
-// Real-time subscription
-onMounted(() => {
-    const channel: RealtimeChannel = supabase
-        .channel('guestbook_changes')
-        .on('postgres_changes',
-            { event: '*', schema: 'public', table: 'guestbook' },
-            () => {
-                fetchMessages()
-            }
-        )
-        .subscribe()
-
-    onUnmounted(() => {
-        supabase.removeChannel(channel)
-    })
 })
 </script>
