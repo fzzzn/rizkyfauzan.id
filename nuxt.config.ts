@@ -62,6 +62,16 @@ export default defineNuxtConfig({
     },
     compressPublicAssets: true,
     minify: true,
+    cloudflare: {
+      pages: {
+        routes: {
+          exclude: ["/fonts/*", "/icons/*"],
+        },
+      },
+      wrangler: {
+        compatibility_flags: ["nodejs_compat"],
+      },
+    },
   },
   app: {
     head: {
