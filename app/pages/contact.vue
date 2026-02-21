@@ -91,60 +91,6 @@
                 </div>
             </a>
 
-            <!-- Discord -->
-            <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group cursor-pointer w-full sm:w-80 relative"
-                @click="copyDiscord">
-                <div class="flex items-center space-x-4">
-                    <div class="shrink-0 relative">
-                        <Icon name="simple-icons:discord" size="24"
-                            class="text-black/60 group-hover:text-black transition-colors" />
-
-                        <!-- Status indicator -->
-                        <div class="absolute -bottom-1 -right-1 flex items-center">
-                            <div v-if="!isLoadingStatus" :class="[
-                                'w-3 h-3 rounded-full border-2 border-white',
-                                getStatusColor(discordStatus)
-                            ]" />
-                            <div v-else class="w-3 h-3 rounded-full border-2 border-white bg-gray-300 animate-pulse" />
-                        </div>
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center space-x-2">
-                            <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Discord</h3>
-                            <span v-if="!isLoadingStatus" :class="getDiscordStatusBadgeClasses(discordStatus)">
-                                {{ getStatusText(discordStatus) }}
-                            </span>
-                        </div>
-                        <p class="text-gray-600 text-sm font-mono">{{ DISCORD_USERNAME }}</p>
-
-                        <!-- Activity preview -->
-                        <div v-if="primaryActivity && !isLoadingStatus"
-                            class="mt-3 p-2 bg-gray-50 rounded border-l-2 border-black/20">
-                            <p class="text-xs text-black font-medium truncate">
-                                {{ formatActivity(primaryActivity) }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Activity tooltip on hover -->
-                <div v-if="discordActivities.length > 0 && !isLoadingStatus"
-                    class="absolute left-0 bottom-full mb-2 w-full bg-white border border-gray-200 text-black text-xs rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                    <div class="space-y-2">
-                        <div v-for="activity in discordActivities" :key="activity.id"
-                            class="border-b border-gray-100 last:border-b-0 pb-2 last:pb-0">
-                            <p class="font-medium text-black">{{ formatActivity(activity) }}</p>
-                            <p v-if="activity.timestamps?.start" class="text-gray-500 text-xs mt-1">
-                                {{ getElapsedTime(activity.timestamps.start) }} elapsed
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Arrow pointing down -->
-                    <div
-                        class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-200" />
-                </div>
-            </div>
-
             <!-- Telegram -->
             <a href="https://t.me/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
@@ -159,6 +105,39 @@
                     </div>
                 </div>
             </a>
+
+            <!-- Discord -->
+            <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group cursor-pointer w-full sm:w-80 relative"
+                @click="copyDiscord">
+                <div class="flex items-center space-x-4">
+                    <div class="shrink-0 relative">
+                        <Icon name="simple-icons:discord" size="24"
+                            class="text-black/60 group-hover:text-black transition-colors" />
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center space-x-2">
+                            <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Discord</h3>
+                            <span v-if="!isLoadingStatus" :class="getDiscordStatusBadgeClasses(discordStatus)">
+                                {{ getStatusText(discordStatus) }}
+                            </span>
+                        </div>
+                        <p class="text-gray-600 text-sm font-mono">{{ DISCORD_USERNAME }}</p>
+                    </div>
+                </div>
+
+                <!-- Discord Activity Tooltip -->
+                <div v-if="discordActivities.length > 0 && !isLoadingStatus"
+                    class="absolute left-0 top-full mt-2 w-full bg-white border border-gray-200 text-black text-xs rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                    <div class="space-y-2">
+                        <div v-for="activity in discordActivities" :key="activity.id">
+                            <p class="font-medium text-black">{{ formatActivity(activity) }}</p>
+                            <p v-if="activity.timestamps?.start" class="text-gray-500 text-xs mt-1">
+                                {{ getElapsedTime(activity.timestamps.start) }} elapsed
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>

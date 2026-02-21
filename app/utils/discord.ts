@@ -61,7 +61,7 @@ export const getDiscordStatusText = (status: string): string => {
     case 'idle':
       return 'Idle';
     case 'dnd':
-      return 'Do Not Disturb';
+      return 'DND';
     default:
       return 'Offline';
   }
@@ -114,7 +114,7 @@ export const getPrimaryActivity = (
 };
 
 export const getDiscordStatusBadgeClasses = (status: string): string => {
-  const baseClasses = 'text-xs px-2 py-1 rounded-full border font-medium';
+  const baseClasses = 'text-xs px-2 py-0.5 rounded-xl border';
 
   switch (status) {
     case 'online':
