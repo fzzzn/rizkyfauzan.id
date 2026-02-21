@@ -13,8 +13,8 @@
         <div class="mb-6 sm:mb-8">
             <div v-if="user" class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
                 <div
-                    class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
-                    <div class="flex items-center space-x-3 sm:space-x-4">
+                    class="flex flex-row items-center justify-between mb-4 sm:mb-6">
+                    <div class="flex items-center space-x-3 sm:space-x-4 min-w-0">
                         <img :src="user.user_metadata?.avatar_url || '/guest.png'" :alt="user.user_metadata?.full_name || 'User'"
                             class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover shrink-0">
                         <div class="min-w-0 flex-1">
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <button
-                        class="bg-black text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-800 transition-colors font-semibold text-sm sm:text-base w-full sm:w-auto"
+                        class="bg-black text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-800 transition-colors font-semibold text-sm sm:text-base shrink-0"
                         @click="signOut">
                         Sign Out
                     </button>
