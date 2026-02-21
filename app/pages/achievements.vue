@@ -37,10 +37,10 @@ const achievements = ref([
     },
     {
         id: 2,
-        title: "3rd Place in the 2024 DIY Province ITNSA LKS",
+        title: "3rd Place in the 2025 DIY Province ITNSA LKS",
         // description: "",
-        date: "2024",
-        image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-lks-itnsa-2024?updatedAt=1729822824599",
+        date: "2025",
+        image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-lks-itnsa-2025?updatedAt=1729822824599",
     },
 ])
 </script>

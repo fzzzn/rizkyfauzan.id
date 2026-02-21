@@ -535,7 +535,7 @@ const translations: Translations = {
                 degree: 'Network Information Systems and Applications',
                 achievements: [
                     '1st Place MikroTik Network Olympics 2024',
-                    '3rd Place LKS IT Network System Administration (ITNSA) DIY Province 2024',
+                    '3rd Place LKS IT Network System Administration (ITNSA) DIY Province 2025',
                 ]
             },
         ],
@@ -702,7 +702,7 @@ const translations: Translations = {
                 degree: 'Sistem Informasi Jaringan dan Aplikasi',
                 achievements: [
                     'Juara 1 Olimpiade Jaringan MikroTik 2024',
-                    'Juara 3 LKS IT Network System Administration (ITNSA) Provinsi DIY 2024',
+                    'Juara 3 LKS IT Network System Administration (ITNSA) Provinsi DIY 2025',
                 ]
             },
         ],
