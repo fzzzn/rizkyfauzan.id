@@ -1,9 +1,9 @@
 <template>
     <div class="h-screen lg:py-6 lg:px-6 flex flex-col">
-        <div class="flex-1  flex flex-col lg:rounded-xl lg:border lg:border-black/30 lg:overflow-hidden relative">
+        <div class="flex-1 flex flex-col lg:rounded-xl lg:border lg:border-black/30 lg:overflow-hidden relative">
             <navigation-bar />
             <main class="flex-1 lg:overflow-hidden relative">
-                <div class="min-h-[80vh] h-full overflow-y-auto relative">
+                <div class="h-full overflow-y-auto relative">
                     <slot />
                 </div>
             </main>

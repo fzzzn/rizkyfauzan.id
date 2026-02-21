@@ -40,12 +40,13 @@ export default defineNuxtConfig({
     defaults: {
       weights: [400],
       styles: ["normal"],
-      subsets: ["latin"],
+      subsets: ["latin", "sans-serif"],
     },
     families: [
-      { name: "Antonio", provider: "google", global: true, preload: true, weights: [700], subsets: ["latin"] },
-      { name: "Geist", provider: "google", global: true, preload: true, weights: [400], subsets: ["latin"] },
-      { name: "JetBrains Mono", provider: "google", global: true, preload: false, weights: [400], subsets: ["latin"] },
+      { name: "Antonio", provider: "google", global: true, preload: true, weights: [700], subsets: ["latin", "sans-serif"] },
+      { name: "Geist", provider: "google", global: true, preload: true, weights: [400], subsets: ["latin", "sans-serif"] },
+      { name: "Inter", provider: "google", global: true, preload: true, weights: [400, 600, 700], subsets: ["latin", "sans-serif"] },
+      { name: "JetBrains Mono", provider: "google", global: true, preload: false, weights: [400], subsets: ["latin", "sans-serif"] },
     ],
     experimental: {
       processCSSVariables: true,

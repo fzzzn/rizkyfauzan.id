@@ -30,7 +30,7 @@
         v-if="isModalOpen"
         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90"
         @click="closeModal">
-        <div class="relative w-full max-w-6xl max-h-full">
+        <div class="relative w-full max-w-3xl max-h-full">
           <!-- Modal content -->
           <div class="bg-white rounded-lg overflow-hidden w-full max-h-[90vh] flex flex-col relative" @click.stop>
             <!-- Close button -->

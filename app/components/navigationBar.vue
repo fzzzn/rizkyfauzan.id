@@ -7,18 +7,18 @@
 						<side-bar />
 					</div>
 					<NuxtLink to="/" class="hidden lg:flex items-center">
-						<span class="text-xl uppercase font-black">rizkyfauzan.id</span>
+						<span class="text-xl uppercase font-[Inter] font-black tracking-tighter">rizkyfauzan.id</span>
 					</NuxtLink>
 				</div>
 
-				<!-- Mobile centered title -->
+				<!-- Mobile -->
 				<NuxtLink to="/" class="flex lg:hidden items-center absolute left-1/2 transform -translate-x-1/2">
-					<span class="text-xl uppercase font-black">rizkyfauzan.id</span>
+					<span class="text-xl uppercase font-[Inter] font-black tracking-tighter">rizkyfauzan.id</span>
 				</NuxtLink>
 
 				<div class="hidden lg:flex items-center gap-4">
 					<NuxtLink v-for="item in navItems" :key="item.title" :to="item.href" :class="[
-						'relative px-2 py-1 uppercase text-sm transition-all duration-200 rounded-lg group',
+						'relative px-2 py-1 uppercase text-sm transition-all duration-200 rounded-md group',
 						$route.path === item.href || ($route.path.startsWith(item.href) && item.href !== '/')
 							? 'text-white bg-black'
 							: 'hover:text-white hover:bg-black'

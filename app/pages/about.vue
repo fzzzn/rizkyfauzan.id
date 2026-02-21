@@ -1,9 +1,8 @@
 <template>
-    <div>
-        <div
-            class="p-8 mb-12 flex flex-col-reverse items-center justify-center lg:flex-row gap-2 lg:gap-10 lg:justify-end lg:items-start">
+        <main
+            class="h-full p-6 flex flex-col items-center justify-center lg:flex-row gap-8 lg:justify-end lg:items-start">
             <div class="lg:flex-4/6">
-                <h1 class="text-6xl md:text-8xl leading-[1.2] font-[antonio] uppercase font-bold">
+                <h1 class="text-6xl md:text-8xl leading-[1.2] lg:-mt-4 font-[antonio] uppercase font-bold">
                     Hi, I am Rizky Fauzan Hanif!
                 </h1>
                 <p class="mt-6 text-xl lg:text-2xl text-justify">
@@ -22,11 +21,11 @@
                 </p>
             </div>
             <div class="lg:flex-2/6">
-                <NuxtImg src="/avatar-with-bg.webp"
-                    class="object-cover rounded-xl h-full w-full lg:h-[75vh] aspect-5/3 lg:aspect-3/4 cursor-pointer hover:opacity-90 transition-opacity"
+                <NuxtImg src="https://assets.rizkyfauzan.id/fauzan-history4.jpg"
+                    class="object-cover rounded-xl w-full lg:h-172 aspect-3/4 cursor-pointer"
                     alt="Rizky Fauzan Hanif" loading="eager" @click="openModal" />
             </div>
-        </div>
+        </main>
 
         <!-- Modal -->
         <Teleport to="body">
@@ -41,12 +40,11 @@
                     </button>
 
                     <!-- Modal image -->
-                    <NuxtImg src="/avatar-with-bg.webp" class="max-w-full max-h-[90vh] object-contain rounded-2xl"
+                    <NuxtImg src="https://assets.rizkyfauzan.id/fauzan-history4.jpg" class="max-w-full max-h-[90vh] object-contain rounded-2xl"
                         alt="Rizky Fauzan Hanif - Full size" @click.stop />
                 </div>
             </div>
         </Teleport>
-    </div>
 </template>
 
 <script setup lang="ts">
