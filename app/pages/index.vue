@@ -4,11 +4,11 @@
             <section aria-label="Profile Photo of Rizky Fauzan Hanif">
                 <NuxtImg src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
                     alt="Rizky Fauzan Hanif - Network Engineer and MikroTik Certified Professional"
-                    class="object-cover w-80 lg:w-125 aspect-square rounded-xl cursor-pointer" loading="eager" fetchpriority="high" @click="openModal" />
+                    class="object-cover w-75 lg:w-125 aspect-square rounded-2xl cursor-pointer" loading="eager" fetchpriority="high" @click="openModal" />
             </section>
             <section class="text-center flex flex-col lg:text-left" aria-label="About Rizky Fauzan Hanif">
-                <h1 class="text-5xl lg:text-8xl font-bold tracking-tighter">Rizky Fauzan Hanif</h1>
-                <h2 class="text-2xl lg:text-4xl mt-2 font-bold">Network Engineer</h2>
+                <h1 class="text-4xl lg:text-8xl font-bold tracking-tighter">Rizky Fauzan Hanif</h1>
+                <h2 class="text-2xl lg:text-4xl mt-2 font-bold tracking-tighter">Network Engineer</h2>
                 <div class="flex flex-col">
                     <p
                         class="mt-12 absolute left-0 text-sm lg:text-base lg:relative w-full bottom-5 flex flex-col lg:flex-row items-center justify-between lg:gap-3 font-bold">

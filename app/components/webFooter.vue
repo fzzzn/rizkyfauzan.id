@@ -12,7 +12,7 @@
                 </nav>
 
                 <!-- Quote -->
-                <p class="text-sm italic lg:absolute lg:left-1/2 lg:-translate-x-1/2">
+                <p class="text-sm italic text-center lg:absolute lg:left-1/2 lg:-translate-x-1/2">
                     "{{ currentQuote }}"
                 </p>
 
