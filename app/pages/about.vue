@@ -22,7 +22,7 @@
         </div>
         <div class="lg:flex-2/6">
             <NuxtImg src="https://assets.rizkyfauzan.id/fauzan-history4.jpg"
-                class="object-cover rounded-xl w-full lg:h-172 aspect-3/4 cursor-pointer" alt="Rizky Fauzan Hanif"
+                class="object-cover rounded-xl w-full lg:h-172 aspect-3/4 cursor-pointer lg:grayscale lg:hover:grayscale-0 transition-all duration-200" alt="Rizky Fauzan Hanif"
                 loading="eager" @click="openModal" />
         </div>
 
