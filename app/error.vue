@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen lg:py-6 lg:px-6 flex flex-col">
+  <div ref="pageRef" class="h-screen lg:py-6 lg:px-6 flex flex-col transition-all duration-400" :class="{ 'opacity-0 blur-sm': leaving }">
     <div class="flex-1 flex flex-col lg:rounded-xl lg:border lg:border-black/30 lg:overflow-hidden relative">
       <navigation-bar />
       <main class="flex-1 flex items-center justify-center p-6">
@@ -17,13 +17,14 @@
               : error?.message || 'An unexpected error occurred.'
             }}
           </p>
-          <NuxtLink to="/" class="group text-xl font-bold" aria-label="Go back to home page">
+          <button class="group text-xl font-bold cursor-pointer" aria-label="Go back to home page"
+            @click="handleGoHome">
             <span class="relative">
               Back to Home
               <span
                 class="absolute left-0 bottom-0 h-full w-full max-w-0 backdrop-invert transition-all group-hover:max-w-full" />
             </span>
-          </NuxtLink>
+          </button>
         </div>
       </main>
       <web-footer class="hidden lg:block" />
@@ -43,6 +44,15 @@ useSeoMeta({
   title: `${props.error?.status || 404} - Rizky Fauzan Hanif`,
   description: 'The page you are looking for does not exist.',
 })
+
+const leaving = ref(false)
+
+const handleGoHome = () => {
+  leaving.value = true
+  setTimeout(() => {
+    clearError({ redirect: '/' })
+  }, 400)
+}
 </script>
 
 <style scoped>
