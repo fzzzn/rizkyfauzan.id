@@ -10,7 +10,7 @@
             @click="handleClose" />
 
         <div v-show="isOpen" id="sidebar-panel" ref="sidebarPanel"
-            class="fixed lg:absolute left-0 top-0 h-full w-screen lg:w-130 bg-black lg:rounded-lg z-40 lg:z-50 overflow-hidden flex flex-col"
+            class="fixed lg:absolute left-0 top-0 h-full w-screen lg:w-130 bg-neutral-900 lg:rounded-lg z-40 lg:z-50 overflow-hidden flex flex-col"
             role="dialog" aria-modal="true" aria-labelledby="sidebar-title">
             <div class="absolute -bottom-10 left-0 text-white/40 pointer-events-none">
                 <span class="text-[10rem]" aria-hidden="true">💤</span>
@@ -34,7 +34,7 @@
             <nav class="flex-1 overflow-y-auto px-8 pb-8 scrollbar-hide" aria-label="Main navigation">
                 <div class="space-y-2">
                     <NuxtLink v-for="(item, index) in menuList" :key="index" :to="item.href" :class="[
-                        'relative flex py-2 px-3 gap-2 group w-fit transition-all duration-300 rounded-lg',
+                        'relative flex py-2 px-3 gap-2 -mx-3 group w-fit transition-all duration-300 rounded-lg',
                         isActiveRoute(item.href)
                             ? 'text-black bg-white'
                             : 'text-white hover:text-black'
@@ -92,9 +92,11 @@ const menuList: MenuItem[] = [
     { menu: "Guestbook", href: "/guestbook", pageInfo: "✍️" },
 ]
 
+const { sidebarOpen } = useSidebarState()
+
 const backdrop: Ref<HTMLElement | null> = ref(null)
 const sidebarPanel: Ref<HTMLElement | null> = ref(null)
-const isOpen: Ref<boolean> = ref(false)
+const isOpen = sidebarOpen
 const infoRef: Ref<Array<Element | ComponentPublicInstance | null>> = ref([])
 const menuRef: Ref<Array<Element | ComponentPublicInstance | null>> = ref([])
 const splitInstances: Ref<(SplitTextInstance | null)[]> = ref([])

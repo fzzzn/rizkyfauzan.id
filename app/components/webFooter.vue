@@ -1,12 +1,12 @@
 <template>
-    <footer class="px-6 py-4 ">
-        <div class="text-black/60 flex flex-col gap-4">
+    <footer class="px-6 py-4 relative z-50">
+        <div class="text-neutral-500 flex flex-col gap-4">
             <!-- Main footer content -->
             <div class="relative flex flex-col lg:flex-row gap-2.5 items-center">
                 <!-- Navigation links -->
                 <nav class="flex items-center gap-3">
                     <a v-for="item in menuItems" :key="item.menu" target="_blank" rel="noopener" :href="item.href"
-                        class="uppercase font-bold text-sm hover:text-black transition-colors duration-200">
+                        :class="['uppercase font-bold text-sm transition-colors duration-200', sidebarOpen ? 'hover:text-white' : 'hover:text-black']">
                         {{ item.menu }}
                     </a>
                 </nav>
@@ -51,6 +51,8 @@ const menuItems: MenuItem[] = [
         href: "https://notes.rizkyfauzan.id",
     },
 ]
+
+const { sidebarOpen } = useSidebarState()
 
 const currentQuote = ref<string>('')
 
