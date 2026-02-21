@@ -44,7 +44,7 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
     {
         menu: "Resume",
-        href: "https://rizkyfauzan.id/resume",
+        href: "resume",
     },
     {
         menu: "Notes",
