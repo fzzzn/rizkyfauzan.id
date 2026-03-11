@@ -3,7 +3,7 @@
         <PageHeader title="Credits"
             description="Acknowledgements and thanks to the people who inspired me in building this website." />
 
-        <p class="mt-6 text-xl lg:text-2xl text-justify">The style and design of this website are inspired by
+        <p class="mt-6 text-xl lg:text-2xl text-center">The style and design of this website are inspired by
             <a href="https://miukyo.my.id" target="_blank" rel="noopener noreferrer" class="group"
                 aria-label="Learn more about Miukyo's personal website">
                 <span class="relative">
