@@ -536,6 +536,7 @@ const translations: Translations = {
                 achievements: [
                     '1st Place MikroTik Network Olympics 2024',
                     '3rd Place LKS IT Network System Administration (ITNSA) DIY Province 2025',
+                    '2nd Place LKS Cloud Computing DIY Province 2026',
                 ]
             },
         ],
