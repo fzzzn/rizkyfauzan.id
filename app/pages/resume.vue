@@ -26,17 +26,19 @@
             <div class="space-y-8">
                 <!-- About Me -->
                 <section>
-                    <div class="flex items-center justify-between pb-2.5 border-b-2 border-black">
-                        <h3 class="text-xl font-bold text-black">{{ t.sections.aboutMe }}</h3>
-                        <div class="flex items-center gap-2">
+                    <div class="print:block print:border-0 print:p-0 flex justify-between pb-2.5 border-b-2 border-black">
+                      <h3 class="print:border-b-2 border-black text-xl font-bold text-black">
+                        {{ t.sections.aboutMe }}
+                      </h3>
+                        <div class="print:hidden flex items-center gap-2">
                             <button
-                                class="inline-flex items-center justify-center cursor-pointer print:hidden px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+                                class="inline-flex items-center justify-center cursor-pointer px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
                                 @click="toggleLanguage">
                                 <span class="text-sm font-medium text-black">{{ currentLang === 'en' ? 'ID' : 'EN'
                                 }}</span>
                             </button>
                             <button
-                                class="inline-flex items-center justify-center cursor-pointer print:hidden px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+                                class="inline-flex items-center justify-center cursor-pointer px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
                                 @click="printResume">
                                 <Icon name="heroicons:printer" class="text-black text-lg" />
                             </button>
@@ -80,7 +82,7 @@
                     <div v-for="edu in t.education" :key="edu.institution" class="mt-4">
                         <div class="flex items-start justify-between mb-2.5">
                             <h4 class="max-w-md font-semibold text-black">{{ edu.institution }}</h4>
-                            <p class="text-sm font-semibold text-gray-700">{{ edu.period }}</p>
+                            <p class="text-sm text-right font-semibold text-gray-700 min-w-fit">{{ edu.period }}</p>
                         </div>
                         <p v-if="edu.degree" class="text-gray-800 mb-1">{{ edu.degree }}</p>
                         <p v-if="edu.gpa" class="text-gray-700 text-sm mb-1">{{ edu.gpa }}</p>
@@ -99,16 +101,16 @@
 
                 <!-- Experience -->
                 <section>
-                    <div class="flex items-center justify-between pb-2.5 border-b-2 border-black">
-                        <h3 class="text-xl font-bold text-black">{{ t.sections.experience }}</h3>
-                    </div>
+                  <h3 class="mb-4 pb-2.5 border-b-2 border-black text-xl font-bold text-black">
+                    {{ t.sections.experience }}
+                  </h3>
                     <div v-for="exp in t.experience" :key="exp.company" class="mt-4">
                         <div class="flex items-start justify-between mb-2.5">
                             <div>
                                 <h4 class="font-semibold text-black">{{ exp.company }}</h4>
                                 <h6 class="text-gray-700">{{ exp.position }}</h6>
                             </div>
-                            <p class="text-sm font-semibold text-gray-700">{{ exp.period }}</p>
+                            <p class="text-sm text-right font-semibold text-gray-700 min-w-fit">{{ exp.period }}</p>
                         </div>
                         <ul class="list-disc list-inside [&>li]:my-1">
                             <li v-for="responsibility in exp.responsibilities" :key="responsibility"
@@ -137,7 +139,7 @@
                                 </h4>
                                 <p class="text-sm text-gray-600">{{ project.technology }}</p>
                             </div>
-                            <p class="text-sm font-semibold text-gray-700">{{ project.period }}</p>
+                            <p class="text-sm text-right font-semibold text-gray-700 min-w-fit">{{ project.period }}</p>
                         </div>
                         <p class="text-gray-800">{{ project.description }}</p>
                     </div>
@@ -155,7 +157,7 @@
                                     {{ cert.name }}
                                 </a>
                             </h4>
-                            <p class="text-sm text-gray-600">{{ cert.date }}</p>
+                            <p class="text-sm text-gray-600 min-w-fit">{{ cert.date }}</p>
                         </div>
                         <p class="text-gray-700 text-sm">{{ cert.issuer }}</p>
                         <p v-if="cert.credentialId" class="text-gray-600 text-xs">Credential ID: {{ cert.credentialId }}
