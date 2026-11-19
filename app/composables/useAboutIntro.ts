@@ -4,8 +4,8 @@ import { SplitText } from 'gsap/SplitText'
 gsap.registerPlugin(SplitText)
 
 /**
- * Gentle intro for the About page: the photo wipes in, then the heading rises
- * line by line and the paragraphs follow.
+ * Gentle intro for the About page: the photo fades in and settles while the
+ * heading rises line by line and the paragraphs follow.
  *
  * The page is two columns on wide screens and one stacked column on phones.
  * On desktop everything is above the fold, so a plain scroll reveal makes the
@@ -45,14 +45,10 @@ export const useAboutIntro = () => {
 
         if (!all.length) return
 
-        const fromRight = window.matchMedia('(min-width: 1024px)').matches
-
         // The photo carries Tailwind's `transition-all`. A CSS transition on
-        // clip-path and transform competes with GSAP: each frame GSAP writes a
-        // new value, the transition tries to ease towards it, and when
-        // clearProps removes the value the rendered clip is still part-way and
-        // snaps to fully visible. Suspending the transition for the duration of
-        // the intro keeps GSAP as the only thing driving these properties.
+        // transform competes with GSAP: each frame GSAP writes a new value and
+        // the transition tries to ease towards it. Suspending it for the intro
+        // keeps GSAP the only thing driving the frame.
         if (photo) {
             // Safe to clear later: the element has no inline transition of its
             // own, the animation comes from its utility classes.
@@ -63,13 +59,11 @@ export const useAboutIntro = () => {
         }
 
         // Put the photo in its start state *before* dropping the hiding
-        // attribute. Otherwise it spends a frame at opacity 1 with no clip,
-        // which flashes the full, unscaled photo for one frame before the wipe
-        // begins. The hide rule is `opacity: 0`, so the element is invisible
-        // while these values are written.
+        // attribute, so it never appears for a frame at full size before
+        // settling. The hide rule is `opacity: 0`, so the element is
+        // invisible while these values are written.
         if (photo) {
-            photo.style.clipPath = fromRight ? 'inset(0 0 0 100%)' : 'inset(100% 0 0 0)'
-            photo.style.transform = 'scale(1.08)'
+            photo.style.transform = 'scale(1.04)'
         }
 
         // The head script pre-hides these elements inline (see nuxt.config.ts).
@@ -92,18 +86,16 @@ export const useAboutIntro = () => {
             })
 
             if (photo) {
-                // Wipe from the edge the photo sits on: the right column on
-                // desktop, the bottom of the stack on phones.
-                master.fromTo(photo, { autoAlpha: 0 }, {
+                // A soft fade with a slow settle inward. Long and eased-out so it
+                // finishes without a visible stop, which reads as composure
+                // rather than an effect: no wipe, no bounce, nothing that draws
+                // attention to the motion itself.
+                master.fromTo(photo, { autoAlpha: 0, scale: 1.04 }, {
                     autoAlpha: 1,
-                    clipPath: 'inset(0 0 0 0%)',
                     scale: 1,
-                    duration: 1.15,
-                    // power2.out starts gentler than power4.out (4.3% vs 7% of
-                    // the photo per frame at 60fps) and still settles cleanly,
-                    // so the wipe opens smoothly instead of lurching.
+                    duration: 1.4,
                     ease: 'power2.out',
-                    clearProps: 'clip-path,transform,opacity,visibility',
+                    clearProps: 'transform,opacity,visibility',
                 }, 0)
             }
 
