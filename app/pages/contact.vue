@@ -107,7 +107,8 @@
             </a>
 
             <!-- Discord -->
-            <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group cursor-pointer w-full sm:w-80 relative"
+            <div data-reveal
+                class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group cursor-pointer w-full sm:w-80 relative"
                 @click="copyDiscord">
                 <div class="flex items-center space-x-4">
                     <div class="shrink-0 relative">
