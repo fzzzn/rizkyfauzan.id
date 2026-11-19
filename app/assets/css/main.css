@@ -21,6 +21,16 @@
  * available and the visitor has not asked for reduced motion, so content is
  * never left invisible on a JS-less client or under reduced motion.
  */
-html.reveal-enabled [data-reveal] {
+html.reveal-enabled [data-reveal],
+html.reveal-enabled [data-intro] {
   opacity: 0;
+}
+
+/*
+ * About intro: the heading is split into lines that slide up from beneath a
+ * hidden overflow, so each line appears to rise out of the previous one.
+ */
+[data-intro="heading"] .intro-line {
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
 }
