@@ -10,7 +10,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "optimize-images": "node scripts/optimize-images.mjs"
+    "optimize-images": "node scripts/optimize-images.mjs",
+    "prebuild": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.4.1",

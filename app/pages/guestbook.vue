@@ -15,8 +15,8 @@
                 <div
                     class="flex flex-row items-center justify-between mb-4 sm:mb-6">
                     <div class="flex items-center space-x-3 sm:space-x-4 min-w-0">
-                        <img :src="user.user_metadata?.avatar_url || '/guest.png'" :alt="user.user_metadata?.full_name || 'User'"
-                            class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover shrink-0">
+                        <OptimizedImg :src="user.user_metadata?.avatar_url || '/guest.png'" :alt="user.user_metadata?.full_name || 'User'"
+                            sizes="48px" loading="lazy" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover shrink-0" />
                         <div class="min-w-0 flex-1">
                             <h3 class="text-lg sm:text-xl font-bold text-black truncate">{{ user.user_metadata?.full_name
                                 || user.user_metadata?.user_name || 'User' }}</h3>

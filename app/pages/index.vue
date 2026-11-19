@@ -2,9 +2,10 @@
     <div class="h-full">
         <main class="h-full p-6 flex-col gap-8 lg:gap-24 flex lg:flex-row items-center justify-center">
             <section aria-label="Profile Photo of Rizky Fauzan Hanif">
-                <NuxtImg src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
+                <img src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
                     alt="Rizky Fauzan Hanif - Network Engineer and MikroTik Certified Professional"
-                    class="object-cover w-75 lg:w-125 aspect-square rounded-2xl cursor-pointer" loading="eager" fetchpriority="high" @click="openModal" />
+                    width="500" height="500"
+                    class="object-cover w-75 lg:w-125 aspect-square rounded-2xl cursor-pointer" loading="eager" fetchpriority="high" @click="openModal">
             </section>
             <section class="text-center flex flex-col lg:text-left" aria-label="About Rizky Fauzan Hanif">
                 <h1 class="text-4xl lg:text-8xl font-bold tracking-tighter">Rizky Fauzan Hanif</h1>
@@ -40,9 +41,10 @@
                         </button>
 
                         <!-- Modal image -->
-                        <NuxtImg src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
+                        <img src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
+                            width="500" height="500"
                             class="max-w-full max-h-[90vh] object-contain rounded-2xl" alt="Rizky Fauzan Hanif - Full size"
-                            @click.stop />
+                            @click.stop>
                     </div>
                 </div>
             </Teleport>
