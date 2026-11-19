@@ -1,4 +1,5 @@
 import sharp from 'sharp'
+import { createHash } from 'node:crypto'
 import { mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises'
 import { join, extname, basename, relative } from 'node:path'
 
@@ -18,7 +19,7 @@ const RAW_EXTENSIONS = ['.png', '.jpg', '.jpeg']
 const SKIP_PATTERNS = [/^favicon\./, /^apple-touch-icon\./, /^web-app-manifest-/, /^og-image\./, /^favicon-\d+/]
 
 // Bump when the options above change so cached results are regenerated.
-const CACHE_VERSION = 4
+const CACHE_VERSION = 5
 
 const toUrl = (path) => `/${relative(PUBLIC_DIR, path).split('\\').join('/')}`
 
@@ -53,20 +54,29 @@ const sourceStamp = async (file) => {
   return `${stats.size}:${stats.mtimeMs}`
 }
 
+/**
+ * Short content hash of the source bytes. Variant file names include it so a
+ * changed image gets a new URL, which makes `immutable` caching safe: browsers
+ * and the CDN never serve stale pixels under a reused file name.
+ */
+const sourceHash = async (file) =>
+  createHash('sha256')
+    .update(await readFile(join(PUBLIC_DIR, file)))
+    .digest('hex')
+    .slice(0, 8)
+
 /** Widths a source produced in the previous run, including its own width. */
 const cachedWidths = (entry) => Object.values(entry?.variants ?? {}).flatMap((list) => list.map((v) => v.width))
 
-const variantPath = (file, width, format) => join(OUTPUT_DIR, `${basename(file, extname(file))}-${width}.${format}`)
+const variantName = (file, width, format, hash) =>
+  `${basename(file, extname(file))}-${width}.${hash}.${format}`
 
-const widthsFor = (file, extra = []) => [...new Set([...WIDTHS, ...extra])]
-
-const variantPaths = (file, extra = []) =>
-  FORMATS.flatMap((format) => widthsFor(file, extra).map((width) => variantPath(file, width, format)))
+const variantPath = (file, width, format, hash) => join(OUTPUT_DIR, variantName(file, width, format, hash))
 
 const fileExists = (path) => stat(path).then(() => true, () => false)
 
 /** Resize one source into every configured format and width. */
-const generateVariants = async (file) => {
+const generateVariants = async (file, hash) => {
   const inputPath = join(PUBLIC_DIR, file)
 
   const { width: sourceWidth } = await sharp(inputPath).metadata()
@@ -78,7 +88,7 @@ const generateVariants = async (file) => {
     variants[format] = []
 
     for (const targetWidth of widths) {
-      const output = variantPath(file, targetWidth, format)
+      const output = variantPath(file, targetWidth, format, hash)
       const info = await sharp(inputPath)
         .resize({ width: targetWidth, withoutEnlargement: true })
         .toFormat(format, { quality: QUALITY[format] })
@@ -115,24 +125,27 @@ const toManifestEntry = (variants) => {
 /**
  * True when the cached entry is current and every file it produced still
  * exists. Only produced widths are checked: small sources skip larger widths.
+ * The hash comparison means a changed image always regenerates, even when the
+ * size and mtime happen to match.
  */
-const canReuse = async (file, entry, stamp) => {
-  if (!entry || entry.version !== CACHE_VERSION || entry.stamp !== stamp) return false
+const canReuse = async (file, entry, stamp, hash) => {
+  if (!entry || entry.version !== CACHE_VERSION || entry.stamp !== stamp || entry.hash !== hash) return false
 
   const produced = cachedWidths(entry)
-  const paths = FORMATS.flatMap((format) => produced.map((width) => variantPath(file, width, format)))
+  const paths = FORMATS.flatMap((format) => produced.map((width) => variantPath(file, width, format, hash)))
   const checks = await Promise.all(paths.map(fileExists))
 
   return checks.every(Boolean)
 }
 
-/** Remove files in public/images that do not belong to a current source. */
-const sweepOrphans = async (sources, cache) => {
+/**
+ * Remove files in public/images that no current source produced. Variant names
+ * carry a content hash, so a regenerated source produces new names and its old
+ * files become untracked and are deleted here.
+ */
+const sweepOrphans = async (keep) => {
   const entries = await readdir(OUTPUT_DIR, { withFileTypes: true }).catch(() => [])
-  const known = [...sources, ...Object.keys(cache)]
-  const tracked = new Set(
-    known.flatMap((file) => variantPaths(file, cachedWidths(cache[file])).map((path) => basename(path)))
-  )
+  const tracked = new Set(keep)
 
   for (const entry of entries) {
     if (!entry.isFile() || tracked.has(entry.name)) continue
@@ -175,7 +188,8 @@ async function main() {
   for (const file of sources) {
     const cached = cache[file]
     const stamp = await sourceStamp(file)
-    const reuse = !force && (await canReuse(file, cached, stamp))
+    const hash = await sourceHash(file)
+    const reuse = !force && (await canReuse(file, cached, stamp, hash))
 
     processed.add(file)
 
@@ -187,7 +201,7 @@ async function main() {
     }
 
     try {
-      const variants = await generateVariants(file)
+      const variants = await generateVariants(file, hash)
       const size = (await stat(join(PUBLIC_DIR, file))).size
       const summary = Object.entries(variants)
         .map(([format, list]) => `${format} ×${list.length}, max ${Math.round(list[list.length - 1].bytes / 1024)} KB`)
@@ -196,7 +210,7 @@ async function main() {
       console.log(`✅ ${file} (${Math.round(size / 1024)} KB) → ${summary}`)
 
       manifest[file] = toManifestEntry(variants)
-      cache[file] = { version: CACHE_VERSION, stamp, entry: manifest[file], variants }
+      cache[file] = { version: CACHE_VERSION, stamp, hash, entry: manifest[file], variants }
     } catch (err) {
       console.error(`❌ ${file}: ${err.message}`)
       delete cache[file]
@@ -212,7 +226,13 @@ async function main() {
     console.log(`🗑️  removed stale entry for ${file}`)
   }
 
-  await sweepOrphans(sources, cache)
+  // Keep only the files the current cache says it produced; everything else is
+  // stale (an older hash, a dropped width, or a removed source).
+  const keep = Object.values(cache).flatMap((entry) =>
+    Object.values(entry.variants ?? {}).flatMap((list) => list.map((variant) => basename(variant.url)))
+  )
+
+  await sweepOrphans(keep)
   await writeCache(cache)
 
   await mkdir(MANIFEST_DIR, { recursive: true })
