@@ -2,7 +2,8 @@
     <div class="h-full">
         <main class="h-full p-6 flex-col gap-8 lg:gap-24 flex lg:flex-row items-center justify-center">
             <section aria-label="Profile Photo of Rizky Fauzan Hanif">
-                <img ref="photoEl" src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
+                <img
+ref="photoEl" src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
                     alt="Rizky Fauzan Hanif - Network Engineer and MikroTik Certified Professional"
                     width="500" height="500"
                     class="object-cover w-75 lg:w-125 aspect-square rounded-2xl cursor-pointer" loading="eager" fetchpriority="high" @click="openModal">
@@ -29,27 +30,9 @@
         </main>
 
         <!-- Modal -->
-        <ClientOnly>
-            <Teleport to="body">
-                <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90"
-                    @click="closeModal">
-                    <div class="relative max-w-6xl max-h-full">
-                        <!-- Close button -->
-                        <button
-                            class="absolute top-4 right-4 z-20 w-8 h-8 bg-black hover:bg-black/80 text-white rounded-full transition duration-200 flex items-center justify-center cursor-pointer"
-                            aria-label="Close modal" @click.stop="closeModal">
-                            <Icon name="heroicons:x-mark" size="16" />
-                        </button>
-
-                        <!-- Modal image -->
-                        <img src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
-                            width="500" height="500"
-                            class="max-w-full max-h-[90vh] object-contain rounded-2xl" alt="Rizky Fauzan Hanif - Full size"
-                            @click.stop>
-                    </div>
-                </div>
-            </Teleport>
-        </ClientOnly>
+        <PhotoModal
+v-model:open="isModalOpen" src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
+            alt="Rizky Fauzan Hanif - Full size" />
     </div>
 </template>
 
@@ -149,37 +132,18 @@ const playIntro = () => {
 
 const openModal = () => {
     isModalOpen.value = true
-    // Prevent body scroll when modal is open
-    document.body.style.overflow = 'hidden'
-}
-
-const closeModal = () => {
-    isModalOpen.value = false
-    // Restore body scroll
-    document.body.style.overflow = ''
-}
-
-// Close modal on escape key
-const handleKeydown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-        closeModal()
-    }
 }
 
 onMounted(() => {
-    document.addEventListener('keydown', handleKeydown)
     playIntro()
 })
 
 onUnmounted(() => {
-    document.removeEventListener('keydown', handleKeydown)
     // Kill the intro so no animation ticks after the page is gone, and put the
     // split text back to its original markup.
     introTimeline?.kill()
     introTimeline = null
     nameSplit?.revert()
     nameSplit = null
-    // Ensure body scroll is restored
-    document.body.style.overflow = ''
 })
 </script>
