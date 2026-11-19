@@ -31,17 +31,24 @@
             <Teleport to="body">
                 <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90"
                     @click="closeModal">
-                    <div class="relative max-w-6xl max-h-full">
+                    <!-- The padding leaves room for the close button and, more
+                         importantly, keeps it off the photo. Pinned to the
+                         photo it sat over the image, and the backdrop's dark
+                         circle was invisible against the dark photo. -->
+                    <div class="relative max-w-6xl max-h-full p-3 pt-15">
                         <!-- Close button -->
                         <button
-                            class="absolute top-4 right-4 z-20 w-8 h-8 bg-black hover:bg-black/80 text-white rounded-full transition duration-200 flex items-center justify-center cursor-pointer"
+                            class="absolute top-3 right-3 z-20 w-9 h-9 bg-white text-black hover:bg-white/85 rounded-full transition duration-200 flex items-center justify-center cursor-pointer"
                             aria-label="Close modal" @click.stop="closeModal">
-                            <Icon name="heroicons:x-mark" size="16" />
+                            <Icon name="heroicons:x-mark" size="18" />
                         </button>
 
-                        <!-- Modal image -->
+                        <!-- Modal image. Explicit width/height keep the photo
+                             at its own aspect ratio instead of stretching to
+                             the srcset's size hint and spilling under the
+                             close button. -->
                         <OptimizedImg src="/fauzan-history-full.png"
-                            class="max-w-full max-h-[90vh] object-contain rounded-2xl"
+                            class="block w-auto h-auto max-w-full max-h-[80vh] object-contain rounded-2xl"
                             alt="Rizky Fauzan Hanif - Full size" @click.stop />
                     </div>
                 </div>
