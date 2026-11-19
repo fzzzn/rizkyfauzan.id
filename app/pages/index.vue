@@ -55,6 +55,9 @@
 
 <script setup lang="ts">
 import gsap from 'gsap'
+import { SplitText } from 'gsap/SplitText'
+
+gsap.registerPlugin(SplitText)
 
 useSeoMeta({
     title: 'Network Engineer | MikroTik MTCNA & MTCTCE Certified',
@@ -78,80 +81,70 @@ const nameEl = ref<HTMLElement | null>(null)
 const roleEl = ref<HTMLElement | null>(null)
 const ctaEl = ref<HTMLElement | null>(null)
 
-/**
- * Wrap every word of an element in a span so it can be animated on its own.
- * The spaces are preserved as text nodes, so the layout and screen-reader
- * output stay the same. Returns the word spans.
- */
-const splitWords = (element: HTMLElement): HTMLElement[] => {
-    const words = (element.textContent ?? '').trim().split(/\s+/)
-    element.textContent = ''
-
-    return words.map((word, index) => {
-        const span = document.createElement('span')
-        span.textContent = word
-        // Inline-block so each word can be transformed independently.
-        span.style.display = 'inline-block'
-
-        element.appendChild(span)
-        if (index < words.length - 1) element.appendChild(document.createTextNode(' '))
-
-        return span
-    })
-}
-
 let introTimeline: gsap.core.Timeline | null = null
+let nameSplit: SplitText | null = null
 
 /**
- * Entrance animation: photo first, then the name, role, and call to action.
- * Skipped when the visitor prefers reduced motion, in which case the page is
- * simply left in its final state.
+ * Entrance animation: photo first, then the name (word by word), the role, and
+ * the call to action. Skipped when the visitor prefers reduced motion, in which
+ * case the page is left in its final state and the text is never split.
  */
 const playIntro = () => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reducedMotion) return
+    if (reducedMotion || !nameEl.value) return
 
-    const words = nameEl.value ? splitWords(nameEl.value) : []
+    const heading = nameEl.value
 
-    introTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } })
+    // autoSplit re-runs onSplit when the line breaks change (e.g. resizing
+    // between the mobile and desktop layouts), so the animation is rebuilt for
+    // the new words instead of animating stale elements.
+    nameSplit = SplitText.create(heading, {
+        type: 'words',
+        autoSplit: true,
+        onSplit: (self: SplitText) => {
+            introTimeline?.kill()
 
-    if (photoEl.value) {
-        introTimeline.from(photoEl.value, {
-            opacity: 0,
-            scale: 0.94,
-            y: 24,
-            duration: 0.9,
-            clearProps: 'transform,opacity',
-        }, 0)
-    }
+            introTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-    if (words.length) {
-        introTimeline.from(words, {
-            y: '0.6em',
-            opacity: 0,
-            duration: 0.7,
-            stagger: 0.07,
-            clearProps: 'transform,opacity',
-        }, 0.15)
-    }
+            if (photoEl.value) {
+                introTimeline.from(photoEl.value, {
+                    opacity: 0,
+                    scale: 0.94,
+                    y: 24,
+                    duration: 0.9,
+                    clearProps: 'transform,opacity',
+                }, 0)
+            }
 
-    if (roleEl.value) {
-        introTimeline.from(roleEl.value, {
-            y: 16,
-            opacity: 0,
-            duration: 0.6,
-            clearProps: 'transform,opacity',
-        }, 0.45)
-    }
+            introTimeline.from(self.words, {
+                y: '0.6em',
+                opacity: 0,
+                duration: 0.7,
+                stagger: 0.07,
+                clearProps: 'transform,opacity',
+            }, 0.15)
 
-    if (ctaEl.value) {
-        introTimeline.from(ctaEl.value, {
-            y: 12,
-            opacity: 0,
-            duration: 0.5,
-            clearProps: 'transform,opacity',
-        }, 0.6)
-    }
+            if (roleEl.value) {
+                introTimeline.from(roleEl.value, {
+                    y: 16,
+                    opacity: 0,
+                    duration: 0.6,
+                    clearProps: 'transform,opacity',
+                }, 0.45)
+            }
+
+            if (ctaEl.value) {
+                introTimeline.from(ctaEl.value, {
+                    y: 12,
+                    opacity: 0,
+                    duration: 0.5,
+                    clearProps: 'transform,opacity',
+                }, 0.6)
+            }
+
+            return introTimeline
+        },
+    })
 }
 
 const openModal = () => {
@@ -181,9 +174,11 @@ onMounted(() => {
 onUnmounted(() => {
     document.removeEventListener('keydown', handleKeydown)
     // Kill the intro so no animation ticks after the page is gone, and put the
-    // name back to plain text in case this component is ever kept alive.
+    // split text back to its original markup.
     introTimeline?.kill()
     introTimeline = null
+    nameSplit?.revert()
+    nameSplit = null
     // Ensure body scroll is restored
     document.body.style.overflow = ''
 })
