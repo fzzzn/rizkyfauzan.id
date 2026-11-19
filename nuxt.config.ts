@@ -16,9 +16,10 @@ export default defineNuxtConfig({
       cssMinify: true,
       rollupOptions: {
         output: {
-          manualChunks: {
-            gsap: ["gsap"],
-          },
+          // Vite 8's Rolldown backend only accepts the function form of
+          // manualChunks; the object form fails the build.
+          manualChunks: (id) =>
+            id.includes("node_modules/gsap") ? "gsap" : undefined,
         },
       },
     },
