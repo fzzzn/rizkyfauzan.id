@@ -21,9 +21,9 @@
             </p>
         </div>
         <div class="lg:flex-2/6">
-            <NuxtImg src="https://assets.rizkyfauzan.id/fauzan-history4.jpg"
+            <img src="/fauzan-history.webp" width="1200" height="800"
                 class="object-cover rounded-xl w-full lg:h-172 aspect-3/4 cursor-pointer lg:grayscale lg:hover:grayscale-0 transition-all duration-200" alt="Rizky Fauzan Hanif"
-                loading="eager" @click="openModal" />
+                loading="eager" fetchpriority="high" @click="openModal">
         </div>
 
         <!-- Modal -->
@@ -40,9 +40,9 @@
                         </button>
 
                         <!-- Modal image -->
-                        <NuxtImg src="https://assets.rizkyfauzan.id/fauzan-history4.jpg"
+                        <img src="/fauzan-history-full.webp" width="1800" height="1200"
                             class="max-w-full max-h-[90vh] object-contain rounded-2xl"
-                            alt="Rizky Fauzan Hanif - Full size" @click.stop />
+                            alt="Rizky Fauzan Hanif - Full size" @click.stop>
                     </div>
                 </div>
             </Teleport>

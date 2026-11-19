@@ -40,13 +40,12 @@ export default defineNuxtConfig({
     defaults: {
       weights: [400],
       styles: ["normal"],
-      subsets: ["latin", "sans-serif"],
+      subsets: ["latin"],
     },
     families: [
-      { name: "Antonio", provider: "google", global: true, preload: true, weights: [700], subsets: ["latin", "sans-serif"] },
-      { name: "Geist", provider: "google", global: true, preload: true, weights: [400], subsets: ["latin", "sans-serif"] },
-      { name: "Inter", provider: "google", global: true, preload: true, weights: [400, 600, 700], subsets: ["latin", "sans-serif"] },
-      { name: "JetBrains Mono", provider: "google", global: true, preload: false, weights: [400], subsets: ["latin", "sans-serif"] },
+      { name: "Antonio", provider: "google", global: true, preload: true, weights: [700], subsets: ["latin"] },
+      { name: "Inter", provider: "google", global: true, preload: true, weights: [400, 600, 700], subsets: ["latin"] },
+      { name: "JetBrains Mono", provider: "google", global: true, preload: false, weights: [400], subsets: ["latin"] },
     ],
     experimental: {
       processCSSVariables: true,
@@ -91,7 +90,7 @@ export default defineNuxtConfig({
         { rel: "dns-prefetch", href: "https://u.zxn.my.id" },
         { rel: "preconnect", href: "https://ik.imagekit.io", crossorigin: "anonymous" },
         { rel: "dns-prefetch", href: "https://ik.imagekit.io" },
-        { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+        { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon-96x96.png" },
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
         { rel: "manifest", href: "/site.webmanifest" },
@@ -106,11 +105,9 @@ export default defineNuxtConfig({
     defaultLocale: "en",
   },
   ogImage: {
-    enabled: true,
-    defaults: {
-      width: 1200,
-      height: 630,
-    },
+    // The site uses a static Open Graph image; disabling dynamic generation
+    // also keeps the ~2.5 MB image renderer out of the worker bundle.
+    enabled: false,
   },
   sitemap: {
     strictNuxtContentPaths: true,

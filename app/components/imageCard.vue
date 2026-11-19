@@ -7,12 +7,17 @@
     >
       <div class="flex flex-col gap-4 h-full">
         <div class="shrink-0">
-          <NuxtImg
-            :src="item.image" 
+          <img
+            :src="imageKitUrl(item.image, 800)"
+            :srcset="`${imageKitUrl(item.image, 400)} 400w, ${imageKitUrl(item.image, 800)} 800w, ${imageKitUrl(item.image, 1200)} 1200w`"
+            sizes="(min-width: 768px) 480px, 100vw"
             :alt="`${item.title} - ${item.description || 'Certificate or achievement image'}`"
             class="w-full aspect-3/2 object-cover rounded-lg hover:opacity-90 transition-opacity"
+            width="800"
+            height="533"
             loading="lazy"
-          />
+            decoding="async"
+          >
         </div>
         <div class="flex flex-col flex-1">
           <div class="flex justify-between items-center mb-2">
@@ -45,20 +50,22 @@
             <div class="relative shrink-0 flex items-center justify-center min-h-50 overflow-hidden">
               <!-- Blurred background -->
               <div class="absolute inset-0">
-                <NuxtImg
-                  :src="item.image" 
-                  :alt="item.title"
-                  class="w-full h-full object-cover object-center filter blur-md opacity-60" 
-                />
+                <img
+                  :src="imageKitUrl(item.image, 400, 50)"
+                  alt=""
+                  aria-hidden="true"
+                  class="w-full h-full object-cover object-center filter blur-md opacity-60"
+                >
               </div>
               
               <!-- Sharp foreground image -->
               <div class="relative z-10">
-                <NuxtImg
-                  :src="item.image" 
+                <img
+                  :src="imageKitUrl(item.image, 1600)"
                   :alt="item.title"
-                  class="max-w-full max-h-[60vh] object-contain" 
-                />
+                  class="max-w-full max-h-[60vh] object-contain"
+                  decoding="async"
+                >
               </div>
             </div>
             
@@ -77,6 +84,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, type Ref } from 'vue'
+import { imageKitUrl } from '~/utils/imagekit'
 
 interface Item {
   image: string
