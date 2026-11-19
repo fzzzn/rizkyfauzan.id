@@ -17,15 +17,8 @@ const RAW_EXTENSIONS = ['.png', '.jpg', '.jpeg']
 // Files that must keep their exact name or path (icons, manifest, social preview).
 const SKIP_PATTERNS = [/^favicon\./, /^apple-touch-icon\./, /^web-app-manifest-/, /^og-image\./, /^favicon-\d+/]
 
-// Sources stored sideways and needing a physical rotation, in degrees
-// clockwise (sharp's rotate() takes the opposite sign, handled below).
-const ROTATE = {
-  'fauzan-history.png': 90,
-  'fauzan-history-full.png': 90,
-}
-
 // Bump when the options above change so cached results are regenerated.
-const CACHE_VERSION = 3
+const CACHE_VERSION = 4
 
 const toUrl = (path) => `/${relative(PUBLIC_DIR, path).split('\\').join('/')}`
 
@@ -75,12 +68,8 @@ const fileExists = (path) => stat(path).then(() => true, () => false)
 /** Resize one source into every configured format and width. */
 const generateVariants = async (file) => {
   const inputPath = join(PUBLIC_DIR, file)
-  // sharp's rotate() is counter-clockwise, so negate the documented CW angle.
-  const rotation = (ROTATE[file] ?? 0) * -1
 
-  // metadata() reads the stored header, so swap the axes for quarter turns.
-  const { width, height } = await sharp(inputPath).metadata()
-  const sourceWidth = rotation % 180 === 0 ? width : height
+  const { width: sourceWidth } = await sharp(inputPath).metadata()
 
   const widths = [...WIDTHS.filter((candidate) => candidate < sourceWidth), sourceWidth]
   const variants = {}
@@ -91,7 +80,6 @@ const generateVariants = async (file) => {
     for (const targetWidth of widths) {
       const output = variantPath(file, targetWidth, format)
       const info = await sharp(inputPath)
-        .rotate(rotation)
         .resize({ width: targetWidth, withoutEnlargement: true })
         .toFormat(format, { quality: QUALITY[format] })
         .toFile(output)
