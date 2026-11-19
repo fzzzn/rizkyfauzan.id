@@ -72,6 +72,15 @@ export const useAboutIntro = () => {
             photo.style.transform = 'scale(1.08)'
         }
 
+        // The head script pre-hides these elements inline (see nuxt.config.ts).
+        // GSAP writes its own inline styles, so the hide has to go before the
+        // timeline starts; `autoAlpha` on every target then owns the fade, as a
+        // plain opacity tween cannot beat an inline `!important` declaration.
+        all.forEach((element) => {
+            element.style.opacity = ''
+            element.style.visibility = ''
+        })
+
         // Drop the hide state now that the start values are in place. GSAP
         // owns the inline values, so the unmatched CSS rule no longer applies.
         all.forEach((element) => element.removeAttribute('data-intro'))
@@ -85,7 +94,8 @@ export const useAboutIntro = () => {
             if (photo) {
                 // Wipe from the edge the photo sits on: the right column on
                 // desktop, the bottom of the stack on phones.
-                master.to(photo, {
+                master.fromTo(photo, { autoAlpha: 0 }, {
+                    autoAlpha: 1,
                     clipPath: 'inset(0 0 0 0%)',
                     scale: 1,
                     duration: 1.15,
@@ -93,11 +103,16 @@ export const useAboutIntro = () => {
                     // the photo per frame at 60fps) and still settles cleanly,
                     // so the wipe opens smoothly instead of lurching.
                     ease: 'power2.out',
-                    clearProps: 'clip-path,transform',
+                    clearProps: 'clip-path,transform,opacity,visibility',
                 }, 0)
             }
 
             if (heading) {
+                // The lines are animated, so the heading box itself is shown
+                // outright; the hide script's inline opacity would otherwise
+                // keep every line invisible inside it.
+                gsap.set(heading, { autoAlpha: 1, clearProps: 'opacity,visibility' })
+
                 // SplitText owns the heading's lines. autoSplit re-runs onSplit
                 // when the line breaks change, and returning the timeline tells
                 // it what to play again for the new lines.
@@ -110,10 +125,10 @@ export const useAboutIntro = () => {
 
                         lineTimeline.from(self.lines, {
                             yPercent: 100,
-                            opacity: 0,
+                            autoAlpha: 0,
                             duration: 0.85,
                             stagger: 0.09,
-                            clearProps: 'transform,opacity',
+                            clearProps: 'transform,opacity,visibility',
                         })
 
                         return lineTimeline
@@ -122,12 +137,12 @@ export const useAboutIntro = () => {
             }
 
             if (paragraphs.length) {
-                master.from(paragraphs, {
-                    y: 26,
-                    opacity: 0,
+                master.fromTo(paragraphs, { autoAlpha: 0, y: 26 }, {
+                    autoAlpha: 1,
+                    y: 0,
                     duration: 0.8,
                     stagger: 0.14,
-                    clearProps: 'transform,opacity',
+                    clearProps: 'transform,opacity,visibility',
                 }, 0.45)
             }
         })
