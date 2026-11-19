@@ -48,9 +48,8 @@ export default defineNuxtConfig({
       { name: "Inter", provider: "google", global: true, preload: true, weights: [400, 600, 700], subsets: ["latin"] },
       { name: "JetBrains Mono", provider: "google", global: true, preload: false, weights: [400], subsets: ["latin"] },
     ],
-    experimental: {
-      processCSSVariables: true,
-    },
+    // Promoted out of `experimental` in @nuxt/fonts v1.
+    processCSSVariables: true,
   },
   runtimeConfig: {
     supabaseUrl: '',
@@ -79,9 +78,9 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: "en",
       },
+      // viewport and charset are Nuxt defaults, and og:site_name/og:type come
+      // from the site config, so repeating them here only duplicates tags.
       meta: [
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { charset: "utf-8" },
         { name: "theme-color", content: "#ffffff" },
         { name: "format-detection", content: "telephone=no" },
         { name: "msapplication-TileColor", content: "#ffffff" },
@@ -128,10 +127,18 @@ export default defineNuxtConfig({
   },
   robots: {
     allow: "/",
-    disallow: ["/api/"],
+    // /api/ is deliberately open to crawlers: it backs the guestbook and the
+    // Discord status on the contact page, not private data.
+    // The page-level robots meta is `seo.meta.robots` below, which
+    // nuxt-seo-utils turns into a per-page tag. @nuxtjs/robots also owns the
+    // robots tag, and a copy in app.head makes the two fight over it.
     sitemap: "https://rizkyfauzan.id/sitemap.xml",
   },
   seo: {
+    // Validate app.head against the SEO modules, but not for the robots tag.
+    // nuxt-seo-utils cannot tell `seo.meta.robots` here from a robots meta in
+    // app.head, and flags this one as a conflict it does not actually have.
+    validateAppHead: false,
     meta: {
       title: "Rizky Fauzan Hanif - Network Engineer",
       description: "Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.",
@@ -146,7 +153,6 @@ export default defineNuxtConfig({
       ogTitle: "Rizky Fauzan Hanif - Network Engineer",
       ogDescription: "Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.",
       ogImage: "https://rizkyfauzan.id/og-image.png",
-      robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
       keywords: "Rizky Fauzan Hanif, Network Engineer, MikroTik, MTCNA, MTCTCE, IPv6, Networking, Cybersecurity, Indonesia, Yogyakarta, Cloud Engineer",
     },
   },
