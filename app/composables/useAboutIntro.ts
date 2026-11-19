@@ -100,10 +100,15 @@ export const useAboutIntro = () => {
             }
 
             if (heading) {
-                // The lines are animated, so the heading box itself is shown
-                // outright; the hide script's inline opacity would otherwise
-                // keep every line invisible inside it.
-                gsap.set(heading, { autoAlpha: 1, clearProps: 'opacity,visibility' })
+                // autoSplit re-splits when the line breaks change (and once
+                // right after mounting on navigation). A re-split restores the
+                // markup taken at the first split, which still carries the
+                // inline hide from the head script, so clear it on every split
+                // and show the box: only the lines inside it animate.
+                const showBox = () => {
+                    heading.style.opacity = ''
+                    heading.style.visibility = ''
+                }
 
                 // SplitText owns the heading's lines. autoSplit re-runs onSplit
                 // when the line breaks change, and returning the timeline tells
@@ -113,6 +118,8 @@ export const useAboutIntro = () => {
                     linesClass: 'intro-line',
                     autoSplit: true,
                     onSplit: (self) => {
+                        showBox()
+
                         const lineTimeline = gsap.timeline()
 
                         lineTimeline.from(self.lines, {
