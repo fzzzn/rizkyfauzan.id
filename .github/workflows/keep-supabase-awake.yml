@@ -1,0 +1,52 @@
+name: Keep Supabase awake
+
+# Supabase pauses free projects after 7 days without database activity.
+# Hitting the guestbook API runs a real query against the table, so a daily
+# request keeps the project active. Visiting the dashboard does NOT count.
+
+on:
+  schedule:
+    # 03:17 UTC daily. Off the hour because GitHub delays runs requested at :00.
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: keep-supabase-awake
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query the guestbook API
+        env:
+          URL: https://rizkyfauzan.id/api/guestbook
+        run: |
+          set -euo pipefail
+
+          # Fail on 4xx/5xx so a paused or broken project shows up as a failed run.
+          for attempt in 1 2 3; do
+            code=$(curl -sS -o /tmp/guestbook.json -w '%{http_code}' --max-time 30 "$URL" || echo 000)
+            echo "attempt $attempt: HTTP $code"
+
+            if [ "$code" = "200" ]; then
+              break
+            fi
+
+            if [ "$attempt" -lt 3 ]; then
+              sleep 30
+            fi
+          done
+
+          if [ "$code" != "200" ]; then
+            echo "Guestbook API returned HTTP $code" >&2
+            head -c 500 /tmp/guestbook.json >&2 || true
+            exit 1
+          fi
+
+          # A successful query proves the database answered, not just the worker.
+          count=$(jq 'length' /tmp/guestbook.json)
+          echo "Supabase responded with $count guestbook message(s)"

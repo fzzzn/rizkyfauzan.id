@@ -109,6 +109,15 @@ When deploying to Cloudflare Pages, add your Supabase credentials as secrets via
 | `NUXT_SUPABASE_URL` | `https://your-project.supabase.co` |
 | `NUXT_SUPABASE_KEY` | `your-anon-key` |
 
+### Keeping Supabase Awake
+
+Free Supabase projects pause after 7 days without database activity, and
+opening the dashboard does not count. `.github/workflows/keep-supabase-awake.yml`
+runs daily at 03:17 UTC and requests `/api/guestbook`, which performs a real
+query against the table. A failed run means the project is paused or the
+deployment is misconfigured. Trigger it manually via **Actions > Keep Supabase
+awake > Run workflow**.
+
 ## 📁 Project Structure
 
 ```
