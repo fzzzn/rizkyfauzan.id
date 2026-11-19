@@ -14,127 +14,133 @@
         <!-- Header -->
         <PageHeader title="Contact" />
 
-        <!-- Contact Cards -->
-        <div class="flex flex-wrap justify-center gap-6 mb-12">
-            <!-- Email -->
-            <a href="mailto:contact@rizkyfauzan.id" data-reveal
-                class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
-                <div class="flex items-center space-x-4">
-                    <div class="shrink-0">
-                        <Icon name="heroicons:envelope" size="24"
-                            class="text-black/60 group-hover:text-black transition-colors" />
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Email</h3>
-                        <p class="text-gray-600 text-sm">contact@rizkyfauzan.id</p>
-                    </div>
-                </div>
-            </a>
-
-            <!-- LinkedIn -->
-            <a data-reveal href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
-                class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
-                <div class="flex items-center space-x-4">
-                    <div class="shrink-0 relative">
-                        <Icon name="simple-icons:linkedin" size="24"
-                            class="text-black/60 group-hover:text-black transition-colors" />
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <h3 class="text-lg font-bold text-black group-hover:text-gray-800">LinkedIn</h3>
-                        <p class="text-gray-600 text-sm">rizky-fauzan-hanif</p>
-                    </div>
-                </div>
-            </a>
-
-            <!-- X (Twitter) -->
-            <a data-reveal href="https://x.com/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
-                class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
-                <div class="flex items-center space-x-4">
-                    <div class="shrink-0">
-                        <Icon name="simple-icons:x" size="24"
-                            class="text-black/60 group-hover:text-black transition-colors" />
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <h3 class="text-lg font-bold text-black group-hover:text-gray-800">X (Twitter)</h3>
-                        <p class="text-gray-600 text-sm">@rizkyfauzanid</p>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Bluesky -->
-            <a data-reveal href="https://bsky.app/profile/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
-                class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
-                <div class="flex items-center space-x-4">
-                    <div class="shrink-0">
-                        <Icon name="simple-icons:bluesky" size="24"
-                            class="text-black/60 group-hover:text-black transition-colors" />
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Bluesky</h3>
-                        <p class="text-gray-600 text-sm">rizkyfauzan.id</p>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Instagram -->
-            <a data-reveal href="https://instagram.com/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
-                class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
-                <div class="flex items-center space-x-4">
-                    <div class="shrink-0">
-                        <Icon name="simple-icons:instagram" size="24"
-                            class="text-black/60 group-hover:text-black transition-colors" />
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Instagram</h3>
-                        <p class="text-gray-600 text-sm">@rizkyfauzan.id</p>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Telegram -->
-            <a data-reveal href="https://t.me/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
-                class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
-                <div class="flex items-center space-x-4">
-                    <div class="shrink-0">
-                        <Icon name="simple-icons:telegram" size="24"
-                            class="text-black/60 group-hover:text-black transition-colors" />
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Telegram</h3>
-                        <p class="text-gray-600 text-sm">@rizkyfauzanid</p>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Discord -->
-            <div data-reveal
-                class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group cursor-pointer w-full sm:w-80 relative"
-                @click="copyDiscord">
-                <div class="flex items-center space-x-4">
-                    <div class="shrink-0 relative">
-                        <Icon name="simple-icons:discord" size="24"
-                            class="text-black/60 group-hover:text-black transition-colors" />
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center space-x-2">
-                            <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Discord</h3>
-                            <span v-if="!isLoadingStatus" :class="getDiscordStatusBadgeClasses(discordStatus)">
-                                {{ getStatusText(discordStatus) }}
-                            </span>
+        <!-- Contact Cards. The inner grid is a single reveal batch, so the
+             cards cascade in together instead of each firing its own trigger. -->
+        <div class="mb-12">
+            <div data-reveal-grid class="flex flex-wrap justify-center gap-6">
+                <!-- Email -->
+                <a href="mailto:contact@rizkyfauzan.id"
+                    class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    <div class="flex items-center space-x-4">
+                        <div class="shrink-0">
+                            <Icon name="heroicons:envelope" size="24"
+                                class="text-black/60 group-hover:text-black transition-colors" />
                         </div>
-                        <p class="text-gray-600 text-sm font-mono">{{ DISCORD_USERNAME }}</p>
+                        <div class="min-w-0 flex-1">
+                            <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Email</h3>
+                            <p class="text-gray-600 text-sm">contact@rizkyfauzan.id</p>
+                        </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Discord Activity Tooltip -->
-                <div v-if="discordActivities.length > 0 && !isLoadingStatus"
-                    class="absolute left-0 top-full mt-2 w-full bg-white border border-gray-200 text-black text-xs rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                    <div class="space-y-2">
-                        <div v-for="activity in discordActivities" :key="activity.id">
-                            <p class="font-medium text-black">{{ formatActivity(activity) }}</p>
-                            <p v-if="activity.timestamps?.start" class="text-gray-500 text-xs mt-1">
-                                {{ getElapsedTime(activity.timestamps.start) }} elapsed
-                            </p>
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
+                    class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    <div class="flex items-center space-x-4">
+                        <div class="shrink-0 relative">
+                            <Icon name="simple-icons:linkedin" size="24"
+                                class="text-black/60 group-hover:text-black transition-colors" />
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <h3 class="text-lg font-bold text-black group-hover:text-gray-800">LinkedIn</h3>
+                            <p class="text-gray-600 text-sm">rizky-fauzan-hanif</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- X (Twitter) -->
+                <a href="https://x.com/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
+                    class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    <div class="flex items-center space-x-4">
+                        <div class="shrink-0">
+                            <Icon name="simple-icons:x" size="24"
+                                class="text-black/60 group-hover:text-black transition-colors" />
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <h3 class="text-lg font-bold text-black group-hover:text-gray-800">X (Twitter)</h3>
+                            <p class="text-gray-600 text-sm">@rizkyfauzanid</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Bluesky -->
+                <a href="https://bsky.app/profile/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
+                    class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    <div class="flex items-center space-x-4">
+                        <div class="shrink-0">
+                            <Icon name="simple-icons:bluesky" size="24"
+                                class="text-black/60 group-hover:text-black transition-colors" />
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Bluesky</h3>
+                            <p class="text-gray-600 text-sm">rizkyfauzan.id</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://instagram.com/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
+                    class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    <div class="flex items-center space-x-4">
+                        <div class="shrink-0">
+                            <Icon name="simple-icons:instagram" size="24"
+                                class="text-black/60 group-hover:text-black transition-colors" />
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Instagram</h3>
+                            <p class="text-gray-600 text-sm">@rizkyfauzan.id</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Telegram -->
+                <a href="https://t.me/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
+                    class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    <div class="flex items-center space-x-4">
+                        <div class="shrink-0">
+                            <Icon name="simple-icons:telegram" size="24"
+                                class="text-black/60 group-hover:text-black transition-colors" />
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Telegram</h3>
+                            <p class="text-gray-600 text-sm">@rizkyfauzanid</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Discord. No data-reveal: it holds a hover activity tooltip, and
+                     the reveal's inline transform would keep the card as the
+                     tooltip's containing block, so the tooltip could never sit
+                     outside the card and its hover fade would never play. -->
+                <div
+                    class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group cursor-pointer w-full sm:w-80 relative"
+                    @click="copyDiscord">
+                    <div class="flex items-center space-x-4">
+                        <div class="shrink-0 relative">
+                            <Icon name="simple-icons:discord" size="24"
+                                class="text-black/60 group-hover:text-black transition-colors" />
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center space-x-2">
+                                <h3 class="text-lg font-bold text-black group-hover:text-gray-800">Discord</h3>
+                                <span v-if="!isLoadingStatus" :class="getDiscordStatusBadgeClasses(discordStatus)">
+                                    {{ getStatusText(discordStatus) }}
+                                </span>
+                            </div>
+                            <p class="text-gray-600 text-sm font-mono">{{ DISCORD_USERNAME }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Discord Activity Tooltip -->
+                    <div v-if="discordActivities.length > 0 && !isLoadingStatus"
+                        class="absolute left-0 top-full mt-2 w-full bg-white border border-gray-200 text-black text-xs rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                        <div class="space-y-2">
+                            <div v-for="activity in discordActivities" :key="activity.id">
+                                <p class="font-medium text-black">{{ formatActivity(activity) }}</p>
+                                <p v-if="activity.timestamps?.start" class="text-gray-500 text-xs mt-1">
+                                    {{ getElapsedTime(activity.timestamps.start) }} elapsed
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,7 +153,11 @@
 import { ref, onMounted, onUnmounted, type Ref } from 'vue'
 import type { DiscordActivity } from '~/utils/discord'
 
-useScrollReveal()
+// Reveal both the page header and the card grid. The cards live in one wrapper,
+// so a single trigger and stagger replace per-card triggers, which make the
+// grid pop in unevenly on shorter screens. A selector that misses the header
+// would leave its heading hidden by the `data-reveal` start state for good.
+useScrollReveal('[data-reveal], [data-reveal-grid]')
 
 useSeoMeta({
     title: 'Contact',

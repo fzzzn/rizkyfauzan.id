@@ -45,6 +45,16 @@ export const useScrollReveal = (selector = '[data-reveal]', options: { auto?: bo
             groups.set(group, [...(groups.get(group) ?? []), element])
         })
 
+        // Anything marked `data-reveal` that this call did not match would stay
+        // hidden by the CSS start state for good (a custom selector is easy to
+        // get wrong). Reveal it immediately instead: a missing animation is
+        // far better than a missing heading.
+        document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((element) => {
+            if (element.matches(selector)) return
+            element.removeAttribute('data-reveal')
+            gsap.set(element, { clearProps: 'transform,opacity' })
+        })
+
         if (!groups.size) return
 
         context ??= gsap.context(() => {})

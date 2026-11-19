@@ -1,11 +1,15 @@
 <template>
   <div class="mb-12 flex flex-col items-center">
-    <h1 data-reveal class="text-6xl md:text-8xl leading-[1.2] font-[antonio] uppercase font-bold">
-      {{ title }}
-    </h1>
-    <p v-if="description" data-reveal class="text-2xl font-bold text-center mt-4">
-      {{ description }}
-    </p>
+    <!-- One reveal group: the composable batches siblings, so the heading and
+         description cascade together instead of triggering separately. -->
+    <div data-reveal class="flex flex-col items-center">
+      <h1 class="text-6xl md:text-8xl leading-[1.2] font-[antonio] uppercase font-bold">
+        {{ title }}
+      </h1>
+      <p v-if="description" class="text-2xl font-bold text-center mt-4">
+        {{ description }}
+      </p>
+    </div>
   </div>
 </template>
 
