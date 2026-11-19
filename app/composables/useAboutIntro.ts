@@ -20,6 +20,7 @@ export const useAboutIntro = () => {
     let master: gsap.core.Timeline | null = null
     let split: SplitText | null = null
     let context: ReturnType<typeof gsap.context> | null = null
+    let restoreTransition: (() => void) | null = null
 
     const stop = () => {
         master?.kill()
@@ -28,6 +29,8 @@ export const useAboutIntro = () => {
         split = null
         context?.revert()
         context = null
+        restoreTransition?.()
+        restoreTransition = null
     }
 
     const start = () => {
@@ -42,26 +45,54 @@ export const useAboutIntro = () => {
 
         if (!all.length) return
 
-        // Drop the start state before creating any tween. GSAP then writes its
-        // own inline values, and those win over the now-unmatched CSS rule.
-        all.forEach((element) => element.removeAttribute('data-intro'))
-
         const fromRight = window.matchMedia('(min-width: 1024px)').matches
 
+        // The photo carries Tailwind's `transition-all`. A CSS transition on
+        // clip-path and transform competes with GSAP: each frame GSAP writes a
+        // new value, the transition tries to ease towards it, and when
+        // clearProps removes the value the rendered clip is still part-way and
+        // snaps to fully visible. Suspending the transition for the duration of
+        // the intro keeps GSAP as the only thing driving these properties.
+        if (photo) {
+            // Safe to clear later: the element has no inline transition of its
+            // own, the animation comes from its utility classes.
+            photo.style.transition = 'none'
+            restoreTransition = () => {
+                photo.style.transition = ''
+            }
+        }
+
+        // Put the photo in its start state *before* dropping the hiding
+        // attribute. Otherwise it spends a frame at opacity 1 with no clip,
+        // which flashes the full, unscaled photo for one frame before the wipe
+        // begins. The hide rule is `opacity: 0`, so the element is invisible
+        // while these values are written.
+        if (photo) {
+            photo.style.clipPath = fromRight ? 'inset(0 0 0 100%)' : 'inset(100% 0 0 0)'
+            photo.style.transform = 'scale(1.08)'
+        }
+
+        // Drop the hide state now that the start values are in place. GSAP
+        // owns the inline values, so the unmatched CSS rule no longer applies.
+        all.forEach((element) => element.removeAttribute('data-intro'))
+
         context = gsap.context(() => {
-            master = gsap.timeline({ defaults: { ease: 'power3.out' } })
+            master = gsap.timeline({
+                defaults: { ease: 'power3.out' },
+                onComplete: () => restoreTransition?.(),
+            })
 
             if (photo) {
                 // Wipe from the edge the photo sits on: the right column on
                 // desktop, the bottom of the stack on phones.
-                master.fromTo(photo, {
-                    clipPath: fromRight ? 'inset(0 0 0 100%)' : 'inset(100% 0 0 0)',
-                    scale: 1.08,
-                }, {
+                master.to(photo, {
                     clipPath: 'inset(0 0 0 0%)',
                     scale: 1,
                     duration: 1.15,
-                    ease: 'power4.out',
+                    // power2.out starts gentler than power4.out (4.3% vs 7% of
+                    // the photo per frame at 60fps) and still settles cleanly,
+                    // so the wipe opens smoothly instead of lurching.
+                    ease: 'power2.out',
                     clearProps: 'clip-path,transform',
                 }, 0)
             }
