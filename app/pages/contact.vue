@@ -17,7 +17,7 @@
         <!-- Contact Cards -->
         <div class="flex flex-wrap justify-center gap-6 mb-12">
             <!-- Email -->
-            <a href="mailto:contact@rizkyfauzan.id"
+            <a href="mailto:contact@rizkyfauzan.id" data-reveal
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
                     <div class="shrink-0">
@@ -32,7 +32,7 @@
             </a>
 
             <!-- LinkedIn -->
-            <a href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
+            <a data-reveal href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
                     <div class="shrink-0 relative">
@@ -47,7 +47,7 @@
             </a>
 
             <!-- X (Twitter) -->
-            <a href="https://x.com/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
+            <a data-reveal href="https://x.com/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
                     <div class="shrink-0">
@@ -62,7 +62,7 @@
             </a>
 
             <!-- Bluesky -->
-            <a href="https://bsky.app/profile/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
+            <a data-reveal href="https://bsky.app/profile/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
                     <div class="shrink-0">
@@ -77,7 +77,7 @@
             </a>
 
             <!-- Instagram -->
-            <a href="https://instagram.com/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
+            <a data-reveal href="https://instagram.com/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
                     <div class="shrink-0">
@@ -92,7 +92,7 @@
             </a>
 
             <!-- Telegram -->
-            <a href="https://t.me/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
+            <a data-reveal href="https://t.me/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
                 class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group w-full sm:w-80 flex items-center">
                 <div class="flex items-center space-x-4">
                     <div class="shrink-0">
@@ -145,6 +145,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, type Ref } from 'vue'
 import type { DiscordActivity } from '~/utils/discord'
+
+useScrollReveal()
 
 useSeoMeta({
     title: 'Contact',

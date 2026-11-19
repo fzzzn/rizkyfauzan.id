@@ -14,3 +14,13 @@
   background-color: black;
   color: white;
 }
+
+/*
+ * Scroll-reveal elements start hidden and are faded in by GSAP (see
+ * useScrollReveal). The class is added by a tiny inline script only when JS is
+ * available and the visitor has not asked for reduced motion, so content is
+ * never left invisible on a JS-less client or under reduced motion.
+ */
+html.reveal-enabled [data-reveal] {
+  opacity: 0;
+}

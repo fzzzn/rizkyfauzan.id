@@ -4,7 +4,7 @@
 
         <div class="mb-16">
             <div class="flex flex-wrap justify-center gap-6">
-                <ImageCard v-for="certificate in certificates" :key="certificate.id" :item="certificate" />
+                <ImageCard v-for="certificate in certificates" :key="certificate.id" :item="certificate" data-reveal />
             </div>
         </div>
     </div>
@@ -12,6 +12,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
+useScrollReveal()
 
 useSeoMeta({
     title: 'Certificates',

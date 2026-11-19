@@ -7,9 +7,10 @@
         <div class="mb-16">
             <div class="flex flex-wrap justify-center gap-6 items-stretch">
                 <ImageCard
-                    v-for="achievement in achievements" 
+                    v-for="achievement in achievements"
                     :key="achievement.id"
                     :item="achievement"
+                    data-reveal
                 />
             </div>
         </div>
@@ -18,6 +19,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
+useScrollReveal()
 
 useSeoMeta({
     title: 'Achievements',

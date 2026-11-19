@@ -91,10 +91,10 @@
             </div>
 
             <div v-else>
-                <h2 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Messages</h2>
+                <h2 data-reveal class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Messages</h2>
                 <div class="space-y-4 sm:space-y-6">
-                    <MessageCards v-for="message in messages" :key="message.id" :message="message" :current-user="user ? { id: user.id } : null"
-                        @delete="deleteMessage" />
+                    <MessageCards v-for="message in messages" :key="message.id" :message="message"
+                        :current-user="user ? { id: user.id } : null" data-reveal @delete="deleteMessage" />
                 </div>
             </div>
         </div>
@@ -103,6 +103,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted, type Ref } from 'vue'
+
+// Messages load asynchronously, so the reveal is re-run once they render.
+const { start: startReveals } = useScrollReveal()
 
 interface GuestbookMessage {
     id: number | string
@@ -250,4 +253,10 @@ onMounted(async () => {
 
     await Promise.all([fetchUser(), fetchMessages()])
 })
+
+// The header is revealed on mount; message cards only exist after loading.
+watch(messages, async () => {
+    await nextTick()
+    startReveals()
+}, { once: true })
 </script>

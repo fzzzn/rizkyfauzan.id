@@ -97,6 +97,17 @@ export default defineNuxtConfig({
         { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
         { rel: "manifest", href: "/site.webmanifest" },
       ],
+      // main.css hides `[data-reveal]` under `html.reveal-enabled`. Setting that
+      // class before paint avoids a flash of fully visible content. It is only
+      // set when JS is available and motion is not reduced, so content can
+      // never be left invisible.
+      script: [
+        {
+          innerHTML: `(function(){try{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('reveal-enabled')}catch(e){}})()`,
+          tagPosition: "head",
+          tagPriority: "critical",
+        },
+      ],
     },
     pageTransition: { name: "page", mode: "out-in" },
   },
