@@ -41,7 +41,7 @@ const props = defineProps<{
 }>()
 
 useSeoMeta({
-  title: `${props.error?.status || 404} - Rizky Fauzan Hanif`,
+  title: `${props.error?.status || 404} - ${props.error?.status === 404 ? 'Page Not Found' : 'Error'}`,
   description: 'The page you are looking for does not exist.',
 })
 

@@ -84,6 +84,8 @@ export default defineNuxtConfig({
         { name: "theme-color", content: "#ffffff" },
         { name: "format-detection", content: "telephone=no" },
         { name: "msapplication-TileColor", content: "#ffffff" },
+        { property: "og:image:alt", content: "Rizky Fauzan Hanif - Network Engineer" },
+        { name: "twitter:image:alt", content: "Rizky Fauzan Hanif - Network Engineer" },
       ],
       link: [
         { rel: "preconnect", href: "https://u.zxn.my.id", crossorigin: "anonymous" },
@@ -114,6 +116,7 @@ export default defineNuxtConfig({
   },
   robots: {
     allow: "/",
+    disallow: ["/api/"],
     sitemap: "https://rizkyfauzan.id/sitemap.xml",
   },
   seo: {

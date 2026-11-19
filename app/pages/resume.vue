@@ -433,7 +433,7 @@ definePageMeta({
 })
 
 useSeoMeta({
-    title: 'Resume - Rizky Fauzan Hanif',
+    title: 'Resume',
     description: 'Professional resume of Rizky Fauzan Hanif',
     ogTitle: 'Resume - Rizky Fauzan Hanif',
     ogDescription: 'Professional resume of Rizky Fauzan Hanif',

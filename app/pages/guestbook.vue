@@ -137,7 +137,7 @@ const getErrorMessage = (err: unknown): string => {
 
 // Add SEO meta
 useSeoMeta({
-    title: 'Guestbook - Rizky Fauzan Hanif',
+    title: 'Guestbook',
     description: 'Leave a message on the guestbook of Rizky Fauzan Hanif. Sign in with Google, GitHub, or Discord to share your thoughts.',
     ogTitle: 'Guestbook - Rizky Fauzan Hanif',
     ogDescription: 'Join the conversation and leave a message on the guestbook. Connect with the community.',

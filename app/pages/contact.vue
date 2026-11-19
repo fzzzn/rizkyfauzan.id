@@ -147,7 +147,7 @@ import { ref, onMounted, onUnmounted, type Ref } from 'vue'
 import type { DiscordActivity } from '~/utils/discord'
 
 useSeoMeta({
-    title: 'Contact - Rizky Fauzan Hanif',
+    title: 'Contact',
     description: 'Get in touch with Rizky Fauzan Hanif via email, LinkedIn, Twitter, Discord, or Telegram. Network Engineer available for opportunities and collaborations.',
     ogTitle: 'Contact - Rizky Fauzan Hanif',
     ogDescription: 'Connect with Rizky Fauzan Hanif - Network Engineer. Available via email, LinkedIn, Twitter, Discord, and Telegram.',
