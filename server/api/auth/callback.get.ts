@@ -1,6 +1,6 @@
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
-  const code = query.code as string
+  const code = query.code as string | undefined
 
   if (!code) {
     return sendRedirect(event, '/guestbook?error=missing_code')
@@ -12,6 +12,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const { url: supabaseUrl, key: supabaseKey } = getSupabaseConfig(event)
+
+  if (!supabaseUrl || !supabaseKey) {
+    return sendRedirect(event, '/guestbook?error=config_missing')
+  }
 
   // Exchange code for session directly via Supabase REST API
   // This avoids the client library's storage issues with PKCE
@@ -39,10 +43,9 @@ export default defineEventHandler(async (event) => {
   }
 
   // Set session tokens in httpOnly cookies
-  const isSecure = getRequestURL(event).hostname !== 'localhost'
   const cookieOptions = {
     httpOnly: true,
-    secure: isSecure,
+    secure: !isLocalRequest(event),
     sameSite: 'lax' as const,
     path: '/',
     maxAge: 28800, // 8 hours

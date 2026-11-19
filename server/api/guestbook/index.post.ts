@@ -8,12 +8,21 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const body = await readBody<{ message: string }>(event)
+  const body = await readBody<{ message?: unknown }>(event)
+  const message = typeof body?.message === 'string' ? body.message.trim() : ''
+  const MAX_MESSAGE_LENGTH = 1000
 
-  if (!body.message || body.message.trim().length === 0) {
+  if (!message) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Message is required',
+    })
+  }
+
+  if (message.length > MAX_MESSAGE_LENGTH) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: `Message must be ${MAX_MESSAGE_LENGTH} characters or fewer`,
     })
   }
 
@@ -21,7 +30,7 @@ export default defineEventHandler(async (event) => {
     user_id: user.id,
     username: user.user_metadata?.full_name || user.user_metadata?.user_name || 'Anonymous',
     avatar_url: user.user_metadata?.avatar_url || '/guest.png',
-    message: body.message.trim(),
+    message,
   }
 
   const { data, error } = await supabase

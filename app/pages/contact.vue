@@ -143,7 +143,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, type Ref, type ComputedRef } from 'vue'
+import { ref, onMounted, onUnmounted, type Ref } from 'vue'
 import type { DiscordActivity } from '~/utils/discord'
 
 useSeoMeta({
@@ -193,14 +193,8 @@ const fetchStatus = async (): Promise<void> => {
     isLoadingStatus.value = false
 }
 
-// Get status color
-const getStatusColor = (status: string): string => getDiscordStatusColor(status)
-
 // Get status text
 const getStatusText = (status: string): string => getDiscordStatusText(status)
-
-// Get primary activity for display
-const primaryActivity: ComputedRef<DiscordActivity | null> = computed(() => getPrimaryActivity(discordActivities.value))
 
 // Function to calculate elapsed time
 const getElapsedTime = (startTimestamp: number): string | null => {
@@ -221,11 +215,18 @@ const getElapsedTime = (startTimestamp: number): string | null => {
     return `${seconds}s`
 }
 
-// Fetch status on mount
+// Refresh status every 60 seconds while the page is mounted
+let statusInterval: ReturnType<typeof setInterval> | null = null
+
 onMounted(() => {
     fetchStatus()
+    statusInterval = setInterval(fetchStatus, 60000)
+})
 
-    // Refresh status every 60 seconds
-    setInterval(fetchStatus, 60000)
+onUnmounted(() => {
+    if (statusInterval !== null) {
+        clearInterval(statusInterval)
+        statusInterval = null
+    }
 })
 </script>

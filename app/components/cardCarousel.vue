@@ -105,7 +105,7 @@ interface CarouselItem {
     description?: string
     date?: string
     image?: string
-    [key: string]: any
+    [key: string]: unknown
 }
 
 interface ExtendedItem extends CarouselItem {

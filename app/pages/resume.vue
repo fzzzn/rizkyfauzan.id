@@ -437,13 +437,14 @@ useSeoMeta({
     description: 'Professional resume of Rizky Fauzan Hanif',
     ogTitle: 'Resume - Rizky Fauzan Hanif',
     ogDescription: 'Professional resume of Rizky Fauzan Hanif',
+    ogImage: 'https://rizkyfauzan.id/og-image.png',
 })
 
 const route = useRoute()
 
 // Initialize language immediately from query or localStorage
 const getInitialLang = (): Language => {
-    if (process.client) {
+    if (import.meta.client) {
         // Check query parameter first
         const queryLang = route.query.lang
         if (queryLang && (queryLang === 'en' || queryLang === 'id')) {
@@ -706,6 +707,7 @@ const translations: Translations = {
                 achievements: [
                     'Juara 1 Olimpiade Jaringan MikroTik 2024',
                     'Juara 3 LKS IT Network System Administration (ITNSA) Provinsi DIY 2025',
+                    'Juara 2 LKS Cloud Computing Provinsi DIY 2026',
                 ]
             },
         ],

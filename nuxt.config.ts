@@ -131,7 +131,6 @@ export default defineNuxtConfig({
       ogSiteName: "Rizky Fauzan Hanif",
       ogLocale: "en_US",
       ogType: "website",
-      ogUrl: "https://rizkyfauzan.id",
       ogTitle: "Rizky Fauzan Hanif - Network Engineer",
       ogDescription: "Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.",
       ogImage: "https://rizkyfauzan.id/og-image.png",
@@ -176,6 +175,7 @@ export default defineNuxtConfig({
     "@nuxtjs/seo",
     "@nuxtjs/critters",
     "nuxt-umami",
+    "@nuxt/eslint",
   ],
   icon: {
     mode: "css",

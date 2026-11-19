@@ -125,6 +125,16 @@ interface AuthUser {
 
 type SignInProvider = 'google' | 'github' | 'discord' | false
 
+const getErrorMessage = (err: unknown): string => {
+    if (typeof err === 'object' && err !== null) {
+        const data = (err as { data?: { statusMessage?: string } }).data
+        if (data?.statusMessage) return data.statusMessage
+        const message = (err as { message?: string }).message
+        if (message) return message
+    }
+    return 'Unknown error'
+}
+
 // Add SEO meta
 useSeoMeta({
     title: 'Guestbook - Rizky Fauzan Hanif',
@@ -170,9 +180,9 @@ const fetchMessages = async (): Promise<void> => {
     try {
         const data = await $fetch<GuestbookMessage[]>('/api/guestbook')
         messages.value = data || []
-    } catch (err: any) {
+    } catch (err) {
         console.error('Error fetching messages:', err)
-        error.value = err.data?.statusMessage || err.message
+        error.value = getErrorMessage(err)
     } finally {
         loading.value = false
     }
@@ -191,9 +201,9 @@ const submitMessage = async (): Promise<void> => {
 
         newMessage.value = ''
         await fetchMessages()
-    } catch (err: any) {
+    } catch (err) {
         console.error('Error submitting message:', err)
-        alert('Error submitting message: ' + (err.data?.statusMessage || err.message))
+        alert('Error submitting message: ' + getErrorMessage(err))
     } finally {
         submitting.value = false
     }
@@ -207,9 +217,9 @@ const deleteMessage = async (messageId: string | number): Promise<void> => {
         })
 
         await fetchMessages()
-    } catch (err: any) {
+    } catch (err) {
         console.error('Error deleting message:', err)
-        alert('Error deleting message: ' + (err.data?.statusMessage || err.message))
+        alert('Error deleting message: ' + getErrorMessage(err))
     }
 }
 
@@ -218,7 +228,7 @@ const signOut = async (): Promise<void> => {
     try {
         await $fetch('/api/auth/signout', { method: 'POST' })
         user.value = null
-    } catch (err: any) {
+    } catch (err) {
         console.error('Error signing out:', err)
     }
 }
@@ -231,12 +241,13 @@ onMounted(async () => {
         const errorMessages: Record<string, string> = {
             missing_code: 'Authentication failed: no authorization code received.',
             missing_verifier: 'Authentication failed: session expired. Please try again.',
+            token_exchange_failed: 'Authentication failed: could not complete sign in. Please try again.',
+            config_missing: 'Authentication is unavailable: the server is not configured.',
             auth_failed: 'Authentication failed. Please try again.',
         }
         error.value = errorMessages[route.query.error as string] || `Authentication error: ${route.query.error}`
     }
 
-    await fetchUser()
-    await fetchMessages()
+    await Promise.all([fetchUser(), fetchMessages()])
 })
 </script>

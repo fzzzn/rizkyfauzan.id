@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
     .from('guestbook')
     .select('*')
     .order('created_at', { ascending: false })
+    .limit(200)
 
   if (error) {
     console.error('Supabase query error:', error)

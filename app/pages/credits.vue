@@ -19,9 +19,9 @@
 <script setup lang="ts">
 useSeoMeta({
     title: 'Credits - Rizky Fauzan Hanif',
-    description: 'Professional certifications: MikroTik MTCNA, MTCTCE, and IPv6 Sage by Hurricane Electric. View verified networking and cybersecurity credentials.',
+    description: 'Credits and acknowledgements for the design and inspiration behind rizkyfauzan.id, the personal website of Rizky Fauzan Hanif.',
     ogTitle: 'Credits - Rizky Fauzan Hanif',
-    ogDescription: 'MikroTik MTCNA, MTCTCE, and IPv6 Sage certifications. Professional networking credentials and achievements.',
+    ogDescription: 'Acknowledgements and thanks to the people who inspired the design of rizkyfauzan.id.',
     ogImage: 'https://rizkyfauzan.id/og-image.png',
 })
 </script>

@@ -9,26 +9,37 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { url: supabaseUrl } = getSupabaseConfig(event)
+  const { url: supabaseUrl, key: supabaseKey } = getSupabaseConfig(event)
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Supabase configuration is missing. Set NUXT_SUPABASE_URL and NUXT_SUPABASE_KEY environment variables.',
+    })
+  }
+
   const requestUrl = getRequestURL(event)
   // Force https in production (Cloudflare terminates TLS before the worker)
-  const origin = requestUrl.hostname === 'localhost'
+  const origin = isLocalRequest(event)
     ? requestUrl.origin
     : `https://${requestUrl.host}`
 
-  // Generate PKCE values
+  // Generate PKCE values. Supabase manages the OAuth state itself and strips
+  // any custom state, so the code verifier cookie is what binds the callback
+  // to this browser.
   const codeVerifier = generateCodeVerifier()
   const codeChallenge = await generateCodeChallenge(codeVerifier)
 
-  // Store code_verifier in httpOnly cookie
-  const isSecure = requestUrl.hostname !== 'localhost'
-  setCookie(event, 'sb-pkce-verifier', codeVerifier, {
+  // Store PKCE verifier in a short-lived httpOnly cookie
+  const cookieOptions = {
     httpOnly: true,
-    secure: isSecure,
-    sameSite: 'lax',
+    secure: !isLocalRequest(event),
+    sameSite: 'lax' as const,
     path: '/',
     maxAge: 300, // 5 minutes
-  })
+  }
+
+  setCookie(event, 'sb-pkce-verifier', codeVerifier, cookieOptions)
 
   // Construct Supabase OAuth URL with PKCE
   const params = new URLSearchParams({

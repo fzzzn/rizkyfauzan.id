@@ -28,9 +28,6 @@ useHead({
         { name: 'twitter:image', content: 'https://rizkyfauzan.id/og-image.png' },
         { name: 'twitter:card', content: 'summary_large_image' },
     ],
-    link: [
-        { rel: 'canonical', href: 'https://rizkyfauzan.id' },
-    ],
 })
 </script>
 

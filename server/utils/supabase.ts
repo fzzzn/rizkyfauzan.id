@@ -1,6 +1,14 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { H3Event } from 'h3'
 
+/**
+ * Whether the request is being served locally (plain HTTP is acceptable).
+ */
+export function isLocalRequest(event: H3Event): boolean {
+  const hostname = getRequestURL(event).hostname
+  return ['localhost', '127.0.0.1', '::1', '[::1]'].includes(hostname)
+}
+
 export function getSupabaseConfig(event: H3Event) {
   const config = useRuntimeConfig(event)
 
@@ -61,7 +69,7 @@ export async function createAuthenticatedSupabaseClient(event: H3Event) {
 
   // If tokens were refreshed, update cookies
   if (data.session.access_token !== accessToken) {
-    const isSecure = !getRequestURL(event).hostname.includes('localhost')
+    const isSecure = !isLocalRequest(event)
     setCookie(event, 'sb-access-token', data.session.access_token, {
       httpOnly: true,
       secure: isSecure,

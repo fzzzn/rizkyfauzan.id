@@ -207,7 +207,7 @@ const onHover = (index: number): void => {
     if (!refElement || !menuItem || isActiveRoute(menuItem.href)) return
 
     // Get the actual DOM element (handle ComponentPublicInstance)
-    const element = (refElement as any).$el || refElement
+    const element = (refElement as { $el?: Element }).$el || refElement
 
     // Clean up previous instance if it exists
     if (splitInstances.value[index]) {

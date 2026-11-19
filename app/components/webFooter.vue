@@ -5,7 +5,9 @@
             <div class="relative flex flex-col lg:flex-row gap-2.5 items-center">
                 <!-- Navigation links -->
                 <nav class="flex items-center gap-3">
-                    <a v-for="item in menuItems" :key="item.menu" target="_blank" rel="noopener" :href="item.href"
+                    <a v-for="item in menuItems" :key="item.menu" :href="item.href"
+                        :target="item.external ? '_blank' : undefined"
+                        :rel="item.external ? 'noopener noreferrer' : undefined"
                         :class="['uppercase font-bold text-sm transition-colors duration-200', sidebarOpen ? 'hover:text-white' : 'hover:text-black']">
                         {{ item.menu }}
                     </a>
@@ -39,6 +41,7 @@ href="https://github.com/fzzzn/rizkyfauzan.id" target="_blank" rel="noopener nor
 interface MenuItem {
     menu: string
     href: string
+    external?: boolean
 }
 
 const menuItems: MenuItem[] = [
@@ -48,11 +51,12 @@ const menuItems: MenuItem[] = [
     },
     {
         menu: "Resume",
-        href: "resume",
+        href: "/resume",
     },
     {
         menu: "Notes",
         href: "https://notes.rizkyfauzan.id",
+        external: true,
     },
 ]
 
