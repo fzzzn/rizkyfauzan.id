@@ -36,9 +36,11 @@ export const useScrollReveal = (selector = '[data-reveal]', options: { auto?: bo
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
         const groups = new Map<Element, HTMLElement[]>()
+        const matched = new Set<Element>()
 
         document.querySelectorAll<HTMLElement>(selector).forEach((element) => {
             if (revealed.has(element)) return
+            matched.add(element)
 
             // Batch siblings so a grid cascades instead of popping in at once.
             const group = element.parentElement ?? document.body
@@ -50,9 +52,9 @@ export const useScrollReveal = (selector = '[data-reveal]', options: { auto?: bo
         // get wrong). Reveal it immediately instead: a missing animation is
         // far better than a missing heading.
         document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((element) => {
-            if (element.matches(selector)) return
+            if (matched.has(element)) return
             element.removeAttribute('data-reveal')
-            gsap.set(element, { clearProps: 'transform,opacity' })
+            gsap.set(element, { clearProps: 'transform,opacity,visibility' })
         })
 
         if (!groups.size) return
@@ -61,14 +63,17 @@ export const useScrollReveal = (selector = '[data-reveal]', options: { auto?: bo
 
         context.add(() => {
             groups.forEach((elements) => {
+                // `autoAlpha` also sets visibility, which is how an element the
+                // head script pre-hid gets shown: a plain opacity tween cannot
+                // beat that script's inline `!important` declaration. Elements
+                // that arrive later carry no inline style, so hiding them
+                // through `visibility` is what the tween then reveals.
                 gsap.fromTo(elements, {
                     y: 24,
-                    opacity: 0,
+                    autoAlpha: 0,
                 }, {
                     y: 0,
-                    // Explicit end value: the CSS start state is opacity 0, so
-                    // animating `from` alone would fade 0 into 0.
-                    opacity: 1,
+                    autoAlpha: 1,
                     duration: 0.7,
                     ease: 'power3.out',
                     stagger: elements.length > 1 ? 0.08 : 0,
@@ -76,7 +81,7 @@ export const useScrollReveal = (selector = '[data-reveal]', options: { auto?: bo
                     // hide rule stops applying, then the inline styles are
                     // cleared at the end: layout, hover effects and printing
                     // behave as if GSAP was never involved.
-                    clearProps: 'transform,opacity',
+                    clearProps: 'transform,opacity,visibility',
                     onStart: () => {
                         elements.forEach((element) => element.removeAttribute('data-reveal'))
                     },

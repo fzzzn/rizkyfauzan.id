@@ -16,14 +16,15 @@
 }
 
 /*
- * Scroll-reveal elements start hidden and are faded in by GSAP (see
- * useScrollReveal). The class is added by a tiny inline script only when JS is
- * available and the visitor has not asked for reduced motion, so content is
- * never left invisible on a JS-less client or under reduced motion.
+ * Reveal targets that are already in the document on load are hidden by the
+ * inline script in `app.head.script` (nuxt.config.ts), because the client adds
+ * the attributes after the first render and an earlier opacity rule never
+ * matched. This rule keeps the hide state for targets that arrive later, and
+ * the class is never added under reduced motion or without JS.
  */
 html.reveal-enabled [data-reveal],
 html.reveal-enabled [data-intro] {
-  opacity: 0;
+  opacity: 0 !important;
 }
 
 /*

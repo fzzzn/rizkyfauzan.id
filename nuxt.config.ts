@@ -101,9 +101,14 @@ export default defineNuxtConfig({
       // class before paint avoids a flash of fully visible content. It is only
       // set when JS is available and motion is not reduced, so content can
       // never be left invisible.
+      //
+      // SPA pages only mount their content after this head has run, so the
+      // matching elements do not exist yet and the rule never applies to them.
+      // This script watches for them and hides each one before its first paint,
+      // which is what actually removes the flash on navigation.
       script: [
         {
-          innerHTML: `(function(){try{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('reveal-enabled')}catch(e){}})()`,
+          innerHTML: `(function(){try{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('reveal-enabled');var s='[data-reveal],[data-intro]';var h=function(e){if(e.style.getPropertyValue('opacity')!=='0')e.setAttribute('style','opacity:0 !important;visibility:hidden')};document.querySelectorAll(s).forEach(h);new MutationObserver(function(m){var seen=[];m.forEach(function(r){var tr=r.target;if(tr.nodeType===1&&tr.matches(s))seen.push(tr);r.addedNodes.forEach(function(n){if(n.nodeType!==1)return;if(n.matches(s))seen.push(n);n.querySelectorAll(s).forEach(function(e){seen.push(e)})})});if(!seen.length)return;seen.forEach(h);setTimeout(function(){seen.forEach(h)})}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['data-reveal','data-intro']})}catch(e){}})()`,
           tagPosition: "head",
           tagPriority: "critical",
         },

@@ -33,14 +33,13 @@
             <!-- Menu List - Scrollable -->
             <nav class="flex-1 overflow-y-auto px-8 pb-8 scrollbar-hide" aria-label="Main navigation">
                 <div class="space-y-2">
-                    <NuxtLink v-for="(item, index) in menuList" :key="index" :to="item.href" :class="[
-                        'relative flex py-2 px-3 gap-2 -mx-3 group w-fit transition-all duration-300 rounded-lg',
+                    <NuxtLink v-for="item in menuList" :key="item.href" :to="item.href" :class="[
+                        'relative flex py-2 px-3 gap-2 -mx-3 group w-fit transition-all duration-300 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
                         isActiveRoute(item.href)
                             ? 'text-black bg-white'
                             : 'text-white hover:text-black'
-                    ]" :aria-current="isActiveRoute(item.href) ? 'page' : undefined" @mouseenter="onHover(index)"
-                        @mouseleave="onLeave(index)">
-                        <span :ref="el => menuRef[index] = el" class="text-4xl font-[Inter] uppercase font-black z-10 tracking-tighter">
+                    ]" :aria-current="isActiveRoute(item.href) ? 'page' : undefined" @click="navigate">
+                        <span class="text-4xl font-[Inter] uppercase font-black z-10 tracking-tighter">
                             {{ item.menu }}
                         </span>
                         <div :class="[
@@ -49,9 +48,11 @@
                                 ? 'w-full rounded-lg bg-white'
                                 : 'w-0 group-hover:w-full rounded-lg group-hover:bg-white'
                         ]" />
-                        <span :ref="el => infoRef[index] = el" :class="[
-                            'text-lg transform-all duration-300 z-10',
-                            isActiveRoute(item.href) ? 'block' : 'hidden group-hover:block'
+                        <!-- The label is kept in place while invisible, so the
+                             link does not widen or reflow on hover. -->
+                        <span :class="[
+                            'text-lg transform-all duration-300 z-10 whitespace-nowrap',
+                            isActiveRoute(item.href) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                         ]" aria-hidden="true">
                             {{ item.pageInfo }}
                         </span>
@@ -65,20 +66,12 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, nextTick, type Ref } from 'vue'
 import gsap from 'gsap'
-import { SplitText } from 'gsap/all'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
-
-gsap.registerPlugin(SplitText)
 
 interface MenuItem {
     menu: string
     href: string
     pageInfo: string
-}
-
-interface SplitTextInstance {
-    chars?: Element[]
-    revert: () => void
 }
 
 const route: RouteLocationNormalizedLoaded = useRoute()
@@ -97,16 +90,16 @@ const { sidebarOpen } = useSidebarState()
 const backdrop: Ref<HTMLElement | null> = ref(null)
 const sidebarPanel: Ref<HTMLElement | null> = ref(null)
 const isOpen = sidebarOpen
-const infoRef: Ref<Array<Element | ComponentPublicInstance | null>> = ref([])
-const menuRef: Ref<Array<Element | ComponentPublicInstance | null>> = ref([])
-const splitInstances: Ref<(SplitTextInstance | null)[]> = ref([])
 
-// Watch for route changes and close sidebar
-watch(() => route.path, () => {
-    if (isOpen.value) {
-        handleClose()
-    }
-})
+// Kept so opening can reverse a close that is still playing instead of
+// starting from wherever the panel happens to be, and so nothing ticks after
+// the component is gone. The backdrop's visibility is switched, never tweened.
+const panelTween: Ref<gsap.core.Tween | null> = ref(null)
+const backdropTween: Ref<gsap.core.Tween | null> = ref(null)
+const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+// Off-screen in its own width on phones, clear of the page edge on desktop.
+const panelStart = () => window.innerWidth < 1024 ? '-100%' : -2000
+let closeTriggeredByLink = false
 
 const isActiveRoute = (href: string): boolean => {
     if (href === '/') {
@@ -115,130 +108,101 @@ const isActiveRoute = (href: string): boolean => {
     return route.path.startsWith(href)
 }
 
-const handleOpen = (): void => {
-    isOpen.value = true
+const focusToggle = (): void => {
+    document.querySelector<HTMLElement>('[aria-label="Open navigation menu"]')?.focus()
+}
 
-    // Prevent body scroll
+const handleOpen = (): void => {
+    closeTriggeredByLink = false
+    isOpen.value = true
     document.body.style.overflow = 'hidden'
 
-    // Focus management for accessibility
-    nextTick(() => {
-        const firstLink = document.querySelector < HTMLElement > ('#sidebar-panel a')
-        if (firstLink) {
-            firstLink.focus()
-        }
-    })
+    gsap.set(backdrop.value, { visibility: 'visible' })
+    const panel = sidebarPanel.value
+    if (reducedMotion() || !panel) {
+        panelTween.value?.kill()
+        backdropTween.value?.kill()
+        gsap.set(backdrop.value, { opacity: 1 })
+        gsap.set(panel, { x: 0 })
+    } else {
+        backdropTween.value = (backdropTween.value?.reversed() ?? false)
+            ? backdropTween.value
+            : gsap.to(backdrop.value, { opacity: 1, duration: 0.3, ease: 'power2.out' })
+        if (backdropTween.value?.reversed()) backdropTween.value.play()
+        // Lands with a little weight; the closing ease is different so the
+        // panel does not just retrace its open path.
+        panelTween.value = (panelTween.value?.reversed() ?? false)
+            ? panelTween.value
+            : gsap.to(panel, { x: 0, duration: 0.55, ease: 'power3.out' })
+        if (panelTween.value?.reversed()) panelTween.value.play()
+    }
 
-    gsap.to(backdrop.value, {
-        opacity: 1,
-        visibility: "visible",
-        duration: 0.2,
-        ease: "power2.out"
-    })
-
-    gsap.to(sidebarPanel.value, {
-        x: 0,
-        duration: 0.4,
-        ease: "power2.inOut"
-    })
+    nextTick(() => document.querySelector<HTMLElement>('#sidebar-panel a')?.focus())
 }
 
 const handleClose = (): void => {
+    if (!isOpen.value) return
+    const panel = sidebarPanel.value
+    const restoreScroll = () => {
+        isOpen.value = false
+        document.body.style.overflow = ''
+        // A link click already moved focus into the new page; pulling it back
+        // to the menu button would drop the visitor at the top of the page.
+        if (!closeTriggeredByLink) focusToggle()
+    }
+
+    if (reducedMotion() || !panel) {
+        panelTween.value?.kill()
+        backdropTween.value?.kill()
+        gsap.set(panel, { x: panelStart() })
+        gsap.set(backdrop.value, { opacity: 0, visibility: 'hidden' })
+        restoreScroll()
+        return
+    }
+
+    backdropTween.value?.kill()
     gsap.to(backdrop.value, {
         opacity: 0,
-        duration: 0.2,
-        ease: "power2.out"
+        duration: 0.3,
+        ease: 'power2.out',
+        onComplete: () => gsap.set(backdrop.value, { visibility: 'hidden' }),
     })
-
-    gsap.to(sidebarPanel.value, {
-        x: -2000,
-        duration: 0.4,
-        ease: "power2.inOut",
-        onComplete: () => {
-            gsap.set(backdrop.value, { visibility: "hidden" })
-            isOpen.value = false
-            // Re-enable body scroll
-            document.body.style.overflow = ''
-
-            // Return focus to toggle button
-            const toggleButton = document.querySelector < HTMLElement > ('[aria-label="Open navigation menu"]')
-            if (toggleButton) {
-                toggleButton.focus()
-            }
-        }
+    panelTween.value?.kill()
+    panelTween.value = gsap.to(panel, {
+        x: panelStart(),
+        duration: 0.45,
+        ease: 'power3.in',
+        onComplete: restoreScroll,
     })
 }
 
-const handleKeydown = (event: KeyboardEvent): void => {
-    if (event.key === 'Escape') {
-        handleClose()
-    }
+// The links carry their own @click, which sets the flag just before the route
+// changes. The watcher then closes the menu for every route change, including
+// back/forward navigation, instead of leaving the panel over the new page.
+const navigate = (): void => {
+    closeTriggeredByLink = true
 }
+
+const onDocumentKeydown = (event: KeyboardEvent): void => {
+    if (event.key === 'Escape') handleClose()
+}
+
+watch(() => route.path, () => {
+    if (isOpen.value) handleClose()
+})
 
 onMounted(() => {
-    document.addEventListener('keydown', handleKeydown)
-
-    gsap.set(backdrop.value, {
-        opacity: 0,
-        visibility: "hidden"
-    })
-
-    gsap.set(sidebarPanel.value, {
-        x: -2000
-    })
+    document.addEventListener('keydown', onDocumentKeydown)
+    gsap.set(backdrop.value, { opacity: 0, visibility: 'hidden' })
+    gsap.set(sidebarPanel.value, { x: panelStart() })
 })
 
 onUnmounted(() => {
-    document.removeEventListener('keydown', handleKeydown)
-    // Re-enable body scroll if component is unmounted while sidebar is open
+    document.removeEventListener('keydown', onDocumentKeydown)
+    panelTween.value?.kill()
+    backdropTween.value?.kill()
     document.body.style.overflow = ''
-    // Clean up SplitText instances
-    splitInstances.value.forEach((instance: SplitTextInstance | null) => {
-        if (instance && instance.revert) {
-            instance.revert()
-        }
-    })
 })
-
-const onHover = (index: number): void => {
-    const menuItem = menuList[index]
-    const refElement = infoRef.value[index]
-
-    if (!refElement || !menuItem || isActiveRoute(menuItem.href)) return
-
-    // Get the actual DOM element (handle ComponentPublicInstance)
-    const element = (refElement as { $el?: Element }).$el || (refElement as Element)
-    if (!(element instanceof Element)) return
-
-    // Clean up previous instance if it exists
-    if (splitInstances.value[index]) {
-        splitInstances.value[index]?.revert()
-    }
-
-    const split: SplitTextInstance = SplitText.create(element, { type: "chars" }) as SplitTextInstance
-    splitInstances.value[index] = split
-
-    if (split.chars) {
-        gsap.from(split.chars, {
-            opacity: 0,
-            ease: "back.out(1.7)",
-            scale: 2,
-            stagger: 0.05,
-            delay: 0.3
-        })
-    }
-}
-
-const onLeave = (index: number): void => {
-    const menuItem = menuList[index]
-    if (!menuRef.value[index] || !menuItem || isActiveRoute(menuItem.href)) return
-
-    // Clean up SplitText instance on mouse leave
-    if (splitInstances.value[index]) {
-        splitInstances.value[index]?.revert()
-        splitInstances.value[index] = null
-    }
-}
 </script>
 
 <style scoped>
