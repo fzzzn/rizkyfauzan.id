@@ -67,6 +67,12 @@ export const useScrollReveal = (selector = '[data-reveal]', options: { auto?: bo
         // already animating. Cleared once the reveal completes or on stop.
         matched.forEach((element) => element.setAttribute('data-reveal-active', ''))
 
+        // Hide now: `fromTo` with a scrollTrigger only applies its `from` state
+        // when the trigger fires, which on client-side navigation is after a
+        // refresh — leaving a visible frame before the reveal. `autoAlpha` also
+        // sets visibility, so the head script's inline hide is not needed.
+        matched.forEach((element) => gsap.set(element, { autoAlpha: 0 }))
+
         context ??= gsap.context(() => {})
 
         context.add(() => {
