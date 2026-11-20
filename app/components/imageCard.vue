@@ -31,17 +31,12 @@
 
     <!-- Modal -->
     <Teleport to="body">
-      <Transition
-        enter-active-class="transition duration-200 ease-out"
-        enter-from-class="opacity-0"
-        leave-active-class="transition duration-150 ease-in"
-        leave-to-class="opacity-0"
-      >
       <div
         v-if="isModalOpen"
+        ref="overlay"
         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90"
         @click="closeModal">
-        <div class="relative w-full max-w-3xl max-h-full modal-content">
+        <div ref="content" class="relative w-full max-w-3xl max-h-full">
           <!-- Modal content -->
           <div class="bg-surface rounded-lg overflow-hidden w-full max-h-[90vh] flex flex-col relative" @click.stop>
             <!-- Close button -->
@@ -84,13 +79,13 @@
           </div>
         </div>
       </div>
-      </Transition>
     </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, type Ref } from 'vue'
+import { ref, watch, nextTick, onMounted, onUnmounted, type Ref } from 'vue'
+import gsap from 'gsap'
 import { imageKitUrl } from '~/utils/imagekit'
 
 interface Item {
@@ -108,6 +103,9 @@ defineProps<Props>()
 
 // Modal state
 const isModalOpen: Ref<boolean> = ref(false)
+const overlay = ref<HTMLElement | null>(null)
+const content = ref<HTMLElement | null>(null)
+let tween: gsap.core.Tween | null = null
 
 const openModal = (): void => {
   isModalOpen.value = true
@@ -115,8 +113,19 @@ const openModal = (): void => {
 }
 
 const closeModal = (): void => {
-  isModalOpen.value = false
-  document.body.style.overflow = ''
+  if (!overlay.value || !content.value || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    isModalOpen.value = false
+    return
+  }
+  tween?.kill()
+  tween = gsap.to([overlay.value, content.value], {
+    opacity: 0,
+    duration: 0.2,
+    ease: 'power2.in',
+    onComplete: () => {
+      isModalOpen.value = false
+    },
+  })
 }
 
 const handleKeydown = (event: KeyboardEvent): void => {
@@ -125,29 +134,33 @@ const handleKeydown = (event: KeyboardEvent): void => {
   }
 }
 
+watch(() => isModalOpen.value, (isOpen) => {
+  document.body.style.overflow = isOpen ? 'hidden' : ''
+})
+
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown)
 })
 
+watch(() => isModalOpen.value, async (isOpen) => {
+  if (!isOpen) return
+  tween?.kill()
+  await nextTick()
+  if (!isModalOpen.value || !overlay.value || !content.value) return
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  gsap.fromTo(overlay.value, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' })
+  tween = gsap.fromTo(content.value, { opacity: 0, scale: 0.96 }, {
+    opacity: 1,
+    scale: 1,
+    duration: 0.35,
+    ease: 'power3.out',
+    clearProps: 'transform',
+  })
+})
+
 onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown)
+  tween?.kill()
   document.body.style.overflow = ''
 })
 </script>
-
-<style scoped>
-.modal-content {
-  animation: modal-pop 0.2s ease-out;
-}
-
-@keyframes modal-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-</style>
