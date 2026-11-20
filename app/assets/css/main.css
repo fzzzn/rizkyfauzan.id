@@ -88,11 +88,4 @@ html.reveal-enabled [data-intro] {
   opacity: 0 !important;
 }
 
-/*
- * About intro: the heading is split into lines that slide up from beneath a
- * hidden overflow, so each line appears to rise out of the previous one.
- */
-[data-intro="heading"] .intro-line {
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
-}
+

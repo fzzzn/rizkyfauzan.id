@@ -1,11 +1,8 @@
 import gsap from 'gsap'
-import { SplitText } from 'gsap/SplitText'
-
-gsap.registerPlugin(SplitText)
 
 /**
  * Gentle intro for the About page: the photo fades in and settles while the
- * heading rises line by line and the paragraphs follow.
+ * heading and paragraphs rise into place.
  *
  * The page is two columns on wide screens and one stacked column on phones.
  * On desktop everything is above the fold, so a plain scroll reveal makes the
@@ -18,7 +15,6 @@ gsap.registerPlugin(SplitText)
  */
 export const useAboutIntro = () => {
     let master: gsap.core.Timeline | null = null
-    let split: SplitText | null = null
     let context: ReturnType<typeof gsap.context> | null = null
     let restoreTransition: (() => void) | null = null
     let claimed: HTMLElement[] = []
@@ -26,8 +22,6 @@ export const useAboutIntro = () => {
     const stop = () => {
         master?.kill()
         master = null
-        split?.revert()
-        split = null
         context?.revert()
         context = null
         restoreTransition?.()
@@ -111,39 +105,18 @@ export const useAboutIntro = () => {
             }
 
             if (heading) {
-                // autoSplit re-splits when the line breaks change (and once
-                // right after mounting on navigation). A re-split restores the
-                // markup taken at the first split, which still carries the
-                // inline hide from the head script, so clear it on every split
-                // and show the box: only the lines inside it animate.
-                const showBox = () => {
-                    heading.style.opacity = ''
-                    heading.style.visibility = ''
-                }
-
-                // SplitText owns the heading's lines. autoSplit re-runs onSplit
-                // when the line breaks change, and returning the timeline tells
-                // it what to play again for the new lines.
-                split = SplitText.create(heading, {
-                    type: 'lines',
-                    linesClass: 'intro-line',
-                    autoSplit: true,
-                    onSplit: (self) => {
-                        showBox()
-
-                        const lineTimeline = gsap.timeline()
-
-                        lineTimeline.from(self.lines, {
-                            yPercent: 100,
-                            autoAlpha: 0,
-                            duration: 0.85,
-                            stagger: 0.09,
-                            clearProps: 'transform,opacity,visibility',
-                        })
-
-                        return lineTimeline
-                    },
-                })
+                // The heading rises and fades in as a single element. SplitText's
+                // line-by-line reveal was replaced: autoSplit re-splits on font
+                // load, and on mobile that left the re-created lines stuck at
+                // autoAlpha:0 — the heading never showed when arriving from
+                // another page. A plain fromTo has a guaranteed visible end.
+                master.fromTo(heading, { autoAlpha: 0, y: 30 }, {
+                    autoAlpha: 1,
+                    y: 0,
+                    duration: 0.85,
+                    ease: 'power3.out',
+                    clearProps: 'transform,opacity,visibility',
+                }, 0)
             }
 
             if (paragraphs.length) {

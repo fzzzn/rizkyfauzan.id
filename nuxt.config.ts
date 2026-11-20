@@ -10,6 +10,13 @@ export default defineNuxtConfig({
   vite: {
     // @ts-expect-error - Type incompatibility between @tailwindcss/vite and Vite 7.3 types
     plugins: [tailwindcss()],
+    // Pre-bundle gsap and its plugins so they are not discovered at runtime.
+    // Without this Vite reloads the page when a route first imports SplitText
+    // (or ScrollTrigger), which on mobile kills the About intro and leaves the
+    // heading blank until a fallback force-shows it.
+    optimizeDeps: {
+      include: ["gsap", "gsap/ScrollTrigger", "gsap/SplitText"],
+    },
     build: {
       sourcemap: false,
       minify: "esbuild",
