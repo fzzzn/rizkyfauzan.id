@@ -63,21 +63,6 @@
                     </div>
                 </a>
 
-                <!-- Bluesky -->
-                <a href="https://bsky.app/profile/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
-                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
-                    <div class="flex items-center space-x-4">
-                        <div class="shrink-0">
-                            <Icon name="simple-icons:bluesky" size="24"
-                                class="text-muted group-hover:text-fg transition-colors" />
-                        </div>
-                        <div class="min-w-0 flex-1">
-                            <h3 class="text-lg font-bold text-fg group-hover:text-secondary">Bluesky</h3>
-                            <p class="text-muted text-sm">rizkyfauzan.id</p>
-                        </div>
-                    </div>
-                </a>
-
                 <!-- Instagram -->
                 <a href="https://instagram.com/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
                     class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">

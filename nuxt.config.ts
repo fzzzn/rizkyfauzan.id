@@ -183,7 +183,6 @@ export default defineNuxtConfig({
         "https://github.com/fzzzn",
         "https://linkedin.com/in/rizky-fauzan-hanif",
         "https://instagram.com/rizkyfauzan.id",
-        "https://bsky.app/profile/rizkyfauzan.id",
         "https://t.me/rizkyfauzanid",
       ],
       knowsAbout: [
