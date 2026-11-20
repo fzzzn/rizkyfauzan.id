@@ -31,11 +31,17 @@
 
     <!-- Modal -->
     <Teleport to="body">
+      <Transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0"
+        leave-active-class="transition duration-150 ease-in"
+        leave-to-class="opacity-0"
+      >
       <div
         v-if="isModalOpen"
         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90"
         @click="closeModal">
-        <div class="relative w-full max-w-3xl max-h-full">
+        <div class="relative w-full max-w-3xl max-h-full modal-content">
           <!-- Modal content -->
           <div class="bg-surface rounded-lg overflow-hidden w-full max-h-[90vh] flex flex-col relative" @click.stop>
             <!-- Close button -->
@@ -78,6 +84,7 @@
           </div>
         </div>
       </div>
+      </Transition>
     </Teleport>
   </div>
 </template>
@@ -127,3 +134,20 @@ onUnmounted(() => {
   document.body.style.overflow = ''
 })
 </script>
+
+<style scoped>
+.modal-content {
+  animation: modal-pop 0.2s ease-out;
+}
+
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+</style>
