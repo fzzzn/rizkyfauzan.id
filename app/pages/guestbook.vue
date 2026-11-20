@@ -83,8 +83,19 @@
 
         <!-- Messages -->
         <div class="space-y-4 sm:space-y-6">
-            <div v-if="loading" class="text-center py-8 sm:py-12">
-                <p class="mt-3 sm:mt-4 text-muted text-base sm:text-lg">Loading messages...</p>
+            <div v-if="loading" class="space-y-4 sm:space-y-6">
+                <div v-for="n in 3" :key="n"
+                    class="bg-surface border border-border rounded-lg p-6 animate-pulse">
+                    <div class="flex items-start space-x-4">
+                        <div class="h-12 w-12 rounded-full bg-muted/20 shrink-0" />
+                        <div class="flex-1 space-y-3">
+                            <div class="h-4 w-1/3 bg-muted/20 rounded" />
+                            <div class="h-3 w-1/5 bg-muted/20 rounded" />
+                            <div class="h-3 w-full bg-muted/20 rounded" />
+                            <div class="h-3 w-4/5 bg-muted/20 rounded" />
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div v-else-if="messages.length === 0" class="text-center py-8 sm:py-12">
