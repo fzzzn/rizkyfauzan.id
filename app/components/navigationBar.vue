@@ -1,7 +1,7 @@
 <template>
 	<header class="sticky top-0 z-10 lg:static lg:z-auto bg-bg">
 		<div class="px-6 py-5 border-b border-line shrink-0">
-			<div class="flex items-center justify-between w-full relative">
+			<div class="flex items-center justify-between w-full max-lg:relative">
 				<div class="flex items-center gap-4">
 					<div class="p-1 rounded-lg items-center transition-transform duration-300">
 						<side-bar />
