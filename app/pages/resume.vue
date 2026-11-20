@@ -1,7 +1,15 @@
 <template>
     <div class="max-w-3xl w-11/12 mx-auto transition-opacity duration-200"
         :class="{ 'opacity-0': !isReady, 'opacity-100': isReady }">
-        <main class="py-4 print:text-black">
+        <main class="py-4 print:text-black relative">
+            <!-- Back to home -->
+            <NuxtLink to="/"
+                class="print:hidden absolute top-4 right-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium text-black"
+                aria-label="Back to home">
+                <Icon name="heroicons:arrow-left" class="text-black text-base" />
+                Home
+            </NuxtLink>
+
             <!-- Header Section -->
             <section class="w-full mt-4 mb-4">
                 <h1 class="text-center text-3xl font-bold text-black">
