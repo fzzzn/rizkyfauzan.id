@@ -62,13 +62,8 @@ const menuItems: MenuItem[] = [
 
 const { sidebarOpen } = useSidebarState()
 
-const currentQuote = ref<string>('')
-
-onMounted(async () => {
-    // Fetch commit data and quote in parallel
-    const [quote] = await Promise.all([
-        Promise.resolve(getRandomQuote())
-    ])
-    currentQuote.value = quote
-})
+// useState keeps the quote picked once per app load and shared across the two
+// footer instances, so navigating between pages (and layouts) does not re-roll
+// it like a reload.
+const currentQuote = useState<string>('footer-quote', () => getRandomQuote())
 </script>
