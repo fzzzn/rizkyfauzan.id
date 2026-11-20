@@ -17,10 +17,10 @@
         <!-- Contact Cards. The inner grid is a single reveal batch, so the
              cards cascade in together instead of each firing its own trigger. -->
         <div class="mb-12">
-            <div data-reveal-grid class="flex flex-wrap justify-center gap-6">
+            <div data-reveal-grid class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Email -->
                 <a href="mailto:contact@rizkyfauzan.id"
-                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0">
                             <Icon name="heroicons:envelope" size="24"
@@ -35,7 +35,7 @@
 
                 <!-- LinkedIn -->
                 <a href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
-                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0 relative">
                             <Icon name="simple-icons:linkedin" size="24"
@@ -50,7 +50,7 @@
 
                 <!-- X (Twitter) -->
                 <a href="https://x.com/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
-                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0">
                             <Icon name="simple-icons:x" size="24"
@@ -65,7 +65,7 @@
 
                 <!-- Instagram -->
                 <a href="https://instagram.com/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
-                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0">
                             <Icon name="simple-icons:instagram" size="24"
@@ -80,7 +80,7 @@
 
                 <!-- Telegram -->
                 <a href="https://t.me/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
-                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full sm:w-80 flex items-center">
+                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0">
                             <Icon name="simple-icons:telegram" size="24"
@@ -98,7 +98,7 @@
                      tooltip's containing block, so the tooltip could never sit
                      outside the card and its hover fade would never play. -->
                 <div
-                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group cursor-pointer w-full sm:w-80 relative"
+                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group cursor-pointer w-full relative"
                     @click="copyDiscord">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0 relative">
