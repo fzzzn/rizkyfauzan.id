@@ -5,12 +5,13 @@
             <div class="relative flex flex-col lg:flex-row gap-2.5 items-center">
                 <!-- Navigation links -->
                 <nav class="flex items-center gap-3">
-                    <a v-for="item in menuItems" :key="item.menu" :href="item.href"
+                    <NuxtLink v-for="item in menuItems" :key="item.menu" :to="item.href"
                         :target="item.external ? '_blank' : undefined"
                         :rel="item.external ? 'noopener noreferrer' : undefined"
+                        :external="item.external"
                         :class="['uppercase font-bold text-sm transition-colors duration-200', sidebarOpen ? 'hover:text-white' : 'hover:text-fg']">
                         {{ item.menu }}
-                    </a>
+                    </NuxtLink>
                 </nav>
 
                 <!-- Quote -->
