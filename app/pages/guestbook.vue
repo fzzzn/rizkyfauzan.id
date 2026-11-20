@@ -84,7 +84,6 @@
         <!-- Messages -->
         <div class="space-y-4 sm:space-y-6">
             <div v-if="loading" class="text-center py-8 sm:py-12">
-                <div class="inline-block animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-fg" />
                 <p class="mt-3 sm:mt-4 text-muted text-base sm:text-lg">Loading messages...</p>
             </div>
 
