@@ -1,8 +1,11 @@
 <template>
   <div class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
     <div class="flex items-start space-x-4">
-      <img :src="message.avatar_url" :alt="message.username" class="h-12 w-12 rounded-full shrink-0 object-cover"
-        @error="handleImageError">
+      <img v-if="showAvatar" :src="message.avatar_url" :alt="message.username"
+        class="h-12 w-12 rounded-full shrink-0 object-cover" @error="showAvatar = false">
+      <div v-else class="h-12 w-12 rounded-full shrink-0 bg-muted/20 flex items-center justify-center" aria-hidden="true">
+        <Icon name="mdi:account" size="28" class="text-muted" />
+      </div>
       <div class="flex-1 min-w-0">
         <div class="flex items-center justify-between">
           <div>
@@ -24,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 interface Message {
   id: number | string
@@ -73,10 +76,5 @@ const confirmDelete = (): void => {
   }
 }
 
-const handleImageError = (event: Event): void => {
-  const target = event.target as HTMLImageElement | null
-  if (target) {
-    target.src = '/guest.png'
-  }
-}
+const showAvatar = ref(true)
 </script>

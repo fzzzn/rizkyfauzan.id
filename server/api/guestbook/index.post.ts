@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
   const messageData = {
     user_id: user.id,
     username: user.user_metadata?.full_name || user.user_metadata?.user_name || 'Anonymous',
-    avatar_url: user.user_metadata?.avatar_url || '/guest.png',
+    avatar_url: user.user_metadata?.avatar_url || '',
     message,
   }
 

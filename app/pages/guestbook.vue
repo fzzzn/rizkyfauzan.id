@@ -15,7 +15,9 @@
                 <div
                     class="flex flex-row items-center justify-between mb-4 sm:mb-6">
                     <div class="flex items-center space-x-3 sm:space-x-4 min-w-0">
-                        <OptimizedImg :src="user.user_metadata?.avatar_url || '/guest.png'" :alt="user.user_metadata?.full_name || 'User'"
+                        <Icon v-if="!user.user_metadata?.avatar_url" name="mdi:account" size="48"
+                            class="text-muted shrink-0" aria-hidden="true" />
+                        <OptimizedImg v-else :src="user.user_metadata.avatar_url" :alt="user.user_metadata?.full_name || 'User'"
                             sizes="48px" loading="lazy" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover shrink-0" />
                         <div class="min-w-0 flex-1">
                             <h3 class="text-lg sm:text-xl font-bold text-fg truncate">{{ user.user_metadata?.full_name
