@@ -84,14 +84,10 @@ export default defineNuxtConfig({
         { name: "theme-color", content: "#ffffff" },
         { name: "format-detection", content: "telephone=no" },
         { name: "msapplication-TileColor", content: "#ffffff" },
-        { property: "og:image:alt", content: "Rizky Fauzan Hanif - Network Engineer" },
-        { name: "twitter:image:alt", content: "Rizky Fauzan Hanif - Network Engineer" },
       ],
       link: [
         { rel: "preconnect", href: "https://u.zxn.my.id", crossorigin: "anonymous" },
-        { rel: "dns-prefetch", href: "https://u.zxn.my.id" },
         { rel: "preconnect", href: "https://ik.imagekit.io", crossorigin: "anonymous" },
-        { rel: "dns-prefetch", href: "https://ik.imagekit.io" },
         { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon-96x96.png" },
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
@@ -108,7 +104,14 @@ export default defineNuxtConfig({
       // which is what actually removes the flash on navigation.
       script: [
         {
-          innerHTML: `(function(){try{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('reveal-enabled');var s='[data-reveal],[data-intro]';var h=function(e){if(e.style.getPropertyValue('opacity')!=='0')e.setAttribute('style','opacity:0 !important;visibility:hidden')};document.querySelectorAll(s).forEach(h);new MutationObserver(function(m){var seen=[];m.forEach(function(r){var tr=r.target;if(tr.nodeType===1&&tr.matches(s))seen.push(tr);r.addedNodes.forEach(function(n){if(n.nodeType!==1)return;if(n.matches(s))seen.push(n);n.querySelectorAll(s).forEach(function(e){seen.push(e)})})});if(!seen.length)return;seen.forEach(h);setTimeout(function(){seen.forEach(h)})}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['data-reveal','data-intro']})}catch(e){}})()`,
+          // Applies the saved (or system) color mode before first paint so the
+          // page never flashes light before useColorMode takes over on mount.
+          innerHTML: `(function(){try{var m=localStorage.getItem('color-mode');if(m!=='light'&&m!=='dark'&&m!=='system')m='system';var d=m==='dark'||(m==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d)}catch(e){}})()`,
+          tagPosition: "head",
+          tagPriority: "critical",
+        },
+        {
+          innerHTML: `(function(){try{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('reveal-enabled');var s='[data-reveal],[data-intro]';var h=function(e){if(e.hasAttribute('data-reveal-active'))return;if(e.style.getPropertyValue('opacity')!=='0')e.setAttribute('style','opacity:0 !important;visibility:hidden')};document.querySelectorAll(s).forEach(h);new MutationObserver(function(m){var seen=[];m.forEach(function(r){var tr=r.target;if(tr.nodeType===1&&tr.matches(s))seen.push(tr);r.addedNodes.forEach(function(n){if(n.nodeType!==1)return;if(n.matches(s))seen.push(n);n.querySelectorAll(s).forEach(function(e){seen.push(e)})})});if(!seen.length)return;seen.forEach(h);setTimeout(function(){seen.forEach(h)})}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['data-reveal','data-intro']})}catch(e){}})()`,
           tagPosition: "head",
           tagPriority: "critical",
         },
@@ -157,7 +160,10 @@ export default defineNuxtConfig({
       ogType: "website",
       ogTitle: "Rizky Fauzan Hanif - Network Engineer",
       ogDescription: "Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.",
-      ogImage: "https://rizkyfauzan.id/og-image.png",
+      // Absolute URL + dimensions so unhead does not warn about a missing
+      // og:image size and social platforms can size the preview without fetching.
+      ogImage: { url: "https://rizkyfauzan.id/social-preview.png", width: 1200, height: 630, type: "image/png", alt: "Rizky Fauzan Hanif - Network Engineer" },
+      twitterImage: { url: "https://rizkyfauzan.id/social-preview.png", width: 1200, height: 630, alt: "Rizky Fauzan Hanif - Network Engineer" },
       keywords: "Rizky Fauzan Hanif, Network Engineer, MikroTik, MTCNA, MTCTCE, IPv6, Networking, Cybersecurity, Indonesia, Yogyakarta, Cloud Engineer",
     },
   },

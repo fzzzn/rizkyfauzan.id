@@ -48,7 +48,7 @@ const content = ref<HTMLElement | null>(null)
 let tween: gsap.core.Tween | null = null
 
 const close = () => {
-    if (!overlay.value || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!overlay.value || !content.value || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         emit('update:open', false)
         return
     }
@@ -79,9 +79,14 @@ onMounted(() => {
 
 // Open fades the backdrop while the image settles from slightly small; close
 // reverses it. Both run only when the modal actually opens or closes.
-watch(() => props.open, (isOpen) => {
+// The tween must wait for nextTick: `open` flips before Vue renders the `v-if`
+// overlay, so the refs are still null if GSAP runs synchronously here.
+watch(() => props.open, async (isOpen) => {
     if (!isOpen) return
     tween?.kill()
+    await nextTick()
+    // A quick close can flip `open` back before the overlay renders.
+    if (!props.open || !overlay.value || !content.value) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     gsap.fromTo(overlay.value, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' })
     tween = gsap.fromTo(content.value, { opacity: 0, scale: 0.96 }, {

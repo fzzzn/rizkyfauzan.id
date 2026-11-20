@@ -1,18 +1,79 @@
 @import 'tailwindcss';
 
+/*
+ * Semantic color tokens. The `@theme` entries point at `--*-base` variables so
+ * Tailwind emits `var(...)` (and opacity modifiers become color-mix) instead of
+ * baking the light hex at build time. Light values live on :root, dark values
+ * swap in when `.dark` is set on <html> by useColorMode (and the inline
+ * pre-paint script in nuxt.config.ts). The site is black-on-white by design, so
+ * the palette is small: fg/bg, a card surface, muted text, borders, and an
+ * inverse pair for the black nav/buttons, which flip to white on dark.
+ */
+@theme {
+  --color-bg: var(--bg-base);
+  --color-surface: var(--surface-base);
+  --color-fg: var(--fg-base);
+  --color-secondary: var(--secondary-base);
+  --color-muted: var(--muted-base);
+  --color-faint: var(--faint-base);
+  --color-border: var(--border-base);
+  --color-line: var(--line-base);
+  --color-inverse-bg: var(--inverse-bg-base);
+  --color-inverse-fg: var(--inverse-fg-base);
+  --color-selection-bg: var(--selection-bg-base);
+  --color-selection-fg: var(--selection-fg-base);
+}
+
+:root {
+  --bg-base: #ffffff;
+  --surface-base: #ffffff;
+  --fg-base: #000000;
+  --secondary-base: #333333;
+  --muted-base: #737373;
+  --faint-base: #b3b3b3;
+  --border-base: #e5e5e5;
+  --line-base: rgb(0 0 0 / 0.3);
+  --inverse-bg-base: #000000;
+  --inverse-fg-base: #ffffff;
+  --selection-bg-base: #000000;
+  --selection-fg-base: #ffffff;
+  color-scheme: light;
+}
+
+:root.dark {
+  --bg-base: #0a0a0a;
+  --surface-base: #171717;
+  --fg-base: #f5f5f5;
+  --secondary-base: #d4d4d4;
+  --muted-base: #a3a3a3;
+  --faint-base: #4d4d4d;
+  --border-base: #2a2a2a;
+  --line-base: rgb(255 255 255 / 0.25);
+  --inverse-bg-base: #ffffff;
+  --inverse-fg-base: #000000;
+  --selection-bg-base: #f5f5f5;
+  --selection-fg-base: #0a0a0a;
+  color-scheme: dark;
+}
+
 :root {
   font-family: 'Inter';
   --font-mono: 'JetBrains Mono';
 }
 
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
 ::selection {
-  background-color: black;
-  color: white;
+  background-color: var(--color-selection-bg);
+  color: var(--color-selection-fg);
 }
 
 ::-moz-selection {
-  background-color: black;
-  color: white;
+  background-color: var(--color-selection-bg);
+  color: var(--color-selection-fg);
 }
 
 /*

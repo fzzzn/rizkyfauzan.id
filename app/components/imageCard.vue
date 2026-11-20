@@ -2,7 +2,7 @@
   <div>
     <!-- Card -->
     <div 
-      class="bg-white border border-gray-200 rounded-lg p-6 w-full md:w-80 lg:w-120 hover:shadow-lg transition-shadow h-full flex flex-col cursor-pointer"
+      class="bg-surface border border-border rounded-lg p-6 w-full md:w-80 lg:w-120 hover:shadow-lg transition-shadow h-full flex flex-col cursor-pointer"
       @click="openModal"
     >
       <div class="flex flex-col gap-4 h-full">
@@ -21,10 +21,10 @@
         </div>
         <div class="flex flex-col flex-1">
           <div class="flex justify-between items-center mb-2">
-            <span class="text-sm text-gray-500">{{ item.date }}</span>
+            <span class="text-sm text-muted">{{ item.date }}</span>
           </div>
           <h3 class="text-xl font-bold mb-2">{{ item.title }}</h3>
-          <p class="text-gray-700 leading-relaxed text-sm flex-1">{{ item.description }}</p>
+          <p class="text-secondary leading-relaxed text-sm flex-1">{{ item.description }}</p>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
         @click="closeModal">
         <div class="relative w-full max-w-3xl max-h-full">
           <!-- Modal content -->
-          <div class="bg-white rounded-lg overflow-hidden w-full max-h-[90vh] flex flex-col relative" @click.stop>
+          <div class="bg-surface rounded-lg overflow-hidden w-full max-h-[90vh] flex flex-col relative" @click.stop>
             <!-- Close button -->
            <button
               class="absolute top-4 right-4 z-20 w-8 h-8 bg-black hover:bg-black/80 text-white rounded-full transition duration-200 flex items-center justify-center cursor-pointer"
@@ -71,9 +71,9 @@
             
             <!-- Content - Scrollable -->
             <div class="p-4 md:p-6 overflow-y-auto flex-1">
-              <div class="text-sm text-gray-500 mb-2">{{ item.date }}</div>
+              <div class="text-sm text-muted mb-2">{{ item.date }}</div>
               <h3 class="text-xl md:text-2xl lg:text-3xl font-bold mb-4">{{ item.title }}</h3>
-              <p class="text-gray-700 leading-relaxed text-base md:text-lg">{{ item.description }}</p>
+              <p class="text-secondary leading-relaxed text-base md:text-lg">{{ item.description }}</p>
             </div>
           </div>
         </div>

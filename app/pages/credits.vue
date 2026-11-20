@@ -24,6 +24,5 @@ useSeoMeta({
     description: 'Credits and acknowledgements for the design and inspiration behind rizkyfauzan.id, the personal website of Rizky Fauzan Hanif.',
     ogTitle: 'Credits - Rizky Fauzan Hanif',
     ogDescription: 'Acknowledgements and thanks to the people who inspired the design of rizkyfauzan.id.',
-    ogImage: 'https://rizkyfauzan.id/og-image.png',
 })
 </script>

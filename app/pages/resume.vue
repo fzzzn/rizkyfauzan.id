@@ -437,7 +437,6 @@ useSeoMeta({
     description: 'Professional resume of Rizky Fauzan Hanif',
     ogTitle: 'Resume - Rizky Fauzan Hanif',
     ogDescription: 'Professional resume of Rizky Fauzan Hanif',
-    ogImage: 'https://rizkyfauzan.id/og-image.png',
 })
 
 const route = useRoute()

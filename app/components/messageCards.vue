@@ -1,22 +1,22 @@
 <template>
-  <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+  <div class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
     <div class="flex items-start space-x-4">
       <img :src="message.avatar_url" :alt="message.username" class="h-12 w-12 rounded-full shrink-0 object-cover"
         @error="handleImageError">
       <div class="flex-1 min-w-0">
         <div class="flex items-center justify-between">
           <div>
-            <h3 class="text-xl font-bold text-black">{{ message.username }}</h3>
-            <p class="text-sm text-gray-500">{{ formatDate(message.created_at) }}</p>
+            <h3 class="text-xl font-bold text-fg">{{ message.username }}</h3>
+            <p class="text-sm text-muted">{{ formatDate(message.created_at) }}</p>
           </div>
           <button v-if="canDelete"
-            class="bg-black text-white px-3 py-1 rounded-lg hover:bg-gray-800 transition-colors text-sm font-semibold"
+            class="bg-inverse-bg text-inverse-fg px-3 py-1 rounded-lg hover:opacity-80 transition-opacity text-sm font-semibold"
             @click="confirmDelete">
             Delete
           </button>
         </div>
         <div class="mt-4">
-          <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ message.message }}</p>
+          <p class="text-secondary leading-relaxed whitespace-pre-wrap">{{ message.message }}</p>
         </div>
       </div>
     </div>

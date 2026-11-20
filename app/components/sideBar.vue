@@ -1,9 +1,9 @@
 <template>
     <div class="flex items-center h-full">
-        <button class="cursor-pointer text-black flex items-center h-full w-full justify-center"
+        <button class="cursor-pointer text-fg flex items-center h-full w-full justify-center"
             aria-label="Open navigation menu" :aria-expanded="isOpen" aria-controls="sidebar-panel" @click="handleOpen">
             <Icon name="heroicons-outline:menu-alt-2" size="24"
-                class="text-black/60 hover:text-black transition duration-200" />
+                class="text-muted hover:text-fg transition duration-200" />
         </button>
 
         <div v-show="isOpen" ref="backdrop" class="fixed inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
@@ -38,7 +38,7 @@
                         isActiveRoute(item.href)
                             ? 'text-black bg-white'
                             : 'text-white hover:text-black'
-                    ]" :aria-current="isActiveRoute(item.href) ? 'page' : undefined" @click="navigate">
+                    ]" :aria-current="isActiveRoute(item.href) ? 'page' : undefined" @click="navigate(item)">
                         <span class="text-4xl font-[Inter] uppercase font-black z-10 tracking-tighter">
                             {{ item.menu }}
                         </span>
@@ -179,8 +179,12 @@ const handleClose = (): void => {
 // The links carry their own @click, which sets the flag just before the route
 // changes. The watcher then closes the menu for every route change, including
 // back/forward navigation, instead of leaving the panel over the new page.
-const navigate = (): void => {
+// Clicking the active page does not change route.path, so the watcher never
+// fires; close here for that case. A real navigation is still left to the
+// watcher so the close waits for the new page.
+const navigate = (item: MenuItem): void => {
     closeTriggeredByLink = true
+    if (route.path === item.href) handleClose()
 }
 
 const onDocumentKeydown = (event: KeyboardEvent): void => {

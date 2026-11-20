@@ -11,20 +11,20 @@
 
         <!-- User Info or Sign In -->
         <div class="mb-6 sm:mb-8">
-            <div v-if="user" class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+            <div v-if="user" class="bg-surface border border-border rounded-lg p-4 sm:p-6">
                 <div
                     class="flex flex-row items-center justify-between mb-4 sm:mb-6">
                     <div class="flex items-center space-x-3 sm:space-x-4 min-w-0">
                         <OptimizedImg :src="user.user_metadata?.avatar_url || '/guest.png'" :alt="user.user_metadata?.full_name || 'User'"
                             sizes="48px" loading="lazy" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover shrink-0" />
                         <div class="min-w-0 flex-1">
-                            <h3 class="text-lg sm:text-xl font-bold text-black truncate">{{ user.user_metadata?.full_name
+                            <h3 class="text-lg sm:text-xl font-bold text-fg truncate">{{ user.user_metadata?.full_name
                                 || user.user_metadata?.user_name || 'User' }}</h3>
-                            <p class="text-xs sm:text-sm text-gray-500">Signed in</p>
+                            <p class="text-xs sm:text-sm text-muted">Signed in</p>
                         </div>
                     </div>
                     <button
-                        class="bg-black text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-800 transition-colors font-semibold text-sm sm:text-base shrink-0"
+                        class="bg-inverse-bg text-inverse-fg px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:opacity-80 transition-opacity font-semibold text-sm sm:text-base shrink-0"
                         @click="signOut">
                         Sign Out
                     </button>
@@ -35,12 +35,12 @@
                     <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Leave a Message</h2>
                     <form @submit.prevent="submitMessage">
                         <textarea v-model="newMessage" placeholder="Write your message here..." rows="3"
-                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-sm sm:text-base resize-none"
+                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 border border-border bg-bg text-fg placeholder:text-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-inverse-bg focus:border-transparent text-sm sm:text-base resize-none"
                             required />
                         <div class="mt-3 sm:mt-4 flex justify-end">
                             <button type="submit"
                                 :disabled="!newMessage || newMessage.trim().length === 0 || submitting"
-                                class="bg-black text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:bg-gray-800 transition-colors font-semibold disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto">
+                                class="bg-inverse-bg text-inverse-fg px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:opacity-80 transition-opacity font-semibold disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto">
                                 {{ submitting ? 'Posting...' : 'Post Message' }}
                             </button>
                         </div>
@@ -49,14 +49,14 @@
             </div>
 
             <!-- Login prompt for non-authenticated users -->
-            <div v-else class="bg-white border border-gray-200 rounded-lg p-6 sm:p-8 text-center">
-                <h2 class="text-xl sm:text-2xl font-bold text-black mb-2 sm:mb-3">Want to leave a message?</h2>
-                <p class="text-gray-700 mb-4 sm:mb-6 text-sm sm:text-base">Sign in with Google, GitHub, or Discord to
+            <div v-else class="bg-surface border border-border rounded-lg p-6 sm:p-8 text-center">
+                <h2 class="text-xl sm:text-2xl font-bold text-fg mb-2 sm:mb-3">Want to leave a message?</h2>
+                <p class="text-secondary mb-4 sm:mb-6 text-sm sm:text-base">Sign in with Google, GitHub, or Discord to
                     share your
                     thoughts and join the conversation!</p>
                 <div class="flex flex-col gap-3 sm:gap-4 sm:flex-row sm:justify-center sm:items-center">
                     <button :disabled="!!signingIn"
-                        class="bg-black text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-gray-800 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
+                        class="bg-inverse-bg text-inverse-fg px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:opacity-80 transition-opacity font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithGoogle">
                         <Icon name="logos:google-icon" size="18" />
                         <span>{{ signingIn === 'google' ? 'Signing In...' : 'Google' }}</span>
@@ -82,12 +82,12 @@
         <!-- Messages -->
         <div class="space-y-4 sm:space-y-6">
             <div v-if="loading" class="text-center py-8 sm:py-12">
-                <div class="inline-block animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-black" />
-                <p class="mt-3 sm:mt-4 text-gray-600 text-base sm:text-lg">Loading messages...</p>
+                <div class="inline-block animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-fg" />
+                <p class="mt-3 sm:mt-4 text-muted text-base sm:text-lg">Loading messages...</p>
             </div>
 
             <div v-else-if="messages.length === 0" class="text-center py-8 sm:py-12">
-                <p class="text-gray-500 text-base sm:text-lg">No messages yet. Be the first to leave one!</p>
+                <p class="text-muted text-base sm:text-lg">No messages yet. Be the first to leave one!</p>
             </div>
 
             <div v-else>
@@ -144,7 +144,6 @@ useSeoMeta({
     description: 'Leave a message on the guestbook of Rizky Fauzan Hanif. Sign in with Google, GitHub, or Discord to share your thoughts.',
     ogTitle: 'Guestbook - Rizky Fauzan Hanif',
     ogDescription: 'Join the conversation and leave a message on the guestbook. Connect with the community.',
-    ogImage: 'https://rizkyfauzan.id/og-image.png',
 })
 
 // Reactive data

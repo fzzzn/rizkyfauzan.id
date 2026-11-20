@@ -25,6 +25,9 @@ export const useScrollReveal = (selector = '[data-reveal]', options: { auto?: bo
     const stop = () => {
         cleanup?.()
         cleanup = null
+        document.querySelectorAll('[data-reveal-active]').forEach((element) => {
+            element.removeAttribute('data-reveal-active')
+        })
         // Fresh set: after a revert the elements need animating again.
         revealed = new WeakSet<HTMLElement>()
     }
@@ -59,6 +62,11 @@ export const useScrollReveal = (selector = '[data-reveal]', options: { auto?: bo
 
         if (!groups.size) return
 
+        // Claim matched elements so the head script's delayed re-hide (fired
+        // after client-side navigation) cannot land on an element GSAP is
+        // already animating. Cleared once the reveal completes or on stop.
+        matched.forEach((element) => element.setAttribute('data-reveal-active', ''))
+
         context ??= gsap.context(() => {})
 
         context.add(() => {
@@ -86,7 +94,10 @@ export const useScrollReveal = (selector = '[data-reveal]', options: { auto?: bo
                         elements.forEach((element) => element.removeAttribute('data-reveal'))
                     },
                     onComplete: () => {
-                        elements.forEach((element) => revealed.add(element))
+                        elements.forEach((element) => {
+                            element.removeAttribute('data-reveal-active')
+                            revealed.add(element)
+                        })
                     },
                     scrollTrigger: {
                         trigger: elements[0],

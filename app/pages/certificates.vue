@@ -20,7 +20,6 @@ useSeoMeta({
     description: 'Professional certifications: MikroTik MTCNA, MTCTCE, and IPv6 Sage by Hurricane Electric. View verified networking and cybersecurity credentials.',
     ogTitle: 'Certificates - Rizky Fauzan Hanif',
     ogDescription: 'MikroTik MTCNA, MTCTCE, and IPv6 Sage certifications. Professional networking credentials and achievements.',
-    ogImage: 'https://rizkyfauzan.id/og-image.png',
 })
 
 const certificates = ref([

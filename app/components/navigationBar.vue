@@ -1,6 +1,6 @@
 <template>
-	<header class="sticky top-0 z-10 lg:static lg:z-auto bg-white">
-		<div class="px-6 py-5 border-b border-black/30 shrink-0">
+	<header class="sticky top-0 z-10 lg:static lg:z-auto bg-bg">
+		<div class="px-6 py-5 border-b border-line shrink-0">
 			<div class="flex items-center justify-between w-full">
 				<div class="flex items-center gap-4">
 					<div class="p-1 rounded-lg items-center transition-transform duration-300">
@@ -20,12 +20,17 @@
 					<NuxtLink v-for="item in navItems" :key="item.title" :to="item.href" :class="[
 						'relative px-2 py-1 uppercase text-sm transition-all duration-200 rounded-md group',
 						$route.path === item.href || ($route.path.startsWith(item.href) && item.href !== '/')
-							? 'text-white bg-black'
-							: 'hover:text-white hover:bg-black'
+							? 'text-inverse-fg bg-inverse-bg'
+							: 'hover:text-inverse-fg hover:bg-inverse-bg'
 					]">
 						<span class="relative z-10 font-bold">{{ item.title }}</span>
 					</NuxtLink>
 				</div>
+
+				<button class="cursor-pointer text-muted hover:text-fg transition-colors"
+					:aria-label="`Color mode: ${mode}. Click to change.`" @click="cycle">
+					<Icon :name="icon" size="22" />
+				</button>
 			</div>
 		</div>
 	</header>
@@ -58,4 +63,14 @@ const navItems = [
 		href: "/guestbook",
 	},
 ]
+
+const { mode, cycle, init } = useColorMode()
+
+onMounted(init)
+
+const icon = computed(() => {
+	if (mode.value === 'light') return 'heroicons:sun'
+	if (mode.value === 'dark') return 'heroicons:moon'
+	return 'heroicons:computer-desktop'
+})
 </script>

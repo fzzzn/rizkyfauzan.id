@@ -8,7 +8,7 @@
                     <a v-for="item in menuItems" :key="item.menu" :href="item.href"
                         :target="item.external ? '_blank' : undefined"
                         :rel="item.external ? 'noopener noreferrer' : undefined"
-                        :class="['uppercase font-bold text-sm transition-colors duration-200', sidebarOpen ? 'hover:text-white' : 'hover:text-black']">
+                        :class="['uppercase font-bold text-sm transition-colors duration-200', sidebarOpen ? 'hover:text-white' : 'hover:text-fg']">
                         {{ item.menu }}
                     </a>
                 </nav>

@@ -4,7 +4,7 @@
             <!-- Left Arrow -->
             <button
 v-if="showArrows"
-                class="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors shrink-0 flex items-center justify-center"
+                class="bg-inverse-bg text-inverse-fg p-3 rounded-lg hover:opacity-80 transition-opacity shrink-0 flex items-center justify-center"
                 @click="manualPrevSlide">
                 <Icon name="heroicons:chevron-left" size="20" />
             </button>
@@ -30,7 +30,7 @@ class="relative" :class="[
                             <!-- Card Number Indicator on each card -->
                             <div
 v-if="showCardNumber"
-                                class="absolute bottom-2 right-2 text-black/30 px-2 py-1 text-xs font-medium">
+                                class="absolute bottom-2 right-2 text-faint px-2 py-1 text-xs font-medium">
                                 {{ getCardNumber(item) }}
                             </div>
                         </div>
@@ -41,7 +41,7 @@ v-if="showCardNumber"
             <!-- Right Arrow -->
             <button
 v-if="showArrows"
-                class="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors shrink-0 flex items-center justify-center"
+                class="bg-inverse-bg text-inverse-fg p-3 rounded-lg hover:opacity-80 transition-opacity shrink-0 flex items-center justify-center"
                 @click="manualNextSlide">
                 <Icon name="heroicons:chevron-right" size="20" />
             </button>
@@ -52,7 +52,7 @@ v-if="showArrows"
             <button
 v-for="(item, index) in items" :key="index" :class="[
                 'w-3 h-3 rounded-full transition-colors',
-                getActualSlideIndex() === index ? 'bg-black' : 'bg-gray-300'
+                getActualSlideIndex() === index ? 'bg-inverse-bg' : 'bg-faint'
             ]" @click="manualGoToSlide(index)" />
         </div>
 
@@ -71,7 +71,7 @@ v-if="isModalOpen && selectedItem"
                     </button>
 
                     <!-- Modal content -->
-                    <div class="bg-white rounded-2xl overflow-hidden max-w-4xl max-h-[90vh]">
+                    <div class="bg-surface rounded-2xl overflow-hidden max-w-4xl max-h-[90vh]">
                         <!-- Modal slot for custom content -->
                         <slot name="modal" :item="selectedItem">
                             <!-- Default modal content -->
@@ -82,10 +82,10 @@ v-if="selectedItem.image" :src="selectedItem.image"
                             </div>
 
                             <div class="p-6">
-                                <div v-if="selectedItem.date" class="text-sm text-gray-500 mb-2">{{ selectedItem.date }}
+                                <div v-if="selectedItem.date" class="text-sm text-muted mb-2">{{ selectedItem.date }}
                                 </div>
                                 <h3 v-if="selectedItem.title" class="text-xl font-bold">{{ selectedItem.title }}</h3>
-                                <p v-if="selectedItem.description" class="text-gray-700 leading-relaxed text-md">{{
+                                <p v-if="selectedItem.description" class="text-secondary leading-relaxed text-md">{{
                                     selectedItem.description }}</p>
                             </div>
                         </slot>

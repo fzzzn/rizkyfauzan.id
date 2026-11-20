@@ -21,6 +21,7 @@ export const useAboutIntro = () => {
     let split: SplitText | null = null
     let context: ReturnType<typeof gsap.context> | null = null
     let restoreTransition: (() => void) | null = null
+    let claimed: HTMLElement[] = []
 
     const stop = () => {
         master?.kill()
@@ -31,6 +32,8 @@ export const useAboutIntro = () => {
         context = null
         restoreTransition?.()
         restoreTransition = null
+        claimed.forEach((element) => element.removeAttribute('data-reveal-active'))
+        claimed = []
     }
 
     const start = () => {
@@ -44,6 +47,14 @@ export const useAboutIntro = () => {
         const all = [photo, heading, ...paragraphs].filter(Boolean) as HTMLElement[]
 
         if (!all.length) return
+
+        // Claim these elements for the animation before touching their hidden
+        // state. The head script's MutationObserver re-hides matched elements
+        // on a timeout after client-side navigation; without this marker that
+        // late hide lands after the intro starts and leaves the heading
+        // invisible on phones, where nothing re-runs to show it again.
+        claimed = all
+        all.forEach((element) => element.setAttribute('data-reveal-active', ''))
 
         // The photo carries Tailwind's `transition-all`. A CSS transition on
         // transform competes with GSAP: each frame GSAP writes a new value and

@@ -16,7 +16,7 @@ ref="photoEl" src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
                         ref="ctaEl"
                         class="mt-12 absolute left-0 text-sm lg:text-base lg:relative w-full bottom-5 flex flex-col lg:flex-row items-center justify-between lg:gap-3 font-bold">
                         <span>Want to know more about me?</span>
-                        <span class="h-px grow bg-black hidden md:block" />
+                        <span class="h-px grow bg-fg hidden md:block" />
                         <RouterLink to="/about" class="group" aria-label="Learn more about Rizky Fauzan Hanif">
                             <span class="relative">
                                 Learn more about me
@@ -47,7 +47,6 @@ useSeoMeta({
     description: 'Rizky Fauzan Hanif is a Network Engineer specializing in MikroTik RouterOS, networking infrastructure, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.',
     ogTitle: 'Rizky Fauzan Hanif - Network Engineer | MikroTik Certified',
     ogDescription: 'Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.',
-    ogImage: 'https://rizkyfauzan.id/og-image.png',
     twitterCard: 'summary_large_image',
 })
 

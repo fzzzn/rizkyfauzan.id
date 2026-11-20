@@ -1,6 +1,6 @@
 <template>
   <div ref="pageRef" class="h-screen lg:py-6 lg:px-6 flex flex-col transition-all duration-400" :class="{ 'opacity-0 blur-sm': leaving }">
-    <div class="flex-1 flex flex-col lg:rounded-xl lg:border lg:border-black/30 lg:overflow-hidden relative">
+    <div class="flex-1 flex flex-col lg:rounded-xl lg:border lg:border-line lg:overflow-hidden relative">
       <navigation-bar />
       <main class="flex-1 flex items-center justify-center p-6">
         <div class="text-center flex flex-col items-center gap-6">

@@ -118,13 +118,13 @@ export const getDiscordStatusBadgeClasses = (status: string): string => {
 
   switch (status) {
     case 'online':
-      return `${baseClasses} bg-white border-green-500 text-green-700`;
+      return `${baseClasses} bg-surface border-green-500 text-green-600`;
     case 'idle':
-      return `${baseClasses} bg-white border-yellow-500 text-yellow-700`;
+      return `${baseClasses} bg-surface border-yellow-500 text-yellow-600`;
     case 'dnd':
-      return `${baseClasses} bg-white border-red-500 text-red-700`;
+      return `${baseClasses} bg-surface border-red-500 text-red-600`;
     default:
-      return `${baseClasses} bg-white border-gray-300 text-gray-700`;
+      return `${baseClasses} bg-surface border-border text-muted`;
   }
 };
 
