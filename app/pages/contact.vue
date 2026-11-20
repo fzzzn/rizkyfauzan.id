@@ -17,7 +17,7 @@
         <!-- Contact Cards. The inner grid is a single reveal batch, so the
              cards cascade in together instead of each firing its own trigger. -->
         <div class="mb-12">
-            <div data-reveal-grid class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div data-reveal-grid class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 <!-- Email -->
                 <a href="mailto:contact@rizkyfauzan.id"
                     class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
