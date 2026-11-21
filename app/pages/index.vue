@@ -15,7 +15,7 @@ ref="photoEl" src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
                     ref="ctaEl"
                     class="mt-12 flex flex-col md:flex-row items-center justify-center lg:justify-between gap-3 text-sm lg:text-base font-bold">
                     <span>Want to know more about me?</span>
-                    <span class="h-px grow bg-fg hidden md:block" aria-hidden="true" />
+                    <span class="h-0.5 grow bg-fg hidden md:block" aria-hidden="true" />
                     <RouterLink to="/about" class="group" aria-label="Learn more about Rizky Fauzan Hanif">
                         <span class="relative">
                             Learn more about me
