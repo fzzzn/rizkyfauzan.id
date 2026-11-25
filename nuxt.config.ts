@@ -25,8 +25,14 @@ export default defineNuxtConfig({
         output: {
           // Vite 8's Rolldown backend only accepts the function form of
           // manualChunks; the object form fails the build.
-          manualChunks: (id) =>
-            id.includes("node_modules/gsap") ? "gsap" : undefined,
+          // Keep GSAP plugins in their own chunks: a page that only needs the
+          // core (or SplitText) should not download ScrollTrigger too.
+          manualChunks: (id) => {
+            if (!id.includes("node_modules/gsap")) return
+            if (id.includes("gsap/ScrollTrigger")) return "gsap-scrolltrigger"
+            if (id.includes("gsap/SplitText")) return "gsap-splittext"
+            return "gsap"
+          },
         },
       },
     },
