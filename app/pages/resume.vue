@@ -441,10 +441,10 @@ definePageMeta({
 })
 
 useSeoMeta({
-    title: 'Resume',
-    description: 'Professional resume of Rizky Fauzan Hanif',
-    ogTitle: 'Resume - Rizky Fauzan Hanif',
-    ogDescription: 'Professional resume of Rizky Fauzan Hanif',
+    title: 'Resume — Network Engineer',
+    description: 'Professional resume of Rizky Fauzan Hanif — Network Engineer with MTCNA and MTCTCE certifications, MikroTik, networking, cloud, and cybersecurity experience.',
+    ogTitle: 'Resume — Rizky Fauzan Hanif, Network Engineer',
+    ogDescription: 'Professional resume of Rizky Fauzan Hanif — Network Engineer with MTCNA and MTCTCE certifications.',
 })
 
 const route = useRoute()

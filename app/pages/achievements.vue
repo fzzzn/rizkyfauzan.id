@@ -23,9 +23,9 @@ import { ref } from 'vue'
 useScrollReveal()
 
 useSeoMeta({
-    title: 'Achievements',
+    title: 'Achievements — MikroTik Olympiad Winner',
     description: '1st Place MikroTik Networking Olympiad 2024, 3rd Place LKS ITNSA DIY Province 2025. Explore professional achievements and milestones of Rizky Fauzan Hanif.',
-    ogTitle: 'Achievements - Rizky Fauzan Hanif',
+    ogTitle: 'Achievements — MikroTik Olympiad Winner',
     ogDescription: 'Competition wins and professional milestones including 1st Place MikroTik Networking Olympiad and LKS ITNSA achievements.',
 })
 

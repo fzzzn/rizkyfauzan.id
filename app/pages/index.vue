@@ -42,9 +42,9 @@ import { SplitText } from 'gsap/SplitText'
 gsap.registerPlugin(SplitText)
 
 useSeoMeta({
-    title: 'Network Engineer | MikroTik MTCNA & MTCTCE Certified',
+    title: 'Network Engineer & MikroTik Certified',
     description: 'Rizky Fauzan Hanif is a Network Engineer specializing in MikroTik RouterOS, networking infrastructure, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.',
-    ogTitle: 'Rizky Fauzan Hanif - Network Engineer | MikroTik Certified',
+    ogTitle: 'Rizky Fauzan Hanif — Network Engineer & MikroTik Certified',
     ogDescription: 'Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.',
     twitterCard: 'summary_large_image',
 })

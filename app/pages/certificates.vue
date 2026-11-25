@@ -16,9 +16,9 @@ import { ref } from 'vue'
 useScrollReveal()
 
 useSeoMeta({
-    title: 'Certificates',
+    title: 'Certificates — MTCNA, MTCTCE & IPv6 Sage',
     description: 'Professional certifications: MikroTik MTCNA, MTCTCE, and IPv6 Sage by Hurricane Electric. View verified networking and cybersecurity credentials.',
-    ogTitle: 'Certificates - Rizky Fauzan Hanif',
+    ogTitle: 'Certificates — MTCNA, MTCTCE & IPv6 Sage',
     ogDescription: 'MikroTik MTCNA, MTCTCE, and IPv6 Sage certifications. Professional networking credentials and achievements.',
 })
 

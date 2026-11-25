@@ -145,9 +145,9 @@ import type { DiscordActivity } from '~/utils/discord'
 useScrollReveal('[data-reveal], [data-reveal-grid]')
 
 useSeoMeta({
-    title: 'Contact',
+    title: 'Contact — Network Engineer',
     description: 'Get in touch with Rizky Fauzan Hanif via email, LinkedIn, Twitter, Discord, or Telegram. Network Engineer available for opportunities and collaborations.',
-    ogTitle: 'Contact - Rizky Fauzan Hanif',
+    ogTitle: 'Contact Rizky Fauzan Hanif — Network Engineer',
     ogDescription: 'Connect with Rizky Fauzan Hanif - Network Engineer. Available via email, LinkedIn, Twitter, Discord, and Telegram.',
 })
 
