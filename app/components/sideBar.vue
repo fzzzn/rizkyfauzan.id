@@ -81,9 +81,9 @@ const menuList: MenuItem[] = [
     { menu: "About", href: "/about", pageInfo: ">_<" },
     { menu: "Achievements", href: "/achievements", pageInfo: "\\o/" },
     { menu: "Certificates", href: "/certificates", pageInfo: "📜" },
-    { menu: "Resume", href: "/resume", pageInfo: "📄" },
     { menu: "Contact", href: "/contact", pageInfo: "@_@" },
     { menu: "Guestbook", href: "/guestbook", pageInfo: "✍️" },
+    { menu: "Resume", href: "/resume", pageInfo: "📄" },
 ]
 
 const { sidebarOpen } = useSidebarState()

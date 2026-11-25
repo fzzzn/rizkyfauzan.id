@@ -57,16 +57,16 @@ const navItems = [
 		href: "/certificates",
 	},
 	{
-		title: "Resume",
-		href: "/resume",
-	},
-	{
 		title: "Contact",
 		href: "/contact",
 	},
 	{
 		title: "Guestbook",
 		href: "/guestbook",
+	},
+	{
+		title: "Resume",
+		href: "/resume",
 	},
 ]
 
