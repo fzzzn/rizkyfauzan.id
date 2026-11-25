@@ -3,7 +3,7 @@
         <main class="h-full p-6 flex-col gap-8 lg:gap-24 flex lg:flex-row items-center justify-center">
             <section aria-label="Profile Photo of Rizky Fauzan Hanif">
                 <img
-ref="photoEl" src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
+ref="photoEl" src="/avatar-with-bg.webp"
                     alt="Rizky Fauzan Hanif - Network Engineer and MikroTik Certified Professional"
                     width="500" height="500"
                     class="object-cover w-75 lg:w-125 aspect-square rounded-2xl cursor-pointer hover:opacity-90 transition-opacity duration-200" loading="eager" fetchpriority="high" @click="openModal">
@@ -34,7 +34,7 @@ ref="photoEl" src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
 
         <!-- Modal -->
         <PhotoModal
-v-model:open="isModalOpen" src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
+v-model:open="isModalOpen" src="/avatar-with-bg.webp"
             alt="Rizky Fauzan Hanif - Full size" />
     </div>
 </template>

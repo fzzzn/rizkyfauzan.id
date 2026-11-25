@@ -95,8 +95,6 @@ export default defineNuxtConfig({
       link: [
         { rel: "preconnect", href: "https://u.zxn.my.id", crossorigin: "anonymous" },
         { rel: "preconnect", href: "https://ik.imagekit.io", crossorigin: "anonymous" },
-        // The homepage avatar is the LCP image and is served from this host.
-        { rel: "preconnect", href: "https://assets.rizkyfauzan.id" },
         { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon-96x96.png" },
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
