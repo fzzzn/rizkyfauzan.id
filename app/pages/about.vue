@@ -19,6 +19,17 @@
             <p data-intro="paragraph" class="mt-6 text-xl lg:text-2xl text-justify">
                 I care about infrastructure that is reliable, maintainable, and scalable.
             </p>
+            <nav data-intro="paragraph" aria-label="Explore more" class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-lg lg:text-xl font-bold">
+                <NuxtLink to="/certificates" class="underline underline-offset-4 decoration-1 hover:text-muted transition-colors">
+                    View certifications
+                </NuxtLink>
+                <NuxtLink to="/achievements" class="underline underline-offset-4 decoration-1 hover:text-muted transition-colors">
+                    See achievements
+                </NuxtLink>
+                <NuxtLink to="/contact" class="underline underline-offset-4 decoration-1 hover:text-muted transition-colors">
+                    Get in touch
+                </NuxtLink>
+            </nav>
         </div>
         <div class="lg:flex-2/6">
             <OptimizedImg

@@ -11,6 +11,10 @@ ref="photoEl" src="https://assets.rizkyfauzan.id/avatar-with-bg.webp"
             <section class="text-center flex flex-col lg:text-left" aria-label="About Rizky Fauzan Hanif">
                 <h1 ref="nameEl" class="text-4xl lg:text-8xl font-bold tracking-tighter">Rizky Fauzan Hanif</h1>
                 <p ref="roleEl" class="text-2xl lg:text-4xl mt-3 font-bold tracking-tighter">Network Engineer</p>
+                <p ref="introEl" class="mt-6 max-w-xl mx-auto lg:mx-0 text-base lg:text-lg text-secondary text-balance">
+                    Network Engineer in Yogyakarta, Indonesia, focused on MikroTik RouterOS, network security,
+                    and IPv6. MTCNA and MTCTCE certified. I build reliable, maintainable networks.
+                </p>
                 <div
                     ref="ctaEl"
                     class="mt-12 flex flex-col md:flex-row items-center justify-center lg:justify-between gap-3 text-sm lg:text-base font-bold">
@@ -60,6 +64,7 @@ const isModalOpen = ref(false)
 const photoEl = ref<HTMLElement | null>(null)
 const nameEl = ref<HTMLElement | null>(null)
 const roleEl = ref<HTMLElement | null>(null)
+const introEl = ref<HTMLElement | null>(null)
 const ctaEl = ref<HTMLElement | null>(null)
 
 let introTimeline: gsap.core.Timeline | null = null
@@ -81,7 +86,7 @@ const playIntro = () => {
     // (nuxt.config.ts) re-hides matched elements on a timeout after client-side
     // navigation; without the claim that late hide can land mid-animation and
     // leave the hero half-hidden. Same safeguard useAboutIntro uses.
-    claimed = [photoEl.value, heading, roleEl.value, ctaEl.value].filter(Boolean) as HTMLElement[]
+    claimed = [photoEl.value, heading, roleEl.value, introEl.value, ctaEl.value].filter(Boolean) as HTMLElement[]
     claimed.forEach((element) => element.setAttribute('data-reveal-active', ''))
 
     // autoSplit re-runs onSplit when the line breaks change (e.g. resizing
@@ -125,6 +130,15 @@ const playIntro = () => {
                     duration: 0.6,
                     clearProps: 'transform,opacity',
                 }, 0.45)
+            }
+
+            if (introEl.value) {
+                introTimeline.from(introEl.value, {
+                    y: 16,
+                    opacity: 0,
+                    duration: 0.6,
+                    clearProps: 'transform,opacity',
+                }, 0.5)
             }
 
             if (ctaEl.value) {
