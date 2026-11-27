@@ -143,6 +143,76 @@ export default defineNuxtConfig({
     // into public/og/*.png, keeping the ~2.5 MB runtime renderer out of the worker bundle.
     enabled: false,
   },
+  linkChecker: {
+    runOnBuild: false,
+  },
+  aiReady: {
+    llmsFullTxt: false,
+    agentSkills: false,
+    contentSignal: {
+      search: true,
+      aiInput: true,
+      aiTrain: false,
+    },
+    apiCatalog: {
+      entries: [
+        {
+          anchor: "https://rizkyfauzan.id/api/guestbook",
+          serviceDoc: { href: "https://rizkyfauzan.id/guestbook", type: "text/html", title: "Guestbook" },
+        },
+        {
+          anchor: "https://rizkyfauzan.id/api/network",
+          serviceDoc: { href: "https://rizkyfauzan.id/net", type: "text/html", title: "Visitor Network Info" },
+        },
+        {
+          anchor: "https://rizkyfauzan.id/api/dns",
+          serviceDoc: { href: "https://rizkyfauzan.id/net", type: "text/html", title: "DNS-over-HTTPS Lookup" },
+        },
+      ],
+    },
+    llmsTxt: {
+      pages: false,
+      notes: [
+        "Rizky Fauzan Hanif is a Network & DevOps Engineer based in Sleman, Yogyakarta, Indonesia.",
+        "Specializes in MikroTik RouterOS, VyOS 10G routing, IPv6, Proxmox VE, Docker, Kubernetes, CI/CD, and network security. Certified MTCNA, MTCTCE, and Hurricane Electric IPv6 Sage.",
+        "Contact: contact@rizkyfauzan.id · GitHub: https://github.com/fzzzn · LinkedIn: https://linkedin.com/in/rizky-fauzan-hanif",
+      ],
+      sections: [
+        {
+          title: "Profile & Work",
+          links: [
+            { title: "Home", href: "/", description: "Landing page and quick introduction to Rizky Fauzan Hanif." },
+            { title: "About", href: "/about", description: "Background, current focus (Now), and engineering interests." },
+            { title: "Projects", href: "/projects", description: "Production networking, virtualization, DevOps, and web projects." },
+            { title: "Resume", href: "/resume", description: "Bilingual (EN/ID) curriculum vitae with experience, skills, education, and certifications." },
+          ],
+        },
+        {
+          title: "Credentials & Recognition",
+          links: [
+            { title: "Certificates", href: "/certificates", description: "Verified MikroTik (MTCNA, MTCTCE), Hurricane Electric IPv6 Sage, Google Cybersecurity, and cloud certifications." },
+            { title: "Achievements", href: "/achievements", description: "Competition awards including MikroTik Networking Olympiad, LKS ITNSA, and LKS Cloud Computing." },
+          ],
+        },
+        {
+          title: "Connect & Utilities",
+          links: [
+            { title: "Contact", href: "/contact", description: "Email, LinkedIn, X, Instagram, Telegram, live Discord status, and local Yogyakarta (WIB) time." },
+            { title: "Guestbook", href: "/guestbook", description: "Public guestbook with Google, GitHub, and Discord OAuth." },
+            { title: "Network Info", href: "/net", description: "Live visitor IPv4/IPv6 dual-stack, ASN, TLS, Cloudflare PoP inspector, and edge RTT test." },
+            { title: "Notes", href: "https://notes.rizkyfauzan.id", description: "Technical notes and documentation." },
+          ],
+        },
+        {
+          title: "Optional",
+          optional: true,
+          links: [
+            { title: "Credits", href: "/credits", description: "Design inspiration, open-source stack, fonts, icons, and services." },
+          ],
+        },
+      ],
+    },
+  },
   sitemap: {
     strictNuxtContentPaths: true,
     zeroRuntime: true,
