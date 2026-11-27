@@ -9,7 +9,12 @@
                 class="print:hidden fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs"
                 @click="close">
                 <div
-                    class="w-full max-w-2xl bg-bg text-fg border border-border rounded-xl shadow-2xl overflow-hidden font-mono text-xs sm:text-sm flex flex-col max-h-[80vh]"
+                    :class="[
+                        'bg-bg text-fg border border-border rounded-xl shadow-2xl overflow-hidden font-mono text-xs sm:text-sm flex flex-col transition-[width,max-width,height] duration-200',
+                        expanded
+                            ? 'w-[95vw] max-w-6xl h-[88vh]'
+                            : 'w-full max-w-4xl max-h-[82vh] md:resize',
+                    ]"
                     @click.stop>
                     <!-- Terminal Title Bar -->
                     <div class="px-4 py-2.5 bg-surface border-b border-border flex items-center justify-between gap-2 shrink-0">
@@ -21,13 +26,22 @@
                                 fauzan@rizkyfauzan: ~ — Debian 13 (trixie)
                             </span>
                         </div>
-                        <button
-                            type="button"
-                            class="text-muted hover:text-fg transition-colors cursor-pointer px-1.5 py-0.5 text-xs"
-                            aria-label="Close terminal"
-                            @click="close">
-                            ESC
-                        </button>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button
+                                type="button"
+                                class="text-muted hover:text-fg transition-colors cursor-pointer px-1.5 py-0.5 text-xs"
+                                :aria-label="expanded ? 'Restore terminal size' : 'Maximize terminal'"
+                                @click="expanded = !expanded">
+                                {{ expanded ? 'Restore' : 'Expand' }}
+                            </button>
+                            <button
+                                type="button"
+                                class="text-muted hover:text-fg transition-colors cursor-pointer px-1.5 py-0.5 text-xs"
+                                aria-label="Close terminal"
+                                @click="close">
+                                ESC
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Nano Editor Mode -->
@@ -92,7 +106,7 @@
                             </div>
                             <pre
                                 v-if="entry.output"
-                                class="whitespace-pre-wrap text-secondary mt-1 font-mono">{{ entry.output }}</pre>
+                                class="whitespace-pre overflow-x-auto text-secondary mt-1 font-mono">{{ entry.output }}</pre>
                             <a
                                 v-if="entry.link"
                                 :href="entry.link"
@@ -218,6 +232,7 @@ const inputEl = ref<HTMLInputElement | null>(null)
 const outputEl = ref<HTMLElement | null>(null)
 const nanoEl = ref<HTMLTextAreaElement | null>(null)
 const nanoOpen = ref(false)
+const expanded = ref(false)
 const nanoFilename = ref('untitled.txt')
 const nanoContent = ref('')
 const nanoSaving = ref(false)
@@ -758,8 +773,9 @@ const submit = async () => {
         return
     }
 
-    if (lower.startsWith('cd ')) {
-        const dest = raw.split(/\s+/)[1] || '/'
+    if (lower === 'cd' || lower === 'cd ~' || lower.startsWith('cd ')) {
+        const arg = raw.split(/\s+/)[1]
+        const dest = !arg || arg === '~' ? '/' : arg
         const normalized = dest.startsWith('/') ? dest : `/${dest}`
         if (VALID_ROUTES.includes(normalized)) {
             await pushEntry(raw, `Navigating to ${normalized}...`)
