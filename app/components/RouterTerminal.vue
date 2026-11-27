@@ -269,6 +269,14 @@ const submit = async () => {
             ' $$P      d$\'     ,    $$P    Role   : Network & DevOps Engineer',
             ' $$:      $$.   -    ,d$$\'    Certs  : MTCNA · MTCTCE · IPv6 Sage',
             ' $$;      Y$b._   _,d$P\'      Stack  : Nuxt 4 · Vue 3 · Supabase',
+            ' Y$$.    `.`"Y$$$$P"\'         Loc    : Yogyakarta, Indonesia',
+            ' `$$b      "-.__              Site   : https://rizkyfauzan.id',
+            '  `Y$$',
+            '   `Y$$.',
+            '     `$$b.',
+            '       `Y$$b.',
+            '          `"Y$b._',
+            '              `"""',
         ].join('\n'))
         return
     }
