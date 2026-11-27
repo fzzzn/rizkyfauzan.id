@@ -1,10 +1,8 @@
 <template>
     <div class="p-6">
-        <PageHeader 
-            title="Achievements" 
-        />
+        <PageHeader title="Achievements" />
 
-        <div class="mb-16">
+        <div class="mb-12">
             <div class="flex flex-wrap justify-center gap-6 items-stretch">
                 <ImageCard
                     v-for="achievement in achievements"
@@ -14,35 +12,36 @@
                 />
             </div>
         </div>
+
+        <section v-if="moreAchievements.length" class="max-w-5xl mx-auto mb-16" data-reveal>
+            <h2 class="text-sm font-bold uppercase tracking-widest text-muted mb-4">
+                Recent Milestones
+            </h2>
+            <ul class="divide-y divide-border border-t border-b border-border">
+                <li
+                    v-for="item in moreAchievements"
+                    :key="item.id"
+                    class="py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                    <span class="text-lg font-bold text-fg">{{ item.title }}</span>
+                    <span class="text-sm text-muted shrink-0">{{ item.date }}</span>
+                </li>
+            </ul>
+        </section>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { featuredAchievements, additionalAchievements } from '~/data/resume'
 
 useScrollReveal()
 
 useSeoMeta({
     title: 'Achievements — MikroTik Olympiad Winner',
-    description: '1st Place MikroTik Networking Olympiad 2024, 3rd Place LKS ITNSA DIY Province 2025. Explore professional achievements and milestones of Rizky Fauzan Hanif.',
+    description: '1st Place MikroTik Networking Olympiad 2024, 3rd Place LKS ITNSA DIY Province 2025, and 2nd Place LKS Cloud Computing DIY Province 2026. Explore professional achievements of Rizky Fauzan Hanif.',
     ogTitle: 'Achievements — MikroTik Olympiad Winner',
-    ogDescription: 'Competition wins and professional milestones including 1st Place MikroTik Networking Olympiad and LKS ITNSA achievements.',
+    ogDescription: 'Competition wins and professional milestones including MikroTik Networking Olympiad, LKS ITNSA, and LKS Cloud Computing.',
 })
 
-const achievements = ref([
-    {
-        id: 1,
-        title: "1st Place in the 2024 MikroTik Networking Olympiad",
-        // description: "",
-        date: "2024",
-        image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-ojm-2024?updatedAt=1729822824599",
-    },
-    {
-        id: 2,
-        title: "3rd Place in the 2025 DIY Province ITNSA LKS",
-        // description: "",
-        date: "2025",
-        image: "https://ik.imagekit.io/fauzan/certificates/sertifikat-lks-itnsa-2025?updatedAt=1729822824599",
-    },
-])
+const achievements = featuredAchievements
+const moreAchievements = additionalAchievements
 </script>
