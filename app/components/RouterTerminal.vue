@@ -30,8 +30,58 @@
                         </button>
                     </div>
 
+                    <!-- Nano Editor Mode -->
+                    <div v-if="nanoOpen" class="flex-1 flex flex-col min-h-[340px]">
+                        <div class="px-4 py-1.5 bg-inverse-bg text-inverse-fg flex items-center justify-between text-xs shrink-0">
+                            <span>GNU nano 8.3</span>
+                            <span class="font-bold truncate mx-2">{{ nanoFilename }}</span>
+                            <span>{{ nanoSaving ? 'Saving...' : 'Haste' }}</span>
+                        </div>
+
+                        <textarea
+                            ref="nanoEl"
+                            v-model="nanoContent"
+                            placeholder="Write text here... Press Ctrl+O (or click Save) to upload to haste.zxn.my.id"
+                            spellcheck="false"
+                            aria-label="Nano editor buffer"
+                            class="flex-1 w-full p-4 bg-bg text-fg placeholder:text-muted font-mono text-xs sm:text-sm focus:outline-none resize-none leading-relaxed"
+                            @keydown.ctrl.o.prevent="saveNano"
+                            @keydown.ctrl.s.prevent="saveNano"
+                            @keydown.meta.s.prevent="saveNano"
+                            @keydown.ctrl.x.prevent="exitNano" />
+
+                        <div
+                            v-if="nanoStatus"
+                            class="px-4 py-1.5 border-t border-border bg-surface text-xs text-muted truncate">
+                            {{ nanoStatus }}
+                        </div>
+
+                        <div class="px-4 py-2 border-t border-border bg-surface flex flex-wrap items-center justify-between gap-2 text-xs shrink-0">
+                            <div class="flex items-center gap-3">
+                                <button
+                                    type="button"
+                                    :disabled="nanoSaving || !nanoContent.trim()"
+                                    class="inline-flex items-center gap-1.5 text-fg hover:underline cursor-pointer disabled:opacity-50"
+                                    @click="saveNano">
+                                    <kbd class="px-1.5 py-0.5 rounded bg-inverse-bg text-inverse-fg font-bold">^O</kbd>
+                                    <span>Save to Haste</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    :disabled="nanoSaving"
+                                    class="inline-flex items-center gap-1.5 text-fg hover:underline cursor-pointer disabled:opacity-50"
+                                    @click="exitNano">
+                                    <kbd class="px-1.5 py-0.5 rounded bg-inverse-bg text-inverse-fg font-bold">^X</kbd>
+                                    <span>Exit</span>
+                                </button>
+                            </div>
+                            <span class="text-muted">{{ nanoContent.length }} chars</span>
+                        </div>
+                    </div>
+
                     <!-- Output Area -->
                     <div
+                        v-else
                         ref="outputEl"
                         class="p-4 overflow-y-auto flex-1 space-y-2 leading-relaxed"
                         @click="focusInput">
@@ -43,6 +93,14 @@
                             <pre
                                 v-if="entry.output"
                                 class="whitespace-pre-wrap text-secondary mt-1 font-mono">{{ entry.output }}</pre>
+                            <a
+                                v-if="entry.link"
+                                :href="entry.link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="inline-block mt-1 text-fg underline underline-offset-4 hover:text-muted break-all">
+                                {{ entry.link }}
+                            </a>
                         </div>
 
                         <!-- Active Prompt -->
@@ -74,6 +132,7 @@ import { resumeTranslations } from '~/data/resume'
 interface TerminalEntry {
     command?: string
     output?: string
+    link?: string
 }
 
 const MOTD = [
@@ -116,6 +175,7 @@ const COMMANDS = [
     'theme',
     'history',
     'echo ',
+    'nano ',
     'cd ',
     'dns',
     'clear',
@@ -145,6 +205,12 @@ const history = ref<string[]>([])
 const historyIndex = ref(-1)
 const inputEl = ref<HTMLInputElement | null>(null)
 const outputEl = ref<HTMLElement | null>(null)
+const nanoEl = ref<HTMLTextAreaElement | null>(null)
+const nanoOpen = ref(false)
+const nanoFilename = ref('untitled.txt')
+const nanoContent = ref('')
+const nanoSaving = ref(false)
+const nanoStatus = ref('')
 let previousFocus: HTMLElement | null = null
 
 const scrollToBottom = async () => {
@@ -165,9 +231,64 @@ const open = () => {
 
 const close = () => {
     if (!isOpen.value) return
+    nanoOpen.value = false
     isOpen.value = false
     previousFocus?.focus()
     previousFocus = null
+}
+
+const openNano = async (rawCmd: string, filename: string) => {
+    await pushEntry(rawCmd)
+    nanoFilename.value = filename || 'untitled.txt'
+    nanoContent.value = ''
+    nanoStatus.value = ''
+    nanoOpen.value = true
+    await nextTick()
+    nanoEl.value?.focus()
+}
+
+const exitNano = async () => {
+    if (nanoSaving.value) return
+    nanoOpen.value = false
+    nanoStatus.value = ''
+    await nextTick()
+    focusInput()
+    await scrollToBottom()
+}
+
+const saveNano = async () => {
+    if (nanoSaving.value || !nanoContent.value.trim()) return
+    nanoSaving.value = true
+    nanoStatus.value = 'Uploading to haste.zxn.my.id...'
+    try {
+        const res = await $fetch<{ key: string; url: string }>('/api/haste', {
+            method: 'POST',
+            body: { content: nanoContent.value },
+        })
+        let copiedNote = ''
+        try {
+            await navigator.clipboard.writeText(res.url)
+            copiedNote = ' (copied to clipboard)'
+        } catch {
+            // Clipboard unavailable in restricted contexts.
+        }
+        nanoOpen.value = false
+        nanoStatus.value = ''
+        entries.value.push({
+            output: `Saved "${nanoFilename.value}" to Haste${copiedNote}:`,
+            link: res.url,
+        })
+        await nextTick()
+        focusInput()
+        await scrollToBottom()
+    } catch (err) {
+        const msg = (err as { data?: { statusMessage?: string }; message?: string })?.data?.statusMessage
+            || (err as { message?: string })?.message
+            || 'Failed to save to Haste.'
+        nanoStatus.value = `Error: ${msg}`
+    } finally {
+        nanoSaving.value = false
+    }
 }
 
 const pushEntry = async (command: string, output?: string) => {
@@ -252,6 +373,7 @@ const submit = async () => {
             '  theme                 Cycle light / dark / system theme',
             '  fortune | history     Random quote or command history',
             '  echo <text>           Print text',
+            '  nano [file]           Write & save text to haste.zxn.my.id',
             '  cd <route>            Navigate to a page (e.g. cd /projects)',
             '  clear | exit          Clear screen or close session',
         ].join('\n'))
@@ -410,6 +532,12 @@ const submit = async () => {
         return
     }
 
+    if (lower === 'nano' || lower.startsWith('nano ')) {
+        const filename = raw.slice(4).trim() || 'untitled.txt'
+        await openNano(raw, filename)
+        return
+    }
+
     if (lower === 'ip route' || lower === 'ip r') {
         await pushEntry(raw, VALID_ROUTES.map(r => `${r.padEnd(15)} via rizkyfauzan.id dev eth0 proto static`).join('\n'))
         return
@@ -532,7 +660,8 @@ watch(isOpen, async (opened) => {
 const onKeydown = (e: KeyboardEvent) => {
     if (e.key === 'Escape' && isOpen.value) {
         e.preventDefault()
-        close()
+        if (nanoOpen.value) exitNano()
+        else close()
         return
     }
     const target = e.target as HTMLElement | null
