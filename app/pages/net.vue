@@ -22,22 +22,46 @@
             <div v-else class="bg-surface border border-border rounded-xl overflow-hidden">
                 <!-- IP Hero -->
                 <div class="p-6 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div class="min-w-0">
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="text-xs font-mono uppercase tracking-wider text-muted">Your IP Address</span>
-                            <span
-                                :class="[
-                                    'text-xs font-mono font-bold px-2 py-0.5 rounded-full border',
-                                    info.ipVersion === 'IPv6'
-                                        ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-700 dark:text-emerald-400'
-                                        : 'border-border text-muted',
-                                ]">
-                                {{ info.ipVersion === 'IPv6' ? 'IPv6 Ready' : info.ipVersion }}
-                            </span>
+                    <div class="min-w-0 space-y-3">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                                <span class="text-xs font-mono uppercase tracking-wider text-muted">
+                                    {{ info.ipVersion === 'IPv6' ? 'IPv6 Address' : 'Your IP Address' }}
+                                </span>
+                                <span
+                                    :class="[
+                                        'text-xs font-mono font-bold px-2 py-0.5 rounded-full border',
+                                        info.ipVersion === 'IPv6'
+                                            ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-700 dark:text-emerald-400'
+                                            : 'border-border text-muted',
+                                    ]">
+                                    {{ info.ipVersion === 'IPv6' ? 'IPv6 Ready' : info.ipVersion }}
+                                </span>
+                                <span
+                                    v-if="isDualStack"
+                                    class="text-xs font-mono font-bold px-2 py-0.5 rounded-full border bg-emerald-500/10 border-emerald-500/40 text-emerald-700 dark:text-emerald-400">
+                                    Dual-Stack
+                                </span>
+                            </div>
+                            <p class="text-xl sm:text-2xl font-mono font-bold text-fg break-all">
+                                {{ info.ip }}
+                            </p>
                         </div>
-                        <p class="text-xl sm:text-2xl font-mono font-bold text-fg break-all">
-                            {{ info.ip }}
-                        </p>
+
+                        <div v-if="secondaryIp" class="flex flex-wrap items-center gap-2 pt-1">
+                            <span class="text-xs font-mono uppercase tracking-wider text-muted">
+                                {{ secondaryLabel }}:
+                            </span>
+                            <span class="text-sm sm:text-base font-mono font-semibold text-secondary break-all">
+                                {{ secondaryIp }}
+                            </span>
+                            <button
+                                type="button"
+                                class="text-xs font-mono text-muted hover:text-fg underline underline-offset-2 cursor-pointer"
+                                @click="copySecondaryIp">
+                                {{ copiedSecondary ? 'Copied' : 'Copy' }}
+                            </button>
+                        </div>
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
                         <button
@@ -132,9 +156,55 @@ const { data: info, pending, error } = await useFetch<NetworkInfo>('/api/network
 })
 
 const copied = ref(false)
+const copiedSecondary = ref(false)
+const secondaryIp = ref<string | null>(null)
+const secondaryLabel = ref<'IPv4' | 'IPv6'>('IPv4')
 const pinging = ref(false)
 const latencyStats = ref<{ min: number; avg: number; samples: number[] } | null>(null)
 let copyTimer: ReturnType<typeof setTimeout> | null = null
+let secondaryCopyTimer: ReturnType<typeof setTimeout> | null = null
+
+const isDualStack = computed(() => Boolean(secondaryIp.value))
+
+const detectAlternateStack = async (primaryVersion: NetworkInfo['ipVersion']) => {
+    if (primaryVersion === 'local') return
+    const checkV4 = primaryVersion === 'IPv6'
+    const endpoint = checkV4
+        ? 'https://api4.ipify.org?format=json'
+        : 'https://api6.ipify.org?format=json'
+    secondaryLabel.value = checkV4 ? 'IPv4' : 'IPv6'
+
+    try {
+        const res = await fetch(endpoint, { signal: AbortSignal.timeout(3000) })
+        if (!res.ok) return
+        const data = await res.json() as { ip?: string }
+        if (data?.ip && data.ip !== info.value?.ip) {
+            secondaryIp.value = data.ip
+        }
+    } catch {
+        // Single-stack network or timeout — leave secondaryIp null.
+    }
+}
+
+watch(info, (val) => {
+    if (val && !secondaryIp.value) {
+        detectAlternateStack(val.ipVersion)
+    }
+}, { immediate: true })
+
+const copySecondaryIp = async () => {
+    if (!secondaryIp.value) return
+    try {
+        await navigator.clipboard.writeText(secondaryIp.value)
+        copiedSecondary.value = true
+        if (secondaryCopyTimer) clearTimeout(secondaryCopyTimer)
+        secondaryCopyTimer = setTimeout(() => {
+            copiedSecondary.value = false
+        }, 2000)
+    } catch {
+        // Ignore clipboard errors in restricted contexts.
+    }
+}
 
 const runPingTest = async () => {
     if (pinging.value) return
@@ -172,5 +242,6 @@ const copyIp = async () => {
 
 onUnmounted(() => {
     if (copyTimer) clearTimeout(copyTimer)
+    if (secondaryCopyTimer) clearTimeout(secondaryCopyTimer)
 })
 </script>
