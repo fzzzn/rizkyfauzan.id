@@ -20,6 +20,9 @@
                 I care about infrastructure that is reliable, maintainable, and scalable.
             </p>
             <nav data-intro="paragraph" aria-label="Explore more" class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-lg lg:text-xl font-bold">
+                <NuxtLink to="/projects" class="underline underline-offset-4 decoration-1 hover:text-muted transition-colors">
+                    Explore projects
+                </NuxtLink>
                 <NuxtLink to="/certificates" class="underline underline-offset-4 decoration-1 hover:text-muted transition-colors">
                     View certifications
                 </NuxtLink>
@@ -30,6 +33,17 @@
                     Get in touch
                 </NuxtLink>
             </nav>
+
+            <!-- Now Section -->
+            <section data-intro="paragraph" class="mt-12 pt-8 border-t border-border">
+                <h2 class="text-sm font-bold uppercase tracking-widest text-muted mb-4">Now</h2>
+                <dl class="space-y-4">
+                    <div v-for="item in nowItems" :key="item.label" class="grid grid-cols-1 sm:grid-cols-4 gap-1 sm:gap-4">
+                        <dt class="text-sm font-bold text-fg">{{ item.label }}</dt>
+                        <dd class="sm:col-span-3 text-base text-secondary leading-relaxed">{{ item.detail }}</dd>
+                    </div>
+                </dl>
+            </section>
         </div>
         <div class="lg:flex-2/6">
             <button
@@ -56,6 +70,7 @@ v-model:open="isModalOpen" src="/fauzan-history-full.png"
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { nowItems } from '~/data/resume'
 
 useAboutIntro()
 
