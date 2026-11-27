@@ -4,9 +4,18 @@
         <PageHeader title="Guestbook" />
 
         <!-- Error Display -->
-        <div v-if="error"
-            class="bg-red-50 border border-red-200 text-red-700 px-3 py-2 sm:px-4 sm:py-3 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base">
-            Error: {{ error }}
+        <div
+            v-if="error"
+            role="alert"
+            class="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 px-3 py-2 sm:px-4 sm:py-3 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base flex items-center justify-between gap-3">
+            <span>Error: {{ error }}</span>
+            <button
+                type="button"
+                class="shrink-0 text-xs font-semibold underline cursor-pointer"
+                aria-label="Dismiss error"
+                @click="error = null">
+                Dismiss
+            </button>
         </div>
 
         <!-- User Info or Sign In -->
@@ -36,13 +45,25 @@
                 <div>
                     <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Leave a Message</h2>
                     <form @submit.prevent="submitMessage">
-                        <textarea v-model="newMessage" placeholder="Write your message here..." rows="3"
+                        <label for="guestbook-message" class="sr-only">Message</label>
+                        <textarea
+                            id="guestbook-message"
+                            v-model="newMessage"
+                            placeholder="Write your message here..."
+                            rows="3"
+                            :maxlength="MAX_MESSAGE_LENGTH"
                             class="w-full px-3 py-2.5 sm:px-4 sm:py-3 border border-border bg-bg text-fg placeholder:text-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-inverse-bg focus:border-transparent text-sm sm:text-base resize-none"
                             required />
-                        <div class="mt-3 sm:mt-4 flex justify-end">
-                            <button type="submit"
+                        <div class="mt-3 sm:mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                            <span
+                                class="text-xs text-muted"
+                                :class="{ 'text-red-600 dark:text-red-400 font-medium': newMessage.length >= MAX_MESSAGE_LENGTH }">
+                                {{ newMessage.length }} / {{ MAX_MESSAGE_LENGTH }}
+                            </span>
+                            <button
+                                type="submit"
                                 :disabled="!newMessage || newMessage.trim().length === 0 || submitting"
-                                class="bg-inverse-bg text-inverse-fg px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:opacity-80 transition-opacity font-semibold disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto">
+                                class="bg-inverse-bg text-inverse-fg px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:opacity-80 transition-opacity font-semibold disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto cursor-pointer">
                                 {{ submitting ? 'Posting...' : 'Post Message' }}
                             </button>
                         </div>
@@ -158,6 +179,8 @@ useSeoMeta({
     ogDescription: 'Join the conversation and leave a message on the guestbook. Connect with the community.',
 })
 
+const MAX_MESSAGE_LENGTH = 1000
+
 // Reactive data
 const user: Ref<AuthUser | null> = ref(null)
 const messages: Ref<GuestbookMessage[]> = ref([])
@@ -188,9 +211,11 @@ const signInWithGitHub = (): void => signInWithProvider('github')
 const signInWithDiscord = (): void => signInWithProvider('discord')
 
 // Fetch messages
-const fetchMessages = async (): Promise<void> => {
+const fetchMessages = async (preserveError = false): Promise<void> => {
     loading.value = true
-    error.value = null
+    if (!preserveError) {
+        error.value = null
+    }
     try {
         const data = await $fetch<GuestbookMessage[]>('/api/guestbook')
         messages.value = data || []
@@ -207,6 +232,7 @@ const submitMessage = async (): Promise<void> => {
     if (!newMessage.value || newMessage.value.trim().length === 0 || !user.value) return
 
     submitting.value = true
+    error.value = null
     try {
         await $fetch('/api/guestbook', {
             method: 'POST',
@@ -217,7 +243,7 @@ const submitMessage = async (): Promise<void> => {
         await fetchMessages()
     } catch (err) {
         console.error('Error submitting message:', err)
-        alert('Error submitting message: ' + getErrorMessage(err))
+        error.value = 'Error submitting message: ' + getErrorMessage(err)
     } finally {
         submitting.value = false
     }
@@ -225,6 +251,7 @@ const submitMessage = async (): Promise<void> => {
 
 // Delete message
 const deleteMessage = async (messageId: string | number): Promise<void> => {
+    error.value = null
     try {
         await $fetch(`/api/guestbook/${messageId}`, {
             method: 'DELETE',
@@ -233,7 +260,7 @@ const deleteMessage = async (messageId: string | number): Promise<void> => {
         await fetchMessages()
     } catch (err) {
         console.error('Error deleting message:', err)
-        alert('Error deleting message: ' + getErrorMessage(err))
+        error.value = 'Error deleting message: ' + getErrorMessage(err)
     }
 }
 
@@ -251,6 +278,7 @@ const signOut = async (): Promise<void> => {
 onMounted(async () => {
     // Show auth errors from callback redirect
     const route = useRoute()
+    const hasAuthError = Boolean(route.query.error)
     if (route.query.error) {
         const errorMessages: Record<string, string> = {
             missing_code: 'Authentication failed: no authorization code received.',
@@ -262,12 +290,12 @@ onMounted(async () => {
         error.value = errorMessages[route.query.error as string] || `Authentication error: ${route.query.error}`
     }
 
-    await Promise.all([fetchUser(), fetchMessages()])
+    await Promise.all([fetchUser(), fetchMessages(hasAuthError)])
 })
 
-// The header is revealed on mount; message cards only exist after loading.
+// Reveal newly rendered message cards both after initial load and after posting.
 watch(messages, async () => {
     await nextTick()
     startReveals()
-}, { once: true })
+})
 </script>
