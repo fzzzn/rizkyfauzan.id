@@ -114,15 +114,15 @@ export const getPrimaryActivity = (
 };
 
 export const getDiscordStatusBadgeClasses = (status: string): string => {
-  const baseClasses = 'text-xs px-2 py-0.5 rounded-xl border';
+  const baseClasses = 'text-xs font-medium px-2 py-0.5 rounded-xl border';
 
   switch (status) {
     case 'online':
-      return `${baseClasses} bg-surface border-green-500 text-green-600`;
+      return `${baseClasses} bg-emerald-500/10 border-emerald-500/40 text-emerald-700 dark:text-emerald-400`;
     case 'idle':
-      return `${baseClasses} bg-surface border-yellow-500 text-yellow-600`;
+      return `${baseClasses} bg-amber-500/10 border-amber-500/40 text-amber-800 dark:text-amber-300`;
     case 'dnd':
-      return `${baseClasses} bg-surface border-red-500 text-red-600`;
+      return `${baseClasses} bg-rose-500/10 border-rose-500/40 text-rose-700 dark:text-rose-400`;
     default:
       return `${baseClasses} bg-surface border-border text-muted`;
   }

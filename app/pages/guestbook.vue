@@ -120,7 +120,7 @@ v-else :src="user.user_metadata.avatar_url" :alt="user.user_metadata?.full_name 
 
                     <button
 :disabled="!!signingIn"
-                        class="bg-gray-900 text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-gray-700 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
+                        class="bg-neutral-900 dark:bg-neutral-800 border border-border text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-neutral-800 dark:hover:bg-neutral-700 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithGitHub">
                         <Icon name="mdi:github" size="18" />
                         <span>{{ signingIn === 'github' ? 'Signing In...' : 'GitHub' }}</span>

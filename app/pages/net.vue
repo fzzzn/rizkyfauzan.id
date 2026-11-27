@@ -29,7 +29,7 @@
                                 :class="[
                                     'text-xs font-mono font-bold px-2 py-0.5 rounded-full border',
                                     info.ipVersion === 'IPv6'
-                                        ? 'border-green-500 text-green-600 dark:text-green-400'
+                                        ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-700 dark:text-emerald-400'
                                         : 'border-border text-muted',
                                 ]">
                                 {{ info.ipVersion === 'IPv6' ? 'IPv6 Ready' : info.ipVersion }}

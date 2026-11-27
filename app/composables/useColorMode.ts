@@ -19,7 +19,7 @@ export const useColorMode = () => {
         document.documentElement.classList.toggle('dark', isDark)
         const themeMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
         if (themeMeta) {
-            themeMeta.content = isDark ? '#0a0a0a' : '#ffffff'
+            themeMeta.content = isDark ? '#0c0c0d' : '#fafafa'
         }
         try {
             localStorage.setItem(STORAGE_KEY, value)

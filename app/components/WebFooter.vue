@@ -1,6 +1,6 @@
 <template>
     <footer class="px-6 py-4 relative z-50">
-        <div class="text-neutral-500 flex flex-col gap-4">
+        <div class="text-muted flex flex-col gap-4">
             <!-- Main footer content -->
             <div class="relative flex flex-col lg:flex-row gap-2.5 items-center">
                 <!-- Navigation links -->

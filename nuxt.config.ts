@@ -94,9 +94,9 @@ export default defineNuxtConfig({
       // viewport and charset are Nuxt defaults, and og:site_name/og:type come
       // from the site config, so repeating them here only duplicates tags.
       meta: [
-        { name: "theme-color", content: "#ffffff" },
+        { name: "theme-color", content: "#fafafa" },
         { name: "format-detection", content: "telephone=no" },
-        { name: "msapplication-TileColor", content: "#ffffff" },
+        { name: "msapplication-TileColor", content: "#fafafa" },
       ],
       link: [
         { rel: "preconnect", href: "https://u.zxn.my.id", crossorigin: "anonymous" },
@@ -119,7 +119,7 @@ export default defineNuxtConfig({
         {
           // Applies the saved (or system) color mode before first paint so the
           // page never flashes light before useColorMode takes over on mount.
-          innerHTML: `(function(){try{var m=localStorage.getItem('color-mode');if(m!=='light'&&m!=='dark'&&m!=='system')m='system';var d=m==='dark'||(m==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);var t=document.querySelector('meta[name="theme-color"]');if(t)t.setAttribute('content',d?'#0a0a0a':'#ffffff')}catch(e){}})()`,
+          innerHTML: `(function(){try{var m=localStorage.getItem('color-mode');if(m!=='light'&&m!=='dark'&&m!=='system')m='system';var d=m==='dark'||(m==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);var t=document.querySelector('meta[name="theme-color"]');if(t)t.setAttribute('content',d?'#0c0c0d':'#fafafa')}catch(e){}})()`,
           tagPosition: "head",
           tagPriority: "critical",
         },

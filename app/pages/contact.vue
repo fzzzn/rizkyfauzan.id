@@ -8,7 +8,7 @@ enter-active-class="transition ease-out duration-300" enter-from-class="opacity-
             <div
 v-if="showToast"
                 class="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50 bg-inverse-bg text-inverse-fg px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2">
-                <Icon name="heroicons:check-circle" size="20" class="text-green-400" />
+                <Icon name="heroicons:check-circle" size="20" class="text-emerald-400 dark:text-emerald-700" />
                 <span class="font-medium">Discord username copied to clipboard!</span>
             </div>
         </Transition>

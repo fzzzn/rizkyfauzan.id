@@ -12,7 +12,7 @@ class="glitch text-8xl lg:text-[12rem] font-bold tracking-tighter leading-none"
           <p class="text-2xl lg:text-4xl font-bold">
             {{ error?.status === 404 ? 'Page Not Found' : 'Something Went Wrong' }}
           </p>
-          <p class="text-lg text-neutral-500 max-w-xl">
+          <p class="text-lg text-muted max-w-xl">
             {{ error?.status === 404
               ? 'The page you are looking for does not exist or has been moved.'
               : error?.message || 'An unexpected error occurred.'

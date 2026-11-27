@@ -9,7 +9,9 @@ name="heroicons-outline:menu-alt-2" size="24"
         </button>
 
         <div
-v-show="isOpen" ref="backdrop" class="fixed inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
+            v-show="isOpen"
+            ref="backdrop"
+            class="fixed inset-0 w-full h-full bg-black/40 backdrop-blur-xs z-30"
             @click="handleClose" />
 
         <div
