@@ -154,22 +154,7 @@ export default defineNuxtConfig({
       aiInput: true,
       aiTrain: false,
     },
-    apiCatalog: {
-      entries: [
-        {
-          anchor: "https://rizkyfauzan.id/api/guestbook",
-          serviceDoc: { href: "https://rizkyfauzan.id/guestbook", type: "text/html", title: "Guestbook" },
-        },
-        {
-          anchor: "https://rizkyfauzan.id/api/network",
-          serviceDoc: { href: "https://rizkyfauzan.id/net", type: "text/html", title: "Visitor Network Info" },
-        },
-        {
-          anchor: "https://rizkyfauzan.id/api/dns",
-          serviceDoc: { href: "https://rizkyfauzan.id/net", type: "text/html", title: "DNS-over-HTTPS Lookup" },
-        },
-      ],
-    },
+    apiCatalog: false,
     llmsTxt: {
       pages: false,
       notes: [
