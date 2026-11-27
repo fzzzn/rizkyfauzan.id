@@ -41,7 +41,9 @@ v-else :src="user.user_metadata.avatar_url" :alt="user.user_metadata?.full_name 
                                     Admin
                                 </span>
                             </div>
-                            <p class="text-xs sm:text-sm text-muted">Signed in</p>
+                            <p class="text-xs sm:text-sm text-muted truncate">
+                                {{ user.email ? `Signed in as ${user.email}` : 'Signed in' }}
+                            </p>
                         </div>
                     </div>
                     <button
