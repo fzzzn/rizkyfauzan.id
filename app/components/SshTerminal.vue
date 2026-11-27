@@ -127,7 +127,7 @@
 </template>
 
 <script setup lang="ts">
-import { resumeTranslations } from '~/data/resume'
+import { featuredProjects, resumeTranslations } from '~/data/resume'
 
 interface TerminalEntry {
     command?: string
@@ -160,6 +160,9 @@ const COMMANDS = [
     'uname -a',
     'cat /etc/os-release',
     'cat /etc/motd',
+    'cat /etc/hosts',
+    'cat about.txt',
+    'cat projects.txt',
     'cat skills.txt',
     'cat certs.txt',
     'cat contact.txt',
@@ -168,14 +171,22 @@ const COMMANDS = [
     'ip -6 addr',
     'ip route',
     'ss -tuln',
+    'ps aux',
+    'df -h',
+    'free -h',
+    'dig ',
+    'curl ifconfig.me',
+    'whois rizkyfauzan.id',
     'ping',
     'fastfetch',
     'neofetch',
+    'cowsay ',
     'fortune',
     'theme',
     'history',
     'echo ',
     'nano ',
+    'open ',
     'cd ',
     'dns',
     'clear',
@@ -363,17 +374,22 @@ const submit = async () => {
         await pushEntry(raw, [
             'Available commands:',
             '  whoami | id | hostname | pwd | date | uptime',
-            '  uname -a | cat /etc/os-release | cat /etc/motd',
-            '  cat skills.txt | cat certs.txt | cat contact.txt',
+            '  uname -a | ps aux | df -h | free -h',
+            '  cat /etc/os-release | /etc/motd | /etc/hosts',
+            '  cat about.txt | projects.txt | skills.txt | certs.txt | contact.txt',
             '  ls                    List site routes & files',
             '  ip addr | ip -6 addr  Live visitor IP/ASN & IPv6 status',
             '  ip route | ss -tuln   Site routing table & listening sockets',
+            '  dig <domain> [type]   Live DNS lookup via Cloudflare DoH (A, AAAA, MX, TXT...)',
+            '  curl ifconfig.me      Print your public IP address',
+            '  whois rizkyfauzan.id  Domain & owner summary',
             '  ping [host]           Live HTTP RTT ping to Cloudflare edge',
-            '  fastfetch | neofetch  Debian 13 system summary card',
-            '  theme                 Cycle light / dark / system theme',
-            '  fortune | history     Random quote or command history',
-            '  echo <text>           Print text',
             '  nano [file]           Write & save text to haste.zxn.my.id',
+            '  fastfetch | neofetch  Debian 13 system summary card',
+            '  cowsay [text]         Classic ASCII cow',
+            '  theme | fortune       Cycle theme or print a random quote',
+            '  history | echo <text> Command history or print text',
+            '  open <target>         Open notes, github, linkedin, or haste',
             '  cd <route>            Navigate to a page (e.g. cd /projects)',
             '  clear | exit          Clear screen or close session',
         ].join('\n'))
@@ -444,6 +460,27 @@ const submit = async () => {
         return
     }
 
+    if (lower === 'cat /etc/hosts') {
+        await pushEntry(raw, [
+            '127.0.0.1       localhost',
+            '127.0.1.1       rizkyfauzan.id rizkyfauzan',
+            '::1             localhost ip6-localhost ip6-loopback',
+            'ff02::1         ip6-allnodes',
+            'ff02::2         ip6-allrouters',
+        ].join('\n'))
+        return
+    }
+
+    if (lower === 'cat about.txt') {
+        await pushEntry(raw, resumeTranslations.en.aboutMe.join('\n\n'))
+        return
+    }
+
+    if (lower === 'cat projects.txt') {
+        await pushEntry(raw, featuredProjects.map(p => `- ${p.title} (${p.period})\n  ${p.summary}\n  Stack: ${p.stack.join(', ')}`).join('\n\n'))
+        return
+    }
+
     if (lower === 'cat skills.txt') {
         await pushEntry(raw, resumeTranslations.en.skills.map(s => `- ${s}`).join('\n'))
         return
@@ -468,7 +505,7 @@ const submit = async () => {
 
     if (lower === 'ls' || lower === 'ls -la') {
         const dirs = VALID_ROUTES.filter(r => r !== '/').map(r => `${r.slice(1)}/`)
-        const files = ['skills.txt', 'certs.txt', 'contact.txt']
+        const files = ['about.txt', 'projects.txt', 'skills.txt', 'certs.txt', 'contact.txt']
         await pushEntry(raw, [...dirs, ...files].join('  '))
         return
     }
@@ -508,6 +545,135 @@ const submit = async () => {
             'udp    LISTEN  [::]:51820           wireguard (simulated)',
             'tcp    LISTEN  127.0.0.1:9090       prometheus (simulated)',
         ].join('\n'))
+        return
+    }
+
+    if (lower === 'ps' || lower === 'ps aux') {
+        await pushEntry(raw, [
+            'USER       PID %CPU %MEM COMMAND',
+            'root         1  0.0  0.1 /sbin/init',
+            'root       142  0.0  0.2 sshd: fauzan@pts/0',
+            'fauzan     301  0.2  1.4 /usr/bin/node /srv/rizkyfauzan.id/worker.mjs',
+            'fauzan     412  0.1  0.4 /usr/sbin/bgpd --config /etc/frr/bgpd.conf',
+            'fauzan     518  0.0  0.1 -bash',
+        ].join('\n'))
+        return
+    }
+
+    if (lower === 'df' || lower === 'df -h') {
+        await pushEntry(raw, [
+            'Filesystem      Size  Used Avail Use% Mounted on',
+            'cloudflare-edge  10G  1.9M   10G   1% /',
+            'supabase-pg     500M   12M  488M   3% /srv/guestbook',
+            'sharp-avif-cdn    1G  480K  1.0G   1% /var/www/images',
+        ].join('\n'))
+        return
+    }
+
+    if (lower === 'free' || lower === 'free -h') {
+        await pushEntry(raw, [
+            '               total        used        free      available',
+            'Mem:           128Mi        18Mi       110Mi          110Mi',
+            'Swap:             0B          0B          0B',
+        ].join('\n'))
+        return
+    }
+
+    if (lower === 'dig' || lower.startsWith('dig ')) {
+        const parts = raw.split(/\s+/).slice(1)
+        const domain = parts[0] || 'rizkyfauzan.id'
+        const recordType = (parts[1] || 'A').toUpperCase()
+        const idx = entries.value.push({ command: raw, output: `; Querying ${domain} (${recordType}) via Cloudflare DoH...` }) - 1
+        await scrollToBottom()
+        try {
+            const res = await $fetch<{
+                name: string
+                type: string
+                status: number
+                answers: { name: string; TTL: number; data: string }[]
+            }>('/api/dns', { query: { name: domain, type: recordType } })
+            const lines = [
+                `; <<>> DiG (Cloudflare DoH) <<>> ${res.name} ${res.type}`,
+                `;; status: ${res.status === 0 ? 'NOERROR' : `RCODE_${res.status}`}, answers: ${res.answers.length}`,
+                '',
+            ]
+            if (res.answers.length) {
+                lines.push(';; ANSWER SECTION:')
+                for (const ans of res.answers) {
+                    lines.push(`${ans.name.padEnd(26)} ${String(ans.TTL).padStart(5)}  IN  ${res.type.padEnd(5)} ${ans.data}`)
+                }
+            } else {
+                lines.push(`;; No ${res.type} records found for ${res.name}`)
+            }
+            entries.value[idx] = { command: raw, output: lines.join('\n') }
+        } catch (err) {
+            const msg = (err as { data?: { statusMessage?: string } })?.data?.statusMessage || 'DNS lookup failed.'
+            entries.value[idx] = { command: raw, output: `dig: ${msg}` }
+        }
+        await scrollToBottom()
+        return
+    }
+
+    if (lower === 'curl ifconfig.me' || lower === 'curl ip.me' || lower === 'curl icanhazip.com') {
+        try {
+            const info = await $fetch<{ ip: string }>('/api/network')
+            await pushEntry(raw, info.ip)
+        } catch {
+            await pushEntry(raw, 'curl: (6) Could not resolve host')
+        }
+        return
+    }
+
+    if (lower.startsWith('curl ')) {
+        await pushEntry(raw, 'Try "curl ifconfig.me" to print your public IP.')
+        return
+    }
+
+    if (lower === 'whois' || lower.startsWith('whois ')) {
+        await pushEntry(raw, [
+            'Domain Name  : rizkyfauzan.id',
+            'Registrant   : Rizky Fauzan Hanif',
+            'Role         : Network & DevOps Engineer',
+            'Location     : Sleman, Yogyakarta, Indonesia',
+            'Credentials  : MTCNA · MTCTCE · Hurricane Electric IPv6 Sage',
+            'Edge Network : Cloudflare Pages (HTTP/3, IPv6)',
+        ].join('\n'))
+        return
+    }
+
+    if (lower === 'cowsay' || lower.startsWith('cowsay ')) {
+        const msg = raw.slice(6).trim() || getRandomQuote()
+        const bar = '-'.repeat(Math.min(msg.length + 2, 48))
+        await pushEntry(raw, [
+            ` ${bar}`,
+            `< ${msg} >`,
+            ` ${bar}`,
+            '        \\   ^__^',
+            '         \\  (oo)\\_______',
+            '            (__)\\       )\\/\\',
+            '                ||----w |',
+            '                ||     ||',
+        ].join('\n'))
+        return
+    }
+
+    if (lower.startsWith('open ')) {
+        const target = raw.slice(5).trim().toLowerCase()
+        const links: Record<string, string> = {
+            notes: 'https://notes.rizkyfauzan.id',
+            github: 'https://github.com/fzzzn',
+            linkedin: 'https://linkedin.com/in/rizky-fauzan-hanif',
+            haste: 'https://haste.zxn.my.id',
+            x: 'https://x.com/rizkyfauzanid',
+            telegram: 'https://t.me/rizkyfauzanid',
+        }
+        const url = links[target]
+        if (url) {
+            window.open(url, '_blank', 'noopener,noreferrer')
+            await pushEntry(raw, `Opening ${url}...`)
+        } else {
+            await pushEntry(raw, `open: unknown target "${target}". Try: ${Object.keys(links).join(', ')}`)
+        }
         return
     }
 
