@@ -1,4 +1,6 @@
 export default defineEventHandler(async (event) => {
+  assertSameOrigin(event)
+
   const { client } = await createAuthenticatedSupabaseClient(event)
 
   if (client) {

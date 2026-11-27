@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
     console.error('Supabase query error:', error)
     throw createError({
       statusCode: 500,
-      statusMessage: error.message,
+      statusMessage: 'Failed to load guestbook messages.',
     })
   }
 

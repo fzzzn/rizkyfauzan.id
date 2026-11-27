@@ -9,6 +9,32 @@ export function isLocalRequest(event: H3Event): boolean {
   return ['localhost', '127.0.0.1', '::1', '[::1]'].includes(hostname)
 }
 
+/**
+ * Reject cross-site mutating requests by verifying the Origin (or Referer)
+ * header matches the request host.
+ */
+export function assertSameOrigin(event: H3Event): void {
+  const origin = getRequestHeader(event, 'origin') || getRequestHeader(event, 'referer')
+  if (!origin) return
+
+  const expectedHost = getRequestURL(event).host
+  try {
+    const originHost = new URL(origin).host
+    if (originHost !== expectedHost) {
+      throw createError({
+        statusCode: 403,
+        statusMessage: 'Forbidden',
+      })
+    }
+  } catch (err) {
+    if ((err as { statusCode?: number })?.statusCode === 403) throw err
+    throw createError({
+      statusCode: 403,
+      statusMessage: 'Forbidden',
+    })
+  }
+}
+
 export function getSupabaseConfig(event: H3Event) {
   const config = useRuntimeConfig(event)
 

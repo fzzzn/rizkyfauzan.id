@@ -1,4 +1,6 @@
 export default defineEventHandler(async (event) => {
+  assertSameOrigin(event)
+
   const { client: supabase, user } = await createAuthenticatedSupabaseClient(event)
 
   if (!user || !supabase) {
@@ -24,9 +26,10 @@ export default defineEventHandler(async (event) => {
     .eq('user_id', user.id)
 
   if (error) {
+    console.error('Guestbook delete error:', error)
     throw createError({
       statusCode: 500,
-      statusMessage: error.message,
+      statusMessage: 'Failed to delete message.',
     })
   }
 
