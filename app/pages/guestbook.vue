@@ -148,7 +148,8 @@ v-for="n in 3" :key="n"
                         :message="message"
                         :current-user="user ? { id: user.id, isAdmin: user.isAdmin } : null"
                         data-reveal
-                        @delete="deleteMessage" />
+                        @delete="deleteMessage"
+                        @pin="togglePin" />
                 </div>
             </div>
         </div>
@@ -168,6 +169,7 @@ interface GuestbookMessage {
     avatar_url: string
     message: string
     created_at: string
+    pinned?: boolean
 }
 
 interface AuthUser {
@@ -283,6 +285,22 @@ const deleteMessage = async (messageId: string | number): Promise<void> => {
     } catch (err) {
         console.error('Error deleting message:', err)
         error.value = 'Error deleting message: ' + getErrorMessage(err)
+    }
+}
+
+// Pin or unpin message (admin only)
+const togglePin = async ({ id, pinned }: { id: string | number; pinned: boolean }): Promise<void> => {
+    error.value = null
+    try {
+        await $fetch(`/api/guestbook/${id}`, {
+            method: 'PATCH',
+            body: { pinned },
+        })
+
+        await fetchMessages()
+    } catch (err) {
+        console.error('Error pinning message:', err)
+        error.value = 'Error updating pinned message: ' + getErrorMessage(err)
     }
 }
 

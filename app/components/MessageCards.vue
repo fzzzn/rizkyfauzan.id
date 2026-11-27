@@ -1,5 +1,13 @@
 <template>
-  <div class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
+  <div
+    class="bg-surface border rounded-lg p-6 hover:shadow-lg transition-shadow"
+    :class="message.pinned ? 'border-fg/40 ring-1 ring-fg/15' : 'border-border'">
+    <div
+      v-if="message.pinned"
+      class="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted mb-3">
+      <Icon name="mdi:pin" size="14" class="text-fg" aria-hidden="true" />
+      <span>Pinned</span>
+    </div>
     <div class="flex items-start space-x-4">
       <img
         v-if="showAvatar"
@@ -16,28 +24,39 @@
             <h3 class="text-xl font-bold text-fg">{{ message.username }}</h3>
             <p class="text-sm text-muted">{{ formatDate(message.created_at) }}</p>
           </div>
-          <div v-if="canDelete" class="flex items-center gap-2 shrink-0">
-            <template v-if="confirmingDelete">
+          <div v-if="canPin || canDelete" class="flex items-center gap-2 shrink-0">
+            <button
+              v-if="canPin && !confirmingDelete"
+              type="button"
+              class="border border-border text-fg px-3 py-1 rounded-lg hover:bg-border/40 transition-colors text-sm font-semibold cursor-pointer inline-flex items-center gap-1"
+              :aria-label="message.pinned ? 'Unpin message' : 'Pin message'"
+              @click="handlePin">
+              <Icon :name="message.pinned ? 'mdi:pin-off' : 'mdi:pin'" size="14" aria-hidden="true" />
+              <span>{{ message.pinned ? 'Unpin' : 'Pin' }}</span>
+            </button>
+            <template v-if="canDelete">
+              <template v-if="confirmingDelete">
+                <button
+                  type="button"
+                  class="bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition-colors text-sm font-semibold cursor-pointer"
+                  @click="handleDelete">
+                  Confirm
+                </button>
+                <button
+                  type="button"
+                  class="border border-border text-fg px-3 py-1 rounded-lg hover:bg-border/40 transition-colors text-sm font-semibold cursor-pointer"
+                  @click="confirmingDelete = false">
+                  Cancel
+                </button>
+              </template>
               <button
+                v-else
                 type="button"
-                class="bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition-colors text-sm font-semibold cursor-pointer"
-                @click="handleDelete">
-                Confirm
-              </button>
-              <button
-                type="button"
-                class="border border-border text-fg px-3 py-1 rounded-lg hover:bg-border/40 transition-colors text-sm font-semibold cursor-pointer"
-                @click="confirmingDelete = false">
-                Cancel
+                class="bg-inverse-bg text-inverse-fg px-3 py-1 rounded-lg hover:opacity-80 transition-opacity text-sm font-semibold cursor-pointer"
+                @click="confirmingDelete = true">
+                Delete
               </button>
             </template>
-            <button
-              v-else
-              type="button"
-              class="bg-inverse-bg text-inverse-fg px-3 py-1 rounded-lg hover:opacity-80 transition-opacity text-sm font-semibold cursor-pointer"
-              @click="confirmingDelete = true">
-              Delete
-            </button>
           </div>
         </div>
         <div class="mt-4">
@@ -58,6 +77,7 @@ interface Message {
   message: string
   created_at: string
   user_id: string
+  pinned?: boolean
 }
 
 interface User {
@@ -76,10 +96,15 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   delete: [id: number | string]
+  pin: [payload: { id: number | string; pinned: boolean }]
 }>()
 
 const confirmingDelete = ref(false)
 const showAvatar = ref(true)
+
+const canPin = computed((): boolean => {
+  return Boolean(props.currentUser?.isAdmin)
+})
 
 const canDelete = computed((): boolean => {
   if (!props.currentUser) return false
@@ -100,5 +125,9 @@ const formatDate = (dateString: string): string => {
 const handleDelete = (): void => {
   confirmingDelete.value = false
   emit('delete', props.message.id)
+}
+
+const handlePin = (): void => {
+  emit('pin', { id: props.message.id, pinned: !props.message.pinned })
 }
 </script>

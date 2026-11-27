@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
   const { data, error } = await supabase
     .from('guestbook')
     .select('*')
+    .order('pinned', { ascending: false })
     .order('created_at', { ascending: false })
     .limit(200)
 

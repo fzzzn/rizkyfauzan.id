@@ -78,6 +78,7 @@ create table guestbook (
   username text not null,
   avatar_url text,
   message text not null,
+  pinned boolean default false not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
@@ -91,8 +92,11 @@ create policy "Users can view all guestbook entries" on guestbook
 create policy "Users can insert their own guestbook entries" on guestbook
   for insert with check (auth.uid() = user_id);
 
-create policy "Users can update their own guestbook entries" on guestbook
-  for update using (auth.uid() = user_id);
+create policy "Users or admins can update guestbook entries" on guestbook
+  for update using (
+    auth.uid() = user_id
+    or lower(auth.jwt() ->> 'email') in ('rizkyfauzanid@gmail.com', 'contact@rizkyfauzan.id', 'rizkyfauzanhanif984@gmail.com')
+  );
 
 create policy "Users or admins can delete guestbook entries" on guestbook
   for delete using (
@@ -181,6 +185,7 @@ rizkyfauzan.id/
 │   │   │   └── user.get.ts
 │   │   └── guestbook/       # Guestbook CRUD
 │   │       ├── [id].delete.ts
+│   │       ├── [id].patch.ts
 │   │       ├── index.get.ts
 │   │       └── index.post.ts
 │   ├── middleware/
