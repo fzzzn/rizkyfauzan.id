@@ -2,20 +2,36 @@
     <div
         class="max-w-3xl w-11/12 mx-auto transition-opacity duration-200"
         :class="{ 'opacity-0': !isReady, 'opacity-100': isReady }">
-        <main class="py-4 print:text-black relative">
-            <!-- Back to home -->
-            <div class="print:hidden flex justify-end mb-2 sm:mb-0 sm:block">
+        <main class="py-4 print:text-black">
+            <!-- Top action bar -->
+            <div class="print:hidden flex items-center justify-between mb-4">
                 <NuxtLink
                     to="/"
-                    class="sm:absolute sm:top-4 sm:right-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium text-black"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium text-black"
                     aria-label="Back to home">
                     <Icon name="heroicons:arrow-left" class="text-black text-base" />
                     Home
                 </NuxtLink>
+                <div class="flex items-center gap-2">
+                    <button
+                        type="button"
+                        class="inline-flex items-center justify-center cursor-pointer px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+                        :aria-label="currentLang === 'en' ? 'Switch resume language to Indonesian' : 'Switch resume language to English'"
+                        @click="toggleLanguage">
+                        <span class="text-sm font-medium text-black">{{ currentLang === 'en' ? 'ID' : 'EN' }}</span>
+                    </button>
+                    <button
+                        type="button"
+                        class="inline-flex items-center justify-center cursor-pointer px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+                        aria-label="Print resume"
+                        @click="printResume">
+                        <Icon name="heroicons:printer" class="text-black text-lg" />
+                    </button>
+                </div>
             </div>
 
             <!-- Header Section -->
-            <section class="w-full mt-4 mb-4">
+            <section class="w-full mt-2 mb-4">
                 <h1 class="text-center text-3xl font-bold text-black">
                     {{ t.personalInfo.name }}
                 </h1>
@@ -41,27 +57,9 @@
             <div class="space-y-8">
                 <!-- About Me -->
                 <section>
-                    <div class="print:block print:border-0 print:p-0 flex justify-between pb-2.5 border-b-2 border-black">
-                        <h3 class="print:border-b-2 border-black text-xl font-bold text-black">
-                            {{ t.sections.aboutMe }}
-                        </h3>
-                        <div class="print:hidden flex items-center gap-2">
-                            <button
-                                type="button"
-                                class="inline-flex items-center justify-center cursor-pointer px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
-                                :aria-label="currentLang === 'en' ? 'Switch resume language to Indonesian' : 'Switch resume language to English'"
-                                @click="toggleLanguage">
-                                <span class="text-sm font-medium text-black">{{ currentLang === 'en' ? 'ID' : 'EN' }}</span>
-                            </button>
-                            <button
-                                type="button"
-                                class="inline-flex items-center justify-center cursor-pointer px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
-                                aria-label="Print resume"
-                                @click="printResume">
-                                <Icon name="heroicons:printer" class="text-black text-lg" />
-                            </button>
-                        </div>
-                    </div>
+                    <h3 class="mb-4 pb-2.5 border-b-2 border-black text-xl font-bold text-black">
+                        {{ t.sections.aboutMe }}
+                    </h3>
                     <div class="mt-4">
                         <p v-for="(paragraph, idx) in t.aboutMe" :key="idx" class="text-gray-800 mb-2">
                             {{ paragraph }}
