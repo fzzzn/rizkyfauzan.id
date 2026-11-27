@@ -69,6 +69,7 @@ useSchemaOrg([
 ])
 
 usePageOgImage('projects', 'Projects — Rizky Fauzan Hanif')
+usePageBreadcrumb('Projects', '/projects')
 
 const projects = featuredProjects
 </script>

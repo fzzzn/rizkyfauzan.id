@@ -176,6 +176,7 @@ useSeoMeta({
 })
 
 usePageOgImage('net', 'Network Info — IPv6 & Edge Inspector')
+usePageBreadcrumb('Network Info', '/net')
 
 const { data: info, pending, error } = await useFetch<NetworkInfo>('/api/network', {
     server: false,

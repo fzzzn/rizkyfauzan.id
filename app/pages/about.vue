@@ -88,6 +88,7 @@ useSchemaOrg([
 ])
 
 usePageOgImage('about', 'About Rizky Fauzan Hanif — Network Engineer')
+usePageBreadcrumb('About', '/about')
 
 const isModalOpen = ref(false)
 

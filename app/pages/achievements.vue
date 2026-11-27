@@ -51,6 +51,7 @@ useSchemaOrg([
 ])
 
 usePageOgImage('achievements', 'Achievements — Rizky Fauzan Hanif')
+usePageBreadcrumb('Achievements', '/achievements')
 
 const achievements = featuredAchievements
 const moreAchievements = additionalAchievements

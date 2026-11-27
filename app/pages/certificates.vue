@@ -60,6 +60,7 @@ useSchemaOrg([
 ])
 
 usePageOgImage('certificates', 'Certificates — MTCNA, MTCTCE & IPv6 Sage')
+usePageBreadcrumb('Certificates', '/certificates')
 
 const certificates = featuredCertificates
 const moreCertificates = additionalCertificates

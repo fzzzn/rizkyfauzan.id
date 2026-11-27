@@ -183,6 +183,7 @@ useSchemaOrg([
 ])
 
 usePageOgImage('contact', 'Contact Rizky Fauzan Hanif — Network Engineer')
+usePageBreadcrumb('Contact', '/contact')
 
 // Toast state
 const showToast: Ref<boolean> = ref(false)

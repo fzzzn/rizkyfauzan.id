@@ -18,7 +18,7 @@
 
 				<!-- Desktop menu: absolutely centered, independent of logo and theme button.
 				     Hidden below xl so it never overlaps the logo or theme button. -->
-				<div class="hidden xl:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
+				<nav aria-label="Primary navigation" class="hidden xl:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
 					<NuxtLink
 v-for="item in navItems" :key="item.title" :to="item.href" :class="[
 						'relative px-2 py-1 uppercase text-sm transition-all duration-200 rounded-md group',
@@ -28,7 +28,7 @@ v-for="item in navItems" :key="item.title" :to="item.href" :class="[
 					]">
 						<span class="relative z-10 font-bold">{{ item.title }}</span>
 					</NuxtLink>
-				</div>
+				</nav>
 
 				<div class="flex items-center gap-2">
 					<button

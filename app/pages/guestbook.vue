@@ -235,6 +235,7 @@ useSeoMeta({
 })
 
 usePageOgImage('guestbook', 'Guestbook — Leave a Message for Rizky Fauzan')
+usePageBreadcrumb('Guestbook', '/guestbook')
 
 const MAX_MESSAGE_LENGTH = 1000
 const PAGE_SIZE = 20

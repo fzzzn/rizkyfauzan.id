@@ -233,6 +233,7 @@ useSeoMeta({
 })
 
 usePageOgImage('resume', 'Resume — Rizky Fauzan Hanif, Network Engineer')
+usePageBreadcrumb('Resume', '/resume')
 
 const route = useRoute()
 const router = useRouter()

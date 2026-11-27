@@ -86,4 +86,5 @@ useSeoMeta({
 })
 
 usePageOgImage('credits', 'Credits — rizkyfauzan.id')
+usePageBreadcrumb('Credits', '/credits')
 </script>
