@@ -235,6 +235,7 @@ useSeoMeta({
 usePageOgImage('resume', 'Resume — Rizky Fauzan Hanif, Network Engineer')
 
 const route = useRoute()
+const router = useRouter()
 
 // Initialize language from query param (works on SSR too), defaulting to 'en'
 // to match English SEO metadata and html lang="en".
@@ -273,6 +274,7 @@ onMounted(() => {
 const toggleLanguage = (): void => {
     currentLang.value = currentLang.value === 'en' ? 'id' : 'en'
     localStorage.setItem('resume-language', currentLang.value)
+    router.replace({ query: { ...route.query, lang: currentLang.value } })
 }
 
 const t: ComputedRef<Translation> = computed(() => resumeTranslations[currentLang.value])
