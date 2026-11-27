@@ -71,6 +71,13 @@ const PAGES = [
     title: 'Acknowledgements',
     description: 'Design inspiration, open-source software, fonts, icons, and services.',
   },
+  {
+    slug: 'net',
+    path: '/net',
+    eyebrow: 'NETWORK INFO',
+    title: 'IPv6 & Edge Inspector',
+    description: 'Live IPv4/IPv6, ASN, TLS, and Cloudflare edge PoP details for your connection.',
+  },
 ]
 
 const escapeXml = (str) =>

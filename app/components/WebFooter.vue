@@ -56,6 +56,10 @@ const menuItems: MenuItem[] = [
         href: "/resume",
     },
     {
+        menu: "Net",
+        href: "/net",
+    },
+    {
         menu: "Notes",
         href: "https://notes.rizkyfauzan.id",
         external: true,
