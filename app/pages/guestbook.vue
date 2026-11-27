@@ -169,7 +169,8 @@ v-for="n in 3" :key="n"
                         :current-user="user ? { id: user.id, isAdmin: user.isAdmin } : null"
                         data-reveal
                         @delete="deleteMessage"
-                        @pin="togglePin" />
+                        @pin="togglePin"
+                        @edit="editMessage" />
                 </div>
             </div>
         </div>
@@ -190,6 +191,7 @@ interface GuestbookMessage {
     message: string
     created_at: string
     pinned?: boolean
+    is_owner?: boolean
 }
 
 interface AuthUser {
@@ -323,6 +325,22 @@ const togglePin = async ({ id, pinned }: { id: string | number; pinned: boolean 
     } catch (err) {
         console.error('Error pinning message:', err)
         error.value = 'Error updating pinned message: ' + getErrorMessage(err)
+    }
+}
+
+// Edit own message
+const editMessage = async ({ id, message }: { id: string | number; message: string }): Promise<void> => {
+    error.value = null
+    try {
+        await $fetch(`/api/guestbook/${id}`, {
+            method: 'PATCH',
+            body: { message },
+        })
+
+        await fetchMessages()
+    } catch (err) {
+        console.error('Error editing message:', err)
+        error.value = 'Error updating message: ' + getErrorMessage(err)
     }
 }
 

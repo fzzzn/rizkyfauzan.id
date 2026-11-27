@@ -52,17 +52,28 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const messageData = {
+  const baseMessageData = {
     user_id: user.id,
     username: user.user_metadata?.full_name || user.user_metadata?.user_name || 'Anonymous',
     avatar_url: user.user_metadata?.avatar_url || '',
     message,
   }
 
-  const { data, error } = await supabase
+  const isOwner = isAdminUser(user)
+  let { data, error } = await supabase
     .from('guestbook')
-    .insert(messageData)
+    .insert({ ...baseMessageData, is_owner: isOwner })
     .select()
+
+  // Graceful fallback if the optional `is_owner` column has not been migrated yet.
+  if (error && (error.code === '42703' || error.message?.includes('is_owner'))) {
+    const retry = await supabase
+      .from('guestbook')
+      .insert(baseMessageData)
+      .select()
+    data = retry.data
+    error = retry.error
+  }
 
   if (error) {
     console.error('Guestbook insert error:', error)

@@ -79,6 +79,7 @@ create table guestbook (
   avatar_url text,
   message text not null,
   pinned boolean default false not null,
+  is_owner boolean default false not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
