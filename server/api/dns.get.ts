@@ -30,12 +30,21 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const res = await $fetch<DohResponse>('https://cloudflare-dns.com/dns-query', {
+    const url = new URL('https://cloudflare-dns.com/dns-query')
+    url.searchParams.set('name', name)
+    url.searchParams.set('type', type)
+
+    const response = await fetch(url.toString(), {
       headers: {
         Accept: 'application/dns-json',
       },
-      query: { name, type },
     })
+
+    if (!response.ok) {
+      throw new Error(`DoH upstream returned ${response.status}`)
+    }
+
+    const res = await response.json() as DohResponse
 
     return {
       name,
