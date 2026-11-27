@@ -16,6 +16,14 @@ v-if="showToast"
         <!-- Header -->
         <PageHeader title="Contact" />
 
+        <!-- Local Time (WIB / UTC+7) -->
+        <div v-if="localTime" class="flex justify-center mb-8 -mt-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface border border-border text-xs sm:text-sm text-muted font-mono">
+                <Icon name="heroicons:clock" size="15" aria-hidden="true" />
+                <span>Yogyakarta, ID · {{ localTime }} WIB</span>
+            </div>
+        </div>
+
         <!-- Contact Cards. The inner grid is a single reveal batch, so the
              cards cascade in together instead of each firing its own trigger. -->
         <div class="mb-12">
@@ -237,18 +245,37 @@ const getElapsedTime = (startTimestamp: number): string | null => {
     return `${seconds}s`
 }
 
-// Refresh status every 60 seconds while the page is mounted
+// Live Yogyakarta (WIB / Asia/Jakarta) clock
+const localTime: Ref<string> = ref('')
+
+const updateLocalTime = (): void => {
+    localTime.value = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Jakarta',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+    }).format(new Date())
+}
+
+// Refresh status every 60 seconds and clock every 30 seconds while mounted
 let statusInterval: ReturnType<typeof setInterval> | null = null
+let clockInterval: ReturnType<typeof setInterval> | null = null
 
 onMounted(() => {
     fetchStatus()
+    updateLocalTime()
     statusInterval = setInterval(fetchStatus, 60000)
+    clockInterval = setInterval(updateLocalTime, 30000)
 })
 
 onUnmounted(() => {
     if (statusInterval !== null) {
         clearInterval(statusInterval)
         statusInterval = null
+    }
+    if (clockInterval !== null) {
+        clearInterval(clockInterval)
+        clockInterval = null
     }
 })
 </script>
