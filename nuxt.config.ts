@@ -289,4 +289,23 @@ export default defineNuxtConfig({
     mode: "css",
     cssLayer: "icons",
   },
+  hooks: {
+    // Work around @nuxt/vite-builder 4.7.0 still passing Vite 7's deprecated
+    // `css.devSourcemap` option to Vite 8.4+.
+    "vite:extendConfig"(config) {
+      if (config.css && "devSourcemap" in config.css) {
+        const enabled = config.css.devSourcemap;
+        delete config.css.devSourcemap;
+        Object.assign(config, {
+          dev: {
+            ...config.dev,
+            sourcemap: {
+              ...(typeof config.dev?.sourcemap === "object" ? config.dev.sourcemap : {}),
+              css: enabled,
+            },
+          },
+        });
+      }
+    },
+  },
 });
