@@ -39,13 +39,37 @@
                             {{ info.ip }}
                         </p>
                     </div>
-                    <button
-                        type="button"
-                        class="bg-inverse-bg text-inverse-fg px-4 py-2 rounded-lg hover:opacity-80 transition-opacity text-sm font-semibold cursor-pointer shrink-0 inline-flex items-center justify-center gap-2"
-                        @click="copyIp">
-                        <Icon :name="copied ? 'heroicons:check' : 'heroicons:clipboard-document'" size="16" aria-hidden="true" />
-                        <span>{{ copied ? 'Copied' : 'Copy IP' }}</span>
-                    </button>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button
+                            type="button"
+                            :disabled="pinging"
+                            class="border border-border text-fg px-4 py-2 rounded-lg hover:bg-fg/5 transition-colors text-sm font-semibold cursor-pointer inline-flex items-center justify-center gap-2 disabled:opacity-50"
+                            @click="runPingTest">
+                            <Icon name="heroicons:signal" size="16" aria-hidden="true" />
+                            <span>{{ pinging ? 'Pinging...' : 'Ping Edge' }}</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="bg-inverse-bg text-inverse-fg px-4 py-2 rounded-lg hover:opacity-80 transition-opacity text-sm font-semibold cursor-pointer inline-flex items-center justify-center gap-2"
+                            @click="copyIp">
+                            <Icon :name="copied ? 'heroicons:check' : 'heroicons:clipboard-document'" size="16" aria-hidden="true" />
+                            <span>{{ copied ? 'Copied' : 'Copy IP' }}</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Latency results -->
+                <div
+                    v-if="latencyStats"
+                    class="px-6 py-3.5 border-b border-border bg-bg/50 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                    <span class="text-muted">
+                        Edge RTT (3 pings):
+                        <strong class="text-fg">{{ latencyStats.min }} ms</strong> min ·
+                        <strong class="text-fg">{{ latencyStats.avg }} ms</strong> avg
+                    </span>
+                    <span class="text-muted">
+                        [{{ latencyStats.samples.map(s => `${s}ms`).join(', ') }}]
+                    </span>
                 </div>
 
                 <!-- Edge Telemetry Grid -->
@@ -108,7 +132,29 @@ const { data: info, pending, error } = await useFetch<NetworkInfo>('/api/network
 })
 
 const copied = ref(false)
+const pinging = ref(false)
+const latencyStats = ref<{ min: number; avg: number; samples: number[] } | null>(null)
 let copyTimer: ReturnType<typeof setTimeout> | null = null
+
+const runPingTest = async () => {
+    if (pinging.value) return
+    pinging.value = true
+    const samples: number[] = []
+    try {
+        for (let i = 0; i < 3; i++) {
+            const start = performance.now()
+            await $fetch('/api/network', { query: { t: Date.now() + i } })
+            samples.push(Math.max(1, Math.round(performance.now() - start)))
+        }
+        const min = Math.min(...samples)
+        const avg = Math.round(samples.reduce((sum, n) => sum + n, 0) / samples.length)
+        latencyStats.value = { min, avg, samples }
+    } catch {
+        latencyStats.value = null
+    } finally {
+        pinging.value = false
+    }
+}
 
 const copyIp = async () => {
     if (!info.value?.ip) return
