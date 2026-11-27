@@ -38,6 +38,7 @@ export function assertSameOrigin(event: H3Event): void {
 const ADMIN_EMAILS = new Set([
   'rizkyfauzanid@gmail.com',
   'contact@rizkyfauzan.id',
+  'rizkyfauzanhanif984@gmail.com',
 ])
 
 /**

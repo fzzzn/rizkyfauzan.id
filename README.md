@@ -97,7 +97,7 @@ create policy "Users can update their own guestbook entries" on guestbook
 create policy "Users or admins can delete guestbook entries" on guestbook
   for delete using (
     auth.uid() = user_id
-    or lower(auth.jwt() ->> 'email') in ('rizkyfauzanid@gmail.com', 'contact@rizkyfauzan.id')
+    or lower(auth.jwt() ->> 'email') in ('rizkyfauzanid@gmail.com', 'contact@rizkyfauzan.id', 'rizkyfauzanhanif984@gmail.com')
   );
 ```
 
