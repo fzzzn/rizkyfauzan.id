@@ -155,20 +155,40 @@ const pushEntry = async (command: string, output?: string) => {
     await scrollToBottom()
 }
 
+const LOCAL_PING_TARGETS = new Set(['', 'rizkyfauzan.id', 'www.rizkyfauzan.id', 'localhost', '::1', '127.0.0.1'])
+
 const runPing = async (rawCmd: string, target: string) => {
-    const idx = entries.value.push({ command: rawCmd, output: `PING ${target} via Cloudflare Edge...` }) - 1
+    if (!LOCAL_PING_TARGETS.has(target.toLowerCase())) {
+        await pushEntry(rawCmd, `ping: raw ICMP sockets are not permitted in the browser.\nTry "ping rizkyfauzan.id" for live HTTP RTT to the Cloudflare edge.`)
+        return
+    }
+
+    const host = target || 'rizkyfauzan.id'
+    const idx = entries.value.push({ command: rawCmd, output: `PING ${host} (HTTP RTT to Cloudflare Edge)...` }) - 1
     await scrollToBottom()
 
-    const lines: string[] = [`PING ${target} via Cloudflare Edge:`]
+    const lines: string[] = [`PING ${host} (HTTP RTT to Cloudflare Edge):`]
+    const times: number[] = []
     for (let seq = 1; seq <= 3; seq++) {
         const start = performance.now()
         try {
             const res = await $fetch<{ ip: string; colo: string | null }>('/api/network', { query: { t: Date.now() + seq } })
             const ms = Math.max(1, Math.round(performance.now() - start))
-            lines.push(`64 bytes from ${res.colo || 'edge'} (${res.ip}): icmp_seq=${seq} ttl=64 time=${ms} ms`)
+            times.push(ms)
+            lines.push(`http_seq=${seq} edge=${res.colo || 'local'} client=${res.ip} time=${ms} ms`)
         } catch {
-            lines.push(`Request timeout for icmp_seq ${seq}`)
+            lines.push(`Request timeout for http_seq ${seq}`)
         }
+        entries.value[idx] = { command: rawCmd, output: lines.join('\n') }
+        await scrollToBottom()
+    }
+
+    if (times.length) {
+        const min = Math.min(...times)
+        const max = Math.max(...times)
+        const avg = Math.round(times.reduce((a, b) => a + b, 0) / times.length)
+        lines.push(`--- ${host} http ping statistics ---`)
+        lines.push(`3 requests sent, ${times.length} received, rtt min/avg/max = ${min}/${avg}/${max} ms`)
         entries.value[idx] = { command: rawCmd, output: lines.join('\n') }
         await scrollToBottom()
     }
