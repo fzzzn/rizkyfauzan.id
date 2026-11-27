@@ -3,7 +3,7 @@
     <NuxtPage />
   </NuxtLayout>
   <CommandPalette />
-  <RouterTerminal />
+  <SshTerminal />
 </template>
 
 <style>

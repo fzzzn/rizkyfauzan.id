@@ -111,7 +111,7 @@ interface CommandItem {
 
 const router = useRouter()
 const { mode, cycle } = useColorMode()
-const terminalOpen = useState<boolean>('router-terminal-open', () => false)
+const terminalOpen = useState<boolean>('ssh-terminal-open', () => false)
 
 const isOpen = useState<boolean>('command-palette-open', () => false)
 const query = ref('')
