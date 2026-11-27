@@ -46,11 +46,31 @@ v-else :src="user.user_metadata.avatar_url" :alt="user.user_metadata?.full_name 
                             </p>
                         </div>
                     </div>
-                    <button
-                        class="bg-inverse-bg text-inverse-fg px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:opacity-80 transition-opacity font-semibold text-sm sm:text-base shrink-0"
-                        @click="signOut">
-                        Sign Out
-                    </button>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <template v-if="confirmingSignOut">
+                            <button
+                                type="button"
+                                :disabled="signingOut"
+                                class="bg-red-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-red-700 transition-colors font-semibold text-sm sm:text-base cursor-pointer disabled:opacity-50"
+                                @click="signOut">
+                                {{ signingOut ? 'Signing Out...' : 'Confirm' }}
+                            </button>
+                            <button
+                                type="button"
+                                :disabled="signingOut"
+                                class="border border-border text-fg px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-border/40 transition-colors font-semibold text-sm sm:text-base cursor-pointer disabled:opacity-50"
+                                @click="confirmingSignOut = false">
+                                Cancel
+                            </button>
+                        </template>
+                        <button
+                            v-else
+                            type="button"
+                            class="bg-inverse-bg text-inverse-fg px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:opacity-80 transition-opacity font-semibold text-sm sm:text-base cursor-pointer"
+                            @click="confirmingSignOut = true">
+                            Sign Out
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Message Form -->
@@ -304,13 +324,22 @@ const togglePin = async ({ id, pinned }: { id: string | number; pinned: boolean 
     }
 }
 
+const confirmingSignOut: Ref<boolean> = ref(false)
+const signingOut: Ref<boolean> = ref(false)
+
 // Sign out
 const signOut = async (): Promise<void> => {
+    signingOut.value = true
+    error.value = null
     try {
         await $fetch('/api/auth/signout', { method: 'POST' })
         user.value = null
+        confirmingSignOut.value = false
     } catch (err) {
         console.error('Error signing out:', err)
+        error.value = 'Error signing out: ' + getErrorMessage(err)
+    } finally {
+        signingOut.value = false
     }
 }
 
