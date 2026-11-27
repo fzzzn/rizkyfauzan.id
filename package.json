@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=22.22.3"
   },
-  "packageManager": "npm@10.9.9",
+  "packageManager": "npm@12.2.3",
   "scripts": {
     "build": "nuxt build",
     "build:cf-pages": "nuxt build --preset=cloudflare_pages",
