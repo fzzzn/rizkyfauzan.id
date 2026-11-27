@@ -30,11 +30,22 @@ v-for="item in navItems" :key="item.title" :to="item.href" :class="[
 					</NuxtLink>
 				</div>
 
-				<button
-class="cursor-pointer text-muted hover:text-fg transition-colors"
-					:aria-label="`Color mode: ${mode}. Click to change.`" @click="cycle">
-					<Icon :name="icon" size="22" />
-				</button>
+				<div class="flex items-center gap-3">
+					<button
+						type="button"
+						class="hidden sm:inline-flex items-center gap-1.5 px-2 py-1 text-xs font-mono text-muted hover:text-fg border border-border rounded-md transition-colors cursor-pointer"
+						aria-label="Open command palette"
+						@click="openCommandPalette">
+						<Icon name="heroicons:magnifying-glass" size="14" aria-hidden="true" />
+						<span>⌘K</span>
+					</button>
+					<button
+						class="cursor-pointer text-muted hover:text-fg transition-colors"
+						:aria-label="`Color mode: ${mode}. Click to change.`"
+						@click="cycle">
+						<Icon :name="icon" size="22" />
+					</button>
+				</div>
 			</div>
 		</div>
 	</header>
@@ -73,6 +84,10 @@ const navItems = [
 ]
 
 const { mode, cycle, init } = useColorMode()
+const commandPaletteOpen = useState<boolean>('command-palette-open', () => false)
+const openCommandPalette = () => {
+	commandPaletteOpen.value = true
+}
 
 onMounted(init)
 
