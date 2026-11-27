@@ -106,6 +106,7 @@ interface CommandItem {
     hint: string
     icon: string
     keywords?: string
+    keepOpen?: boolean
     action: () => void | Promise<void>
 }
 
@@ -162,9 +163,10 @@ const commands = computed<CommandItem[]>(() => [
     {
         id: 'act-theme',
         label: `Switch Theme (current: ${mode.value})`,
-        hint: 'theme',
+        hint: mode.value,
         icon: 'heroicons:swatch',
         keywords: 'dark light system color mode',
+        keepOpen: true,
         action: () => {
             cycle()
             showToast(`Theme set to ${mode.value}`)
@@ -223,7 +225,7 @@ const moveSelection = (delta: number) => {
 }
 
 const execute = (item: CommandItem) => {
-    close()
+    if (!item.keepOpen) close()
     item.action()
 }
 
