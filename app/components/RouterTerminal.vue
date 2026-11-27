@@ -5,7 +5,7 @@
                 v-if="isOpen"
                 role="dialog"
                 aria-modal="true"
-                aria-label="RouterOS Easter Egg Terminal"
+                aria-label="Debian 13 SSH Terminal"
                 class="print:hidden fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs"
                 @click="close">
                 <div
@@ -18,7 +18,7 @@
                             <span class="w-2.5 h-2.5 rounded-full bg-[#3f3f46]" aria-hidden="true" />
                             <span class="w-2.5 h-2.5 rounded-full bg-[#3f3f46]" aria-hidden="true" />
                             <span class="ml-2 text-xs text-[#9a9aa2] truncate">
-                                ssh fauzan@rizkyfauzan.id — RouterOS v7
+                                fauzan@rizkyfauzan: ~ — Debian 13 (trixie)
                             </span>
                         </div>
                         <button
@@ -37,7 +37,7 @@
                         @click="focusInput">
                         <div v-for="(entry, idx) in entries" :key="idx">
                             <div v-if="entry.command !== undefined" class="flex items-start gap-2">
-                                <span class="text-[#9a9aa2] shrink-0">[fauzan@rizkyfauzan.id] &gt;</span>
+                                <span class="text-[#9a9aa2] shrink-0">fauzan@rizkyfauzan:~$</span>
                                 <span class="text-[#ededef] break-all">{{ entry.command }}</span>
                             </div>
                             <pre
@@ -47,7 +47,7 @@
 
                         <!-- Active Prompt -->
                         <form class="flex items-center gap-2 pt-1" @submit.prevent="submit">
-                            <span class="text-[#9a9aa2] shrink-0">[fauzan@rizkyfauzan.id] &gt;</span>
+                            <span class="text-[#9a9aa2] shrink-0">fauzan@rizkyfauzan:~$</span>
                             <input
                                 ref="inputEl"
                                 v-model="currentInput"
@@ -74,15 +74,16 @@ interface TerminalEntry {
     output?: string
 }
 
-const BANNER = [
-    '  MMM      MMM       KKK                          TTTTTTTTTTT      KKK',
-    '  MMMM    MMMM       KKK                          TTTTTTTTTTT      KKK',
-    '  MMM MMMM MMM  III  KKK  KKK  RRRRRR     OOOOOO      TTT     III  KKK  KKK',
-    '  MMM  MM  MMM  III  KKKKK     RRR  RRR  OOO  OOO     TTT     III  KKKKK',
-    '  MMM      MMM  III  KKK  KKK  RRRRRR    OOO  OOO     TTT     III  KKK  KKK',
-    '  MMM      MMM  III  KKK  KKK  RRR  RRR   OOOOOO      TTT     III  KKK  KKK',
+const MOTD = [
+    'Linux rizkyfauzan 6.12.0-trixie-amd64 #1 SMP PREEMPT_DYNAMIC Debian 13 (trixie)',
     '',
-    '  rizkyfauzan.id RouterOS v7 (Cloudflare Edge) — type "help" for commands.',
+    'The programs included with the Debian GNU/Linux system are free software;',
+    'the exact distribution terms for each program are described in the',
+    'individual files in /usr/share/doc/*/copyright.',
+    '',
+    'Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent',
+    'permitted by applicable law.',
+    'Type "help" for available commands (Tab autocomplete supported).',
 ].join('\n')
 
 const VALID_ROUTES = ['/', '/about', '/projects', '/achievements', '/certificates', '/contact', '/guestbook', '/resume', '/net', '/credits']
@@ -90,13 +91,15 @@ const VALID_ROUTES = ['/', '/about', '/projects', '/achievements', '/certificate
 const COMMANDS = [
     'help',
     'whoami',
-    '/system resource print',
-    '/ip route print',
-    '/ipv6 address print',
+    'uname -a',
+    'cat /etc/os-release',
+    'ls',
+    'ip route',
+    'ip -6 addr',
     'ping',
+    'fastfetch',
     'neofetch',
     'cd ',
-    'goto ',
     'dns',
     'clear',
     'exit',
@@ -116,7 +119,7 @@ const commonPrefix = (list: string[]): string => {
 
 const router = useRouter()
 const isOpen = useState<boolean>('router-terminal-open', () => false)
-const entries = ref<TerminalEntry[]>([{ output: BANNER }])
+const entries = ref<TerminalEntry[]>([{ output: MOTD }])
 const currentInput = ref('')
 const history = ref<string[]>([])
 const historyIndex = ref(-1)
@@ -162,9 +165,9 @@ const runPing = async (rawCmd: string, target: string) => {
         try {
             const res = await $fetch<{ ip: string; colo: string | null }>('/api/network', { query: { t: Date.now() + seq } })
             const ms = Math.max(1, Math.round(performance.now() - start))
-            lines.push(`  seq=${seq} from=${res.colo || 'edge'} ip=${res.ip} time=${ms}ms`)
+            lines.push(`64 bytes from ${res.colo || 'edge'} (${res.ip}): icmp_seq=${seq} ttl=64 time=${ms} ms`)
         } catch {
-            lines.push(`  seq=${seq} timeout`)
+            lines.push(`Request timeout for icmp_seq ${seq}`)
         }
         entries.value[idx] = { command: rawCmd, output: lines.join('\n') }
         await scrollToBottom()
@@ -185,7 +188,7 @@ const submit = async () => {
 
     const lower = raw.toLowerCase()
 
-    if (lower === 'exit' || lower === 'quit') {
+    if (lower === 'exit' || lower === 'quit' || lower === 'logout') {
         close()
         return
     }
@@ -198,55 +201,74 @@ const submit = async () => {
     if (lower === 'help' || lower === '?') {
         await pushEntry(raw, [
             'Available commands:',
-            '  whoami                   Profile summary',
-            '  /system resource print   System & stack info',
-            '  /ip route print          Site routing table',
-            '  /ipv6 address print      IPv6 status',
-            '  ping [host]              Live edge RTT ping (3 packets)',
-            '  neofetch                 Monochrome system card',
-            '  cd <route>               Navigate to a page (e.g. cd /projects)',
-            '  clear | exit             Clear screen or close session',
+            '  whoami                Profile summary',
+            '  uname -a              Kernel & OS version',
+            '  cat /etc/os-release   Debian 13 (trixie) release info',
+            '  ls                    List site routes',
+            '  ip route              Site routing table',
+            '  ip -6 addr            IPv6 loopback & certification',
+            '  ping [host]           Live edge RTT ping (3 packets)',
+            '  fastfetch | neofetch  System summary card',
+            '  cd <route>            Navigate to a page (e.g. cd /projects)',
+            '  clear | exit          Clear screen or close session',
         ].join('\n'))
         return
     }
 
     if (lower === 'whoami') {
-        await pushEntry(raw, 'Rizky Fauzan Hanif — Network Engineer (MTCNA, MTCTCE, IPv6 Sage)\nLocation: Sleman, Yogyakarta, Indonesia\nContact : contact@rizkyfauzan.id')
+        await pushEntry(raw, 'fauzan (Rizky Fauzan Hanif — Network & DevOps Engineer)\nLocation: Sleman, Yogyakarta, Indonesia\nContact : contact@rizkyfauzan.id')
         return
     }
 
-    if (lower === '/system resource print' || lower === 'sys' || lower === 'uname -a') {
+    if (lower === 'uname' || lower === 'uname -a') {
+        await pushEntry(raw, 'Linux rizkyfauzan 6.12.0-trixie-amd64 #1 SMP PREEMPT_DYNAMIC Debian 13 (trixie) x86_64 GNU/Linux')
+        return
+    }
+
+    if (lower === 'cat /etc/os-release') {
         await pushEntry(raw, [
-            '        platform: Cloudflare Pages (Edge SSR)',
-            '       framework: Nuxt 4 + Vue 3 + Tailwind CSS v4',
-            '        database: Supabase (PostgreSQL + RLS)',
-            '  certifications: MTCNA · MTCTCE · IPv6 Sage',
-            '          status: operational',
+            'PRETTY_NAME="Debian GNU/Linux 13 (trixie)"',
+            'NAME="Debian GNU/Linux"',
+            'VERSION_ID="13"',
+            'VERSION="13 (trixie)"',
+            'VERSION_CODENAME=trixie',
+            'ID=debian',
+            'HOME_URL="https://rizkyfauzan.id/"',
         ].join('\n'))
         return
     }
 
-    if (lower === '/ip route print' || lower === 'ls' || lower === 'routes') {
+    if (lower === 'ls' || lower === 'ls -la') {
+        await pushEntry(raw, VALID_ROUTES.map(r => (r === '/' ? './' : `${r.slice(1)}/`)).join('  '))
+        return
+    }
+
+    if (lower === 'ip route' || lower === 'ip r') {
+        await pushEntry(raw, VALID_ROUTES.map(r => `${r.padEnd(15)} via rizkyfauzan.id dev eth0 proto static`).join('\n'))
+        return
+    }
+
+    if (lower === 'ip -6 addr' || lower === 'ip -6 a' || lower === '::1') {
         await pushEntry(raw, [
-            'Flags: A - ACTIVE; c - CONNECT',
-            '  #   DST-ADDRESS      GATEWAY',
-            ...VALID_ROUTES.map((r, i) => `  ${i} Ac ${r.padEnd(16)} rizkyfauzan.id`),
+            '1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536',
+            '    inet6 ::1/128 scope host  # There is no place like ::1',
+            '2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500',
+            '    # Certified IPv6 Sage by Hurricane Electric',
         ].join('\n'))
         return
     }
 
-    if (lower === '/ipv6 address print' || lower === '::1') {
-        await pushEntry(raw, '  0 G ::1/128  interface=lo  comment="There is no place like ::1"\n  Certified IPv6 Sage by Hurricane Electric.')
-        return
-    }
-
-    if (lower === 'neofetch') {
+    if (lower === 'fastfetch' || lower === 'neofetch') {
         await pushEntry(raw, [
-            '  ┌──────────────┐  fauzan@rizkyfauzan.id',
-            '  │  RIZKY       │  ─────────────────────',
-            '  │  FAUZAN.ID   │  Role  : Network & DevOps Engineer',
-            '  │  [MTCNA/TCE] │  Stack : VyOS, MikroTik, Proxmox, Docker',
-            '  └──────────────┘  Web   : Nuxt 4, TypeScript, Cloudflare',
+            '       _,met$$$$$gg.          fauzan@rizkyfauzan',
+            '    ,g$$$$$$$$$$$$$$$P.       ──────────────────',
+            '  ,g$$P"     """Y$$.".        OS     : Debian GNU/Linux 13 (trixie)',
+            ' ,$$P\'              `$$$.     Host   : Cloudflare Pages (Edge SSR)',
+            '\',$$P       ,ggs.     `$$b:   Kernel : 6.12.0-trixie-amd64',
+            '`d$$\'     ,$P"\'   .    $$$    Shell  : bash 5.2',
+            ' $$P      d$\'     ,    $$P    Role   : Network & DevOps Engineer',
+            ' $$:      $$.   -    ,d$$\'    Certs  : MTCNA · MTCTCE · IPv6 Sage',
+            ' $$;      Y$b._   _,d$P\'      Stack  : Nuxt 4 · Vue 3 · Supabase',
         ].join('\n'))
         return
     }
@@ -257,7 +279,7 @@ const submit = async () => {
     }
 
     if (lower.startsWith('sudo')) {
-        await pushEntry(raw, 'fauzan is not in the sudoers file. This incident will be reported to the NOC.')
+        await pushEntry(raw, 'fauzan is not in the sudoers file. This incident will be reported.')
         return
     }
 
@@ -267,20 +289,20 @@ const submit = async () => {
         return
     }
 
-    if (lower.startsWith('cd ') || lower.startsWith('goto ')) {
+    if (lower.startsWith('cd ')) {
         const dest = raw.split(/\s+/)[1] || '/'
         const normalized = dest.startsWith('/') ? dest : `/${dest}`
         if (VALID_ROUTES.includes(normalized)) {
-            await pushEntry(raw, `Routing to ${normalized}...`)
+            await pushEntry(raw, `Navigating to ${normalized}...`)
             close()
             router.push(normalized)
         } else {
-            await pushEntry(raw, `no route to host: ${normalized} (try "/ip route print")`)
+            await pushEntry(raw, `bash: cd: ${dest}: No such file or directory (try "ls")`)
         }
         return
     }
 
-    await pushEntry(raw, `bad command name "${raw}" — type "help" for available commands.`)
+    await pushEntry(raw, `bash: ${raw.split(/\s+/)[0]}: command not found (type "help")`)
 }
 
 const browseHistory = (delta: number) => {
@@ -294,19 +316,17 @@ const autocomplete = async () => {
     const raw = currentInput.value
     const lower = raw.toLowerCase()
 
-    // Complete route argument for `cd ` or `goto `
-    const navMatch = lower.match(/^(cd|goto)\s+(.*)$/)
+    const navMatch = lower.match(/^cd\s+(.*)$/)
     if (navMatch) {
-        const verb = navMatch[1]!
-        const arg = navMatch[2]!
+        const arg = navMatch[1]!
         const normalizedArg = arg && !arg.startsWith('/') ? `/${arg}` : arg
         const matches = VALID_ROUTES.filter(r => r.startsWith(normalizedArg))
         if (matches.length === 1) {
-            currentInput.value = `${verb} ${matches[0]}`
+            currentInput.value = `cd ${matches[0]}`
         } else if (matches.length > 1) {
             const prefix = commonPrefix(matches)
             if (prefix.length > normalizedArg.length) {
-                currentInput.value = `${verb} ${prefix}`
+                currentInput.value = `cd ${prefix}`
             } else {
                 await pushEntry(raw, matches.join('   '))
             }
@@ -314,7 +334,6 @@ const autocomplete = async () => {
         return
     }
 
-    // Complete top-level commands
     const matches = COMMANDS.filter(cmd => cmd.startsWith(lower))
     if (matches.length === 1) {
         currentInput.value = matches[0]!

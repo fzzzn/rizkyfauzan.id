@@ -5,7 +5,7 @@ export default defineNuxtPlugin(() => {
     'background:#e4e4e7;color:#0c0c0d;padding:4px 8px;border-radius:0 4px 4px 0;',
   )
   console.log(
-    '%cLooking under the hood? Press ` (backtick) or Ctrl+K → "ssh" for a hidden RouterOS terminal.',
+    '%cLooking under the hood? Press ` (backtick) or Ctrl+K → "ssh" for a hidden Debian 13 terminal.',
     'color:#737373;font-family:monospace;',
   )
 })

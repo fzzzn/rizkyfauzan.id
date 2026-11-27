@@ -196,10 +196,10 @@ const commands = computed<CommandItem[]>(() => [
     },
     {
         id: 'egg-terminal',
-        label: 'Open RouterOS Terminal',
+        label: 'Open SSH Terminal (Debian 13)',
         hint: 'ssh',
         icon: 'heroicons:command-line',
-        keywords: 'ssh cli mikrotik routeros winbox terminal',
+        keywords: 'ssh cli debian trixie bash linux terminal',
         secret: true,
         action: () => { terminalOpen.value = true },
     },
