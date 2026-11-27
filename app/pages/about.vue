@@ -61,10 +61,16 @@ useAboutIntro()
 
 useSeoMeta({
     title: 'About Me — Network Engineer',
-    description: 'Learn about Rizky Fauzan Hanif, a passionate Network Engineer specializing in MikroTik, cloud engineering, and cybersecurity with MTCNA, MTCTCE, and IPv6 Sage certifications.',
+    description: 'About Rizky Fauzan Hanif — Network Engineer in Yogyakarta specializing in MikroTik, cloud engineering, and cybersecurity. MTCNA, MTCTCE & IPv6 Sage.',
     ogTitle: 'About Rizky Fauzan Hanif — Network Engineer',
     ogDescription: 'Passionate Network Engineer with expertise in Kubernetes, Docker, BGP, VPNs, firewalls, and network security. Based in Yogyakarta, Indonesia.',
 })
+
+useSchemaOrg([
+    defineWebPage({
+        '@type': 'ProfilePage',
+    }),
+])
 
 const isModalOpen = ref(false)
 

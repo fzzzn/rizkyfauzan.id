@@ -145,11 +145,12 @@ export default defineNuxtConfig({
   },
   sitemap: {
     strictNuxtContentPaths: true,
+    zeroRuntime: true,
   },
   robots: {
     allow: "/",
-    // /api/ is deliberately open to crawlers: it backs the guestbook and the
-    // Discord status on the contact page, not private data.
+    disallow: ["/api/auth/"],
+    // /api/guestbook is public; /api/auth/* only serves OAuth redirects/callbacks.
     // The page-level robots meta is `seo.meta.robots` below, which
     // nuxt-seo-utils turns into a per-page tag. @nuxtjs/robots also owns the
     // robots tag, and a copy in app.head makes the two fight over it.
@@ -177,7 +178,6 @@ export default defineNuxtConfig({
       // og:image size and social platforms can size the preview without fetching.
       ogImage: { url: "https://rizkyfauzan.id/social-preview.png", width: 1200, height: 630, type: "image/png", alt: "Rizky Fauzan Hanif - Network Engineer" },
       twitterImage: { url: "https://rizkyfauzan.id/social-preview.png", width: 1200, height: 630, alt: "Rizky Fauzan Hanif - Network Engineer" },
-      keywords: "Rizky Fauzan Hanif, Network Engineer, MikroTik, MTCNA, MTCTCE, IPv6, Networking, Cybersecurity, Indonesia, Yogyakarta, Cloud Engineer",
     },
   },
   schemaOrg: {

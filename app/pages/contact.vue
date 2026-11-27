@@ -31,7 +31,7 @@ name="heroicons:envelope" size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">
-                            <h3 class="text-lg font-bold text-fg group-hover:text-secondary">Email</h3>
+                            <h2 class="text-lg font-bold text-fg group-hover:text-secondary">Email</h2>
                             <p class="text-muted text-sm">contact@rizkyfauzan.id</p>
                         </div>
                     </div>
@@ -48,7 +48,7 @@ name="simple-icons:linkedin" size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">
-                            <h3 class="text-lg font-bold text-fg group-hover:text-secondary">LinkedIn</h3>
+                            <h2 class="text-lg font-bold text-fg group-hover:text-secondary">LinkedIn</h2>
                             <p class="text-muted text-sm">rizky-fauzan-hanif</p>
                         </div>
                     </div>
@@ -65,7 +65,7 @@ name="simple-icons:x" size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">
-                            <h3 class="text-lg font-bold text-fg group-hover:text-secondary">X (Twitter)</h3>
+                            <h2 class="text-lg font-bold text-fg group-hover:text-secondary">X (Twitter)</h2>
                             <p class="text-muted text-sm">@rizkyfauzanid</p>
                         </div>
                     </div>
@@ -82,7 +82,7 @@ name="simple-icons:instagram" size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">
-                            <h3 class="text-lg font-bold text-fg group-hover:text-secondary">Instagram</h3>
+                            <h2 class="text-lg font-bold text-fg group-hover:text-secondary">Instagram</h2>
                             <p class="text-muted text-sm">@rizkyfauzan.id</p>
                         </div>
                     </div>
@@ -99,7 +99,7 @@ name="simple-icons:telegram" size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">
-                            <h3 class="text-lg font-bold text-fg group-hover:text-secondary">Telegram</h3>
+                            <h2 class="text-lg font-bold text-fg group-hover:text-secondary">Telegram</h2>
                             <p class="text-muted text-sm">@rizkyfauzanid</p>
                         </div>
                     </div>
@@ -123,7 +123,7 @@ name="simple-icons:telegram" size="24"
                         </div>
                         <div class="min-w-0 flex-1">
                             <div class="flex items-center space-x-2">
-                                <h3 class="text-lg font-bold text-fg group-hover:text-secondary">Discord</h3>
+                                <h2 class="text-lg font-bold text-fg group-hover:text-secondary">Discord</h2>
                                 <span v-if="!isLoadingStatus" :class="getDiscordStatusBadgeClasses(discordStatus)">
                                     {{ getStatusText(discordStatus) }}
                                 </span>
@@ -167,6 +167,12 @@ useSeoMeta({
     ogTitle: 'Contact Rizky Fauzan Hanif — Network Engineer',
     ogDescription: 'Connect with Rizky Fauzan Hanif - Network Engineer. Available via email, LinkedIn, Twitter, Discord, and Telegram.',
 })
+
+useSchemaOrg([
+    defineWebPage({
+        '@type': 'ContactPage',
+    }),
+])
 
 // Toast state
 const showToast: Ref<boolean> = ref(false)

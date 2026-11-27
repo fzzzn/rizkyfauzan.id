@@ -125,7 +125,7 @@
                         <div class="flex items-start justify-between mb-2.5">
                             <div>
                                 <h4 class="font-semibold text-black">{{ exp.company }}</h4>
-                                <h6 class="text-gray-700">{{ exp.position }}</h6>
+                                <p class="text-gray-700">{{ exp.position }}</p>
                             </div>
                             <p class="text-sm text-right font-semibold text-gray-700 min-w-fit">{{ exp.period }}</p>
                         </div>
@@ -234,26 +234,35 @@ useSeoMeta({
 
 const route = useRoute()
 
-// Initialize language immediately from query or localStorage
+// Initialize language from query param (works on SSR too), defaulting to 'en'
+// to match English SEO metadata and html lang="en".
 const getInitialLang = (): Language => {
-    if (import.meta.client) {
-        const queryLang = route.query.lang
-        if (queryLang && (queryLang === 'en' || queryLang === 'id')) {
-            localStorage.setItem('resume-language', queryLang as Language)
-            return queryLang as Language
-        }
-        const savedLang = localStorage.getItem('resume-language')
-        if (savedLang && (savedLang === 'en' || savedLang === 'id')) {
-            return savedLang as Language
-        }
+    const queryLang = route.query.lang
+    if (queryLang === 'en' || queryLang === 'id') {
+        return queryLang
     }
-    return 'id'
+    return 'en'
 }
 
 const currentLang: Ref<Language> = ref(getInitialLang())
 const isReady: Ref<boolean> = ref(false)
 
+useHead({
+    htmlAttrs: {
+        lang: currentLang,
+    },
+})
+
 onMounted(() => {
+    const queryLang = route.query.lang
+    if (queryLang === 'en' || queryLang === 'id') {
+        localStorage.setItem('resume-language', queryLang)
+    } else {
+        const savedLang = localStorage.getItem('resume-language')
+        if (savedLang === 'en' || savedLang === 'id') {
+            currentLang.value = savedLang
+        }
+    }
     setTimeout(() => {
         isReady.value = true
     }, 0)
@@ -340,10 +349,6 @@ const printResume = (): void => {
 
     h4 {
         font-size: 11pt !important;
-    }
-
-    h6 {
-        font-size: 10.5pt !important;
     }
 
     ul {

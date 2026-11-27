@@ -1,6 +1,8 @@
 <template>
     <div class="p-6">
-        <PageHeader title="Achievements" />
+        <PageHeader
+            title="Achievements"
+            description="Competition wins and milestones in networking and cloud computing." />
 
         <div class="mb-12">
             <div class="flex flex-wrap justify-center gap-6 items-stretch">
@@ -37,10 +39,16 @@ useScrollReveal()
 
 useSeoMeta({
     title: 'Achievements — MikroTik Olympiad Winner',
-    description: '1st Place MikroTik Networking Olympiad 2024, 3rd Place LKS ITNSA DIY Province 2025, and 2nd Place LKS Cloud Computing DIY Province 2026. Explore professional achievements of Rizky Fauzan Hanif.',
+    description: '1st Place MikroTik Networking Olympiad 2024, 3rd Place LKS ITNSA DIY 2025, and 2nd Place LKS Cloud Computing DIY 2026 — achievements of Rizky Fauzan Hanif.',
     ogTitle: 'Achievements — MikroTik Olympiad Winner',
     ogDescription: 'Competition wins and professional milestones including MikroTik Networking Olympiad, LKS ITNSA, and LKS Cloud Computing.',
 })
+
+useSchemaOrg([
+    defineWebPage({
+        '@type': 'CollectionPage',
+    }),
+])
 
 const achievements = featuredAchievements
 const moreAchievements = additionalAchievements

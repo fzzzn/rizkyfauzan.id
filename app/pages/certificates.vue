@@ -1,6 +1,8 @@
 <template>
     <div class="p-6">
-        <PageHeader title="Certificates" description="" />
+        <PageHeader
+            title="Certificates"
+            description="Verified certifications in MikroTik networking, IPv6, cybersecurity, and cloud." />
 
         <div class="mb-12">
             <div class="flex flex-wrap justify-center gap-6">
@@ -50,6 +52,12 @@ useSeoMeta({
     ogTitle: 'Certificates — MTCNA, MTCTCE & IPv6 Sage',
     ogDescription: 'MikroTik MTCNA, MTCTCE, IPv6 Sage, Google Cybersecurity, and Cloud certifications.',
 })
+
+useSchemaOrg([
+    defineWebPage({
+        '@type': 'CollectionPage',
+    }),
+])
 
 const certificates = featuredCertificates
 const moreCertificates = additionalCertificates

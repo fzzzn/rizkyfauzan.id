@@ -25,7 +25,7 @@
           <div class="flex justify-between items-center mb-2">
             <span class="text-sm text-muted">{{ item.date }}</span>
           </div>
-          <h3 class="text-xl font-bold mb-2">{{ item.title }}</h3>
+          <h2 class="text-xl font-bold mb-2">{{ item.title }}</h2>
           <p v-if="item.description" class="text-secondary leading-relaxed text-sm flex-1">{{ item.description }}</p>
         </div>
       </div>
