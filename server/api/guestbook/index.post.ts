@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
     const elapsed = Date.now() - new Date(recent[0].created_at).getTime()
     if (elapsed >= 0 && elapsed < POST_COOLDOWN_MS) {
       const retryAfter = Math.ceil((POST_COOLDOWN_MS - elapsed) / 1000)
-      setResponseHeader(event, 'Retry-After', String(retryAfter))
+      setResponseHeader(event, 'Retry-After', retryAfter)
       throw createError({
         statusCode: 429,
         statusMessage: `Please wait ${retryAfter} seconds before posting again.`,
