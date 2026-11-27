@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
   return {
     id: user.id,
     email: user.email,
+    isAdmin: isAdminUser(user),
     user_metadata: {
       full_name: user.user_metadata?.full_name || null,
       user_name: user.user_metadata?.user_name || null,

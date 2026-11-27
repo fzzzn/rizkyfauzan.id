@@ -67,6 +67,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     supabaseUrl: '',
     supabaseKey: '',
+    supabaseServiceRoleKey: '',
   },
   nitro: {
     preset: "cloudflare_pages",

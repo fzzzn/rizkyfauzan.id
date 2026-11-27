@@ -19,17 +19,32 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { error } = await supabase
+  const admin = isAdminUser(user)
+  const db = admin ? (createServiceSupabaseClient(event) ?? supabase) : supabase
+
+  let query = db
     .from('guestbook')
     .delete()
     .eq('id', id)
-    .eq('user_id', user.id)
+
+  if (!admin) {
+    query = query.eq('user_id', user.id)
+  }
+
+  const { data, error } = await query.select('id')
 
   if (error) {
     console.error('Guestbook delete error:', error)
     throw createError({
       statusCode: 500,
       statusMessage: 'Failed to delete message.',
+    })
+  }
+
+  if (!data || data.length === 0) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Message not found or you do not have permission to delete it.',
     })
   }
 

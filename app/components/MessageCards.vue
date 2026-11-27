@@ -62,6 +62,7 @@ interface Message {
 
 interface User {
   id: string | number
+  isAdmin?: boolean
 }
 
 interface Props {
@@ -81,7 +82,8 @@ const confirmingDelete = ref(false)
 const showAvatar = ref(true)
 
 const canDelete = computed((): boolean => {
-  return props.currentUser !== null && props.currentUser.id.toString() === props.message.user_id.toString()
+  if (!props.currentUser) return false
+  return Boolean(props.currentUser.isAdmin) || props.currentUser.id.toString() === props.message.user_id.toString()
 })
 
 const formatDate = (dateString: string): string => {

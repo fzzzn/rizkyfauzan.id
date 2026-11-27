@@ -35,6 +35,19 @@ export function assertSameOrigin(event: H3Event): void {
   }
 }
 
+const ADMIN_EMAILS = new Set([
+  'rizkyfauzanid@gmail.com',
+  'contact@rizkyfauzan.id',
+])
+
+/**
+ * Whether the authenticated Supabase user is a guestbook administrator.
+ */
+export function isAdminUser(user: { email?: string | null } | null | undefined): boolean {
+  const email = user?.email?.trim().toLowerCase()
+  return Boolean(email && ADMIN_EMAILS.has(email))
+}
+
 export function getSupabaseConfig(event: H3Event) {
   const config = useRuntimeConfig(event)
 
@@ -43,8 +56,26 @@ export function getSupabaseConfig(event: H3Event) {
 
   const url = config.supabaseUrl || cfEnv.NUXT_SUPABASE_URL || ''
   const key = config.supabaseKey || cfEnv.NUXT_SUPABASE_KEY || ''
+  const serviceRoleKey = config.supabaseServiceRoleKey || cfEnv.NUXT_SUPABASE_SERVICE_ROLE_KEY || ''
 
-  return { url, key }
+  return { url, key, serviceRoleKey }
+}
+
+/**
+ * Create a Supabase client with the service role key (bypasses RLS) if configured.
+ * Only call after verifying the requester is an authenticated admin.
+ */
+export function createServiceSupabaseClient(event: H3Event): SupabaseClient | null {
+  const { url, serviceRoleKey } = getSupabaseConfig(event)
+  if (!url || !serviceRoleKey) return null
+
+  return createClient(url, serviceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+      detectSessionInUrl: false,
+    },
+  })
 }
 
 /**

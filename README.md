@@ -94,8 +94,11 @@ create policy "Users can insert their own guestbook entries" on guestbook
 create policy "Users can update their own guestbook entries" on guestbook
   for update using (auth.uid() = user_id);
 
-create policy "Users can delete their own guestbook entries" on guestbook
-  for delete using (auth.uid() = user_id);
+create policy "Users or admins can delete guestbook entries" on guestbook
+  for delete using (
+    auth.uid() = user_id
+    or lower(auth.jwt() ->> 'email') in ('rizkyfauzanid@gmail.com', 'contact@rizkyfauzan.id')
+  );
 ```
 
 5. Copy your **Project URL** and **anon key** from **Settings > API** into your `.env` file:

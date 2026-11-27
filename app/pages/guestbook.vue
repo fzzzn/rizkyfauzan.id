@@ -31,8 +31,16 @@ v-if="!user.user_metadata?.avatar_url" name="mdi:account" size="48"
 v-else :src="user.user_metadata.avatar_url" :alt="user.user_metadata?.full_name || 'User'"
                             sizes="48px" loading="lazy" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover shrink-0" />
                         <div class="min-w-0 flex-1">
-                            <h3 class="text-lg sm:text-xl font-bold text-fg truncate">{{ user.user_metadata?.full_name
-                                || user.user_metadata?.user_name || 'User' }}</h3>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-lg sm:text-xl font-bold text-fg truncate">
+                                    {{ user.user_metadata?.full_name || user.user_metadata?.user_name || 'User' }}
+                                </h3>
+                                <span
+                                    v-if="user.isAdmin"
+                                    class="text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full bg-inverse-bg text-inverse-fg shrink-0">
+                                    Admin
+                                </span>
+                            </div>
                             <p class="text-xs sm:text-sm text-muted">Signed in</p>
                         </div>
                     </div>
@@ -133,8 +141,12 @@ v-for="n in 3" :key="n"
                 <h2 data-reveal class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Messages</h2>
                 <div class="space-y-4 sm:space-y-6">
                     <MessageCards
-v-for="message in messages" :key="message.id" :message="message"
-                        :current-user="user ? { id: user.id } : null" data-reveal @delete="deleteMessage" />
+                        v-for="message in messages"
+                        :key="message.id"
+                        :message="message"
+                        :current-user="user ? { id: user.id, isAdmin: user.isAdmin } : null"
+                        data-reveal
+                        @delete="deleteMessage" />
                 </div>
             </div>
         </div>
@@ -159,6 +171,7 @@ interface GuestbookMessage {
 interface AuthUser {
     id: string
     email?: string
+    isAdmin?: boolean
     user_metadata: {
         full_name?: string
         user_name?: string

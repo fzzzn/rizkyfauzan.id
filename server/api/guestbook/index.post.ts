@@ -29,24 +29,26 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { data: recent, error: recentError } = await supabase
-    .from('guestbook')
-    .select('created_at')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(1)
+  if (!isAdminUser(user)) {
+    const { data: recent, error: recentError } = await supabase
+      .from('guestbook')
+      .select('created_at')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
 
-  if (recentError) {
-    console.error('Guestbook rate-limit check error:', recentError)
-  } else if (recent?.[0]?.created_at) {
-    const elapsed = Date.now() - new Date(recent[0].created_at).getTime()
-    if (elapsed >= 0 && elapsed < POST_COOLDOWN_MS) {
-      const retryAfter = Math.ceil((POST_COOLDOWN_MS - elapsed) / 1000)
-      setResponseHeader(event, 'Retry-After', retryAfter)
-      throw createError({
-        statusCode: 429,
-        statusMessage: `Please wait ${retryAfter} seconds before posting again.`,
-      })
+    if (recentError) {
+      console.error('Guestbook rate-limit check error:', recentError)
+    } else if (recent?.[0]?.created_at) {
+      const elapsed = Date.now() - new Date(recent[0].created_at).getTime()
+      if (elapsed >= 0 && elapsed < POST_COOLDOWN_MS) {
+        const retryAfter = Math.ceil((POST_COOLDOWN_MS - elapsed) / 1000)
+        setResponseHeader(event, 'Retry-After', retryAfter)
+        throw createError({
+          statusCode: 429,
+          statusMessage: `Please wait ${retryAfter} seconds before posting again.`,
+        })
+      }
     }
   }
 
