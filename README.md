@@ -8,11 +8,12 @@ Visit: **[rizkyfauzan.id](https://rizkyfauzan.id)**
 
 ## ✨ Features
 
-- **About Me** - Learn about my journey in networking and cybersecurity
-- **Achievements & Certificates** - Showcase of professional certifications and competition wins
-- **Contact** - Real-time Discord status and multiple ways to connect
-- **Interactive Guestbook** - Leave a message with Google, GitHub, or Discord authentication
-- **Resume** - Professional resume with print functionality
+- **About Me** - Learn about my journey in networking, cloud engineering, and cybersecurity
+- **Achievements & Certificates** - Showcase of professional certifications, competition wins, and verified credentials
+- **Contact** - Real-time Discord status (via Lanyard) and multiple ways to connect
+- **Interactive Guestbook** - Leave a message with Google, GitHub, or Discord OAuth (PKCE), inline delete confirmation, and per-user rate limiting
+- **Resume** - Bilingual (EN/ID) resume with print-optimized A4 layout
+- **Light / Dark / System Theme** - Pre-paint theme script with synced `theme-color` meta tag
 - **Credits** - Acknowledgements and inspirations
 - **Custom 404 Page** - Glitch-effect error page with smooth transitions
 
@@ -20,18 +21,19 @@ Visit: **[rizkyfauzan.id](https://rizkyfauzan.id)**
 
 - **[Nuxt 4](https://nuxt.com/)** - Full-stack Vue framework
 - **[Tailwind CSS v4](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[Supabase](https://supabase.com/)** - Backend for guestbook authentication
-- **[GSAP](https://gsap.com/)** - Animations and transitions
-- **[Cloudflare Pages](https://pages.cloudflare.com/)** - Hosting and deployment
+- **[Supabase](https://supabase.com/)** - Backend for guestbook authentication & storage
+- **[GSAP](https://gsap.com/)** - Scroll reveals, SplitText, and modal/sidebar transitions
+- **[Sharp](https://sharp.pixelplumbing.com/)** - Build-time AVIF/WebP image optimization pipeline
+- **[Cloudflare Pages](https://pages.cloudflare.com/)** - Edge hosting and deployment
 - **TypeScript** - Type safety and better development experience
 
 ## 🎯 Highlights
 
-- **Modern Design** - Clean, responsive interface optimized for all devices
-- **SPA Navigation** - Smooth page transitions with blur effects
-- **Fast Performance** - Built with Nuxt for optimal loading speeds
-- **SEO Optimized** - Proper meta tags, structured data, and sitemap
-- **Accessible** - WCAG compliant with keyboard navigation support
+- **Modern Design** - Clean, responsive monochrome interface with light/dark mode
+- **Build-Time Image Optimization** - Raw images in `assets/images/` are compiled into content-hashed AVIF & WebP variants served via `<picture>` in `OptimizedImg.vue`
+- **Security Hardened** - Same-origin checks on mutating API routes, 60s guestbook post cooldown, `httpOnly` PKCE session cookies, HSTS, and CSP Report-Only headers
+- **SEO Optimized** - Structured data (Schema.org), Open Graph metadata, robots, and sitemap
+- **Accessible** - Keyboard-accessible cards & modals with `role="dialog"` focus management, single `<main>` landmark, and `prefers-reduced-motion` support
 - **Analytics** - Privacy-friendly tracking with Umami
 
 ## 🚀 Quick Start
@@ -50,6 +52,12 @@ cp .env.example .env
 
 # Start development server
 npm run dev
+
+# Optimize local images (also runs automatically on prebuild)
+npm run optimize-images
+
+# Lint codebase
+npm run lint
 
 # Build for production
 npm run build
@@ -123,17 +131,24 @@ awake > Run workflow**.
 ```
 rizkyfauzan.id/
 ├── app/
-│   ├── assets/css/          # Global styles
+│   ├── assets/css/          # Global styles & theme tokens
 │   ├── components/          # Reusable Vue components
+│   │   ├── ImageCard.vue
+│   │   ├── MessageCards.vue
+│   │   ├── NavigationBar.vue
+│   │   ├── OptimizedImg.vue
 │   │   ├── PageHeader.vue
-│   │   ├── cardCarousel.vue
-│   │   ├── imageCard.vue
-│   │   ├── messageCards.vue
-│   │   ├── navigationBar.vue
-│   │   ├── sideBar.vue
-│   │   └── webFooter.vue
-│   ├── composables/         # Shared reactive state
+│   │   ├── PhotoModal.vue
+│   │   ├── SideBar.vue
+│   │   └── WebFooter.vue
+│   ├── composables/         # Shared reactive state & animations
+│   │   ├── useAboutIntro.ts
+│   │   ├── useColorMode.ts
+│   │   ├── useScrollReveal.ts
 │   │   └── useSidebarState.ts
+│   ├── data/                # Single-source portfolio & resume data
+│   │   └── resume.ts
+│   ├── generated/           # Auto-generated image manifest (gitignored)
 │   ├── layouts/             # Page layouts
 │   │   ├── blank.vue
 │   │   └── default.vue
@@ -148,12 +163,15 @@ rizkyfauzan.id/
 │   │   └── resume.vue
 │   ├── utils/               # Client-side utilities
 │   │   ├── discord.ts
+│   │   ├── imagekit.ts
 │   │   └── quotes.ts
 │   ├── app.vue              # Root component
 │   └── error.vue            # Custom error page
+├── assets/
+│   └── images/              # Raw source images processed by optimize-images
 ├── server/
 │   ├── api/
-│   │   ├── auth/            # OAuth endpoints
+│   │   ├── auth/            # OAuth (PKCE) endpoints
 │   │   │   ├── callback.get.ts
 │   │   │   ├── login.get.ts
 │   │   │   ├── signout.post.ts
@@ -162,11 +180,14 @@ rizkyfauzan.id/
 │   │       ├── [id].delete.ts
 │   │       ├── index.get.ts
 │   │       └── index.post.ts
+│   ├── middleware/
+│   │   └── www-redirect.ts  # 301 redirect www -> apex domain
 │   └── utils/
 │       └── supabase.ts
-├── public/                  # Static assets
-├── scripts/                 # Build scripts
+├── public/                  # Static assets, _headers, & generated /images/*
+├── scripts/
+│   └── optimize-images.mjs  # Build-time AVIF/WebP generator
 ├── nuxt.config.ts
-├── wrangler.toml            # Cloudflare config
+├── wrangler.toml            # Cloudflare Pages config
 └── package.json
 ```
