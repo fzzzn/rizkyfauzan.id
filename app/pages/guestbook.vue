@@ -172,6 +172,15 @@ v-for="n in 3" :key="n"
                         @pin="togglePin"
                         @edit="editMessage" />
                 </div>
+                <div v-if="hasMore" class="mt-8 flex justify-center">
+                    <button
+                        type="button"
+                        :disabled="loadingMore"
+                        class="border border-border text-fg px-6 py-2.5 rounded-lg hover:bg-fg/5 transition-colors font-semibold text-sm sm:text-base cursor-pointer disabled:opacity-50"
+                        @click="loadMore">
+                        {{ loadingMore ? 'Loading...' : 'Load More Messages' }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -228,12 +237,15 @@ useSeoMeta({
 usePageOgImage('guestbook', 'Guestbook — Leave a Message for Rizky Fauzan')
 
 const MAX_MESSAGE_LENGTH = 1000
+const PAGE_SIZE = 20
 
 // Reactive data
 const user: Ref<AuthUser | null> = ref(null)
 const messages: Ref<GuestbookMessage[]> = ref([])
 const newMessage: Ref<string> = ref('')
 const loading: Ref<boolean> = ref(true)
+const loadingMore: Ref<boolean> = ref(false)
+const hasMore: Ref<boolean> = ref(false)
 const submitting: Ref<boolean> = ref(false)
 const error: Ref<string | null> = ref(null)
 const signingIn: Ref<SignInProvider> = ref(false)
@@ -258,6 +270,11 @@ const signInWithGoogle = (): void => signInWithProvider('google')
 const signInWithGitHub = (): void => signInWithProvider('github')
 const signInWithDiscord = (): void => signInWithProvider('discord')
 
+interface GuestbookPageResponse {
+    items: GuestbookMessage[]
+    hasMore: boolean
+}
+
 // Fetch messages
 const fetchMessages = async (preserveError = false): Promise<void> => {
     loading.value = true
@@ -265,13 +282,35 @@ const fetchMessages = async (preserveError = false): Promise<void> => {
         error.value = null
     }
     try {
-        const data = await $fetch<GuestbookMessage[]>('/api/guestbook')
-        messages.value = data || []
+        const data = await $fetch<GuestbookPageResponse>('/api/guestbook', {
+            query: { offset: 0, limit: PAGE_SIZE },
+        })
+        messages.value = data?.items || []
+        hasMore.value = Boolean(data?.hasMore)
     } catch (err) {
         console.error('Error fetching messages:', err)
         error.value = getErrorMessage(err)
     } finally {
         loading.value = false
+    }
+}
+
+const loadMore = async (): Promise<void> => {
+    if (loadingMore.value || !hasMore.value) return
+    loadingMore.value = true
+    try {
+        const data = await $fetch<GuestbookPageResponse>('/api/guestbook', {
+            query: { offset: messages.value.length, limit: PAGE_SIZE },
+        })
+        const existingIds = new Set(messages.value.map(m => m.id))
+        const nextItems = (data?.items || []).filter(m => !existingIds.has(m.id))
+        messages.value = [...messages.value, ...nextItems]
+        hasMore.value = Boolean(data?.hasMore)
+    } catch (err) {
+        console.error('Error loading more messages:', err)
+        error.value = getErrorMessage(err)
+    } finally {
+        loadingMore.value = false
     }
 }
 
