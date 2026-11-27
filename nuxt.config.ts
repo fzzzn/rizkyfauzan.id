@@ -246,6 +246,22 @@ export default defineNuxtConfig({
       email: "contact@rizkyfauzan.id",
       url: "https://rizkyfauzan.id",
       image: "https://rizkyfauzan.id/avatar-with-bg.webp",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Sleman",
+        addressRegion: "Special Region of Yogyakarta",
+        addressCountry: "ID",
+      },
+      worksFor: [
+        { "@type": "Organization", name: "Raznar Hosting" },
+        { "@type": "Organization", name: "PT Solusi Karya Technology Indonesia (SKTECH)" },
+      ],
+      knowsLanguage: ["en", "id"],
+      award: [
+        "1st Place MikroTik Networking Olympiad 2024",
+        "3rd Place LKS ITNSA DIY Province 2025",
+        "2nd Place LKS Cloud Computing DIY Province 2026",
+      ],
       sameAs: [
         "https://x.com/rizkyfauzanid",
         "https://github.com/fzzzn",

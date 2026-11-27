@@ -255,6 +255,11 @@ useHead({
     htmlAttrs: {
         lang: currentLang,
     },
+    link: [
+        { rel: 'alternate', hreflang: 'en', href: 'https://rizkyfauzan.id/resume?lang=en' },
+        { rel: 'alternate', hreflang: 'id', href: 'https://rizkyfauzan.id/resume?lang=id' },
+        { rel: 'alternate', hreflang: 'x-default', href: 'https://rizkyfauzan.id/resume' },
+    ],
 })
 
 onMounted(() => {
