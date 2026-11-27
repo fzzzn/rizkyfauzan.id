@@ -58,7 +58,8 @@
                                 aria-label="Terminal command input"
                                 class="flex-1 bg-transparent text-[#ededef] focus:outline-none min-w-0"
                                 @keydown.up.prevent="browseHistory(-1)"
-                                @keydown.down.prevent="browseHistory(1)">
+                                @keydown.down.prevent="browseHistory(1)"
+                                @keydown.tab.prevent="autocomplete">
                         </form>
                     </div>
                 </div>
@@ -85,6 +86,33 @@ const BANNER = [
 ].join('\n')
 
 const VALID_ROUTES = ['/', '/about', '/projects', '/achievements', '/certificates', '/contact', '/guestbook', '/resume', '/net', '/credits']
+
+const COMMANDS = [
+    'help',
+    'whoami',
+    '/system resource print',
+    '/ip route print',
+    '/ipv6 address print',
+    'ping',
+    'neofetch',
+    'cd ',
+    'goto ',
+    'dns',
+    'clear',
+    'exit',
+]
+
+const commonPrefix = (list: string[]): string => {
+    if (!list.length) return ''
+    let prefix = list[0]!
+    for (let i = 1; i < list.length; i++) {
+        while (!list[i]!.startsWith(prefix)) {
+            prefix = prefix.slice(0, -1)
+            if (!prefix) return ''
+        }
+    }
+    return prefix
+}
 
 const router = useRouter()
 const isOpen = useState<boolean>('router-terminal-open', () => false)
@@ -260,6 +288,44 @@ const browseHistory = (delta: number) => {
     const next = Math.min(Math.max(historyIndex.value + delta, 0), history.value.length)
     historyIndex.value = next
     currentInput.value = next === history.value.length ? '' : (history.value[next] ?? '')
+}
+
+const autocomplete = async () => {
+    const raw = currentInput.value
+    const lower = raw.toLowerCase()
+
+    // Complete route argument for `cd ` or `goto `
+    const navMatch = lower.match(/^(cd|goto)\s+(.*)$/)
+    if (navMatch) {
+        const verb = navMatch[1]!
+        const arg = navMatch[2]!
+        const normalizedArg = arg && !arg.startsWith('/') ? `/${arg}` : arg
+        const matches = VALID_ROUTES.filter(r => r.startsWith(normalizedArg))
+        if (matches.length === 1) {
+            currentInput.value = `${verb} ${matches[0]}`
+        } else if (matches.length > 1) {
+            const prefix = commonPrefix(matches)
+            if (prefix.length > normalizedArg.length) {
+                currentInput.value = `${verb} ${prefix}`
+            } else {
+                await pushEntry(raw, matches.join('   '))
+            }
+        }
+        return
+    }
+
+    // Complete top-level commands
+    const matches = COMMANDS.filter(cmd => cmd.startsWith(lower))
+    if (matches.length === 1) {
+        currentInput.value = matches[0]!
+    } else if (matches.length > 1) {
+        const prefix = commonPrefix(matches)
+        if (prefix.length > lower.length) {
+            currentInput.value = prefix
+        } else {
+            await pushEntry(raw, matches.map(m => m.trim()).join('   '))
+        }
+    }
 }
 
 watch(isOpen, async (opened) => {
