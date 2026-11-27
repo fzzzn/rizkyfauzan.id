@@ -67,19 +67,23 @@
                                     :class="[
                                         'w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-left text-sm transition-colors cursor-pointer',
                                         index === selectedIndex
-                                            ? 'bg-inverse-bg text-inverse-fg'
-                                            : 'text-fg hover:bg-border/40',
+                                            ? 'bg-fg/10 text-fg'
+                                            : 'text-secondary hover:bg-fg/5 hover:text-fg',
                                     ]"
                                     @mouseenter="selectedIndex = index"
                                     @click="execute(item)">
                                     <span class="flex items-center gap-3 min-w-0">
-                                        <Icon :name="item.icon" size="18" class="shrink-0" aria-hidden="true" />
+                                        <Icon
+                                            :name="item.icon"
+                                            size="18"
+                                            :class="['shrink-0', index === selectedIndex ? 'text-fg' : 'text-muted']"
+                                            aria-hidden="true" />
                                         <span class="font-medium truncate">{{ item.label }}</span>
                                     </span>
                                     <span
                                         :class="[
                                             'text-xs font-mono shrink-0',
-                                            index === selectedIndex ? 'text-inverse-fg/75' : 'text-muted',
+                                            index === selectedIndex ? 'text-secondary' : 'text-muted',
                                         ]">
                                         {{ item.hint }}
                                     </span>
