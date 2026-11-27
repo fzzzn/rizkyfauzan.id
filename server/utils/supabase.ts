@@ -56,26 +56,8 @@ export function getSupabaseConfig(event: H3Event) {
 
   const url = config.supabaseUrl || cfEnv.NUXT_SUPABASE_URL || ''
   const key = config.supabaseKey || cfEnv.NUXT_SUPABASE_KEY || ''
-  const serviceRoleKey = config.supabaseServiceRoleKey || cfEnv.NUXT_SUPABASE_SERVICE_ROLE_KEY || ''
 
-  return { url, key, serviceRoleKey }
-}
-
-/**
- * Create a Supabase client with the service role key (bypasses RLS) if configured.
- * Only call after verifying the requester is an authenticated admin.
- */
-export function createServiceSupabaseClient(event: H3Event): SupabaseClient | null {
-  const { url, serviceRoleKey } = getSupabaseConfig(event)
-  if (!url || !serviceRoleKey) return null
-
-  return createClient(url, serviceRoleKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-      detectSessionInUrl: false,
-    },
-  })
+  return { url, key }
 }
 
 /**

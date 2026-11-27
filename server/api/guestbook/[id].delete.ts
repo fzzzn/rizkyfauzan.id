@@ -20,9 +20,8 @@ export default defineEventHandler(async (event) => {
   }
 
   const admin = isAdminUser(user)
-  const db = admin ? (createServiceSupabaseClient(event) ?? supabase) : supabase
 
-  let query = db
+  let query = supabase
     .from('guestbook')
     .delete()
     .eq('id', id)
