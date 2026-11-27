@@ -6,7 +6,7 @@
                 role="dialog"
                 aria-modal="true"
                 aria-label="Debian 13 SSH Terminal"
-                class="print:hidden fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs"
+                class="print:hidden hidden sm:flex fixed inset-0 z-[70] items-center justify-center p-4 bg-black/70 backdrop-blur-xs"
                 @click="close">
                 <div
                     :class="[
@@ -29,7 +29,7 @@
                         <div class="flex items-center gap-2 shrink-0">
                             <button
                                 type="button"
-                                class="text-muted hover:text-fg transition-colors cursor-pointer px-1.5 py-0.5 text-xs"
+                                class="hidden md:inline-block text-muted hover:text-fg transition-colors cursor-pointer px-1.5 py-0.5 text-xs"
                                 :aria-label="expanded ? 'Restore terminal size' : 'Maximize terminal'"
                                 @click="expanded = !expanded">
                                 {{ expanded ? 'Restore' : 'Expand' }}
@@ -848,7 +848,7 @@ const onKeydown = (e: KeyboardEvent) => {
     }
     const target = e.target as HTMLElement | null
     const isEditable = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
-    if (e.key === '`' && !e.ctrlKey && !e.metaKey && !e.altKey && !isEditable) {
+    if (e.key === '`' && !e.ctrlKey && !e.metaKey && !e.altKey && !isEditable && window.innerWidth >= 640) {
         e.preventDefault()
         if (isOpen.value) close()
         else open()
