@@ -12,7 +12,6 @@
         </div>
         <!-- Footer shown on mobile, hidden on desktop -->
         <web-footer class="block lg:hidden" />
-        <CommandPalette />
     </div>
 </template>
 

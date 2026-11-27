@@ -24,7 +24,7 @@
                 role="dialog"
                 aria-modal="true"
                 aria-label="Command palette"
-                class="fixed inset-0 z-[60] flex items-start justify-center pt-[14vh] px-4 bg-black/60 backdrop-blur-xs"
+                class="print:hidden fixed inset-0 z-[60] flex items-start justify-center pt-[14vh] px-4 bg-black/60 backdrop-blur-xs"
                 @click="close">
                 <div
                     class="w-full max-w-lg bg-surface border border-border rounded-xl shadow-2xl overflow-hidden"
