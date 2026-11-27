@@ -61,7 +61,7 @@
                         {{ t.sections.aboutMe }}
                     </h3>
                     <div class="mt-4">
-                        <p v-for="(paragraph, idx) in t.aboutMe" :key="idx" class="text-gray-800 mb-2">
+                        <p v-for="(paragraph, idx) in t.aboutMe" :key="idx" class="text-gray-800 mb-2 text-justify">
                             {{ paragraph }}
                         </p>
                     </div>
@@ -160,7 +160,7 @@
                             </div>
                             <p class="text-sm text-right font-semibold text-gray-700 min-w-fit">{{ project.period }}</p>
                         </div>
-                        <p class="text-gray-800">{{ project.description }}</p>
+                        <p class="text-gray-800 text-justify">{{ project.description }}</p>
                     </div>
                 </section>
 
