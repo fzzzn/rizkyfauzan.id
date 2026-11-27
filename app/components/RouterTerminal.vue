@@ -9,21 +9,21 @@
                 class="print:hidden fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs"
                 @click="close">
                 <div
-                    class="w-full max-w-2xl bg-[#0c0c0d] text-[#ededef] border border-[#27272a] rounded-xl shadow-2xl overflow-hidden font-mono text-xs sm:text-sm flex flex-col max-h-[80vh]"
+                    class="w-full max-w-2xl bg-bg text-fg border border-border rounded-xl shadow-2xl overflow-hidden font-mono text-xs sm:text-sm flex flex-col max-h-[80vh]"
                     @click.stop>
                     <!-- Terminal Title Bar -->
-                    <div class="px-4 py-2.5 bg-[#161618] border-b border-[#27272a] flex items-center justify-between gap-2 shrink-0">
+                    <div class="px-4 py-2.5 bg-surface border-b border-border flex items-center justify-between gap-2 shrink-0">
                         <div class="flex items-center gap-2 min-w-0">
-                            <span class="w-2.5 h-2.5 rounded-full bg-[#3f3f46]" aria-hidden="true" />
-                            <span class="w-2.5 h-2.5 rounded-full bg-[#3f3f46]" aria-hidden="true" />
-                            <span class="w-2.5 h-2.5 rounded-full bg-[#3f3f46]" aria-hidden="true" />
-                            <span class="ml-2 text-xs text-[#9a9aa2] truncate">
+                            <span class="w-2.5 h-2.5 rounded-full bg-faint" aria-hidden="true" />
+                            <span class="w-2.5 h-2.5 rounded-full bg-faint" aria-hidden="true" />
+                            <span class="w-2.5 h-2.5 rounded-full bg-faint" aria-hidden="true" />
+                            <span class="ml-2 text-xs text-muted truncate">
                                 fauzan@rizkyfauzan: ~ — Debian 13 (trixie)
                             </span>
                         </div>
                         <button
                             type="button"
-                            class="text-[#9a9aa2] hover:text-[#ededef] transition-colors cursor-pointer px-1.5 py-0.5 text-xs"
+                            class="text-muted hover:text-fg transition-colors cursor-pointer px-1.5 py-0.5 text-xs"
                             aria-label="Close terminal"
                             @click="close">
                             ESC
@@ -37,17 +37,17 @@
                         @click="focusInput">
                         <div v-for="(entry, idx) in entries" :key="idx">
                             <div v-if="entry.command !== undefined" class="flex items-start gap-2">
-                                <span class="text-[#9a9aa2] shrink-0">fauzan@rizkyfauzan:~$</span>
-                                <span class="text-[#ededef] break-all">{{ entry.command }}</span>
+                                <span class="text-muted shrink-0">fauzan@rizkyfauzan:~$</span>
+                                <span class="text-fg break-all">{{ entry.command }}</span>
                             </div>
                             <pre
                                 v-if="entry.output"
-                                class="whitespace-pre-wrap text-[#c8c8cc] mt-1 font-mono">{{ entry.output }}</pre>
+                                class="whitespace-pre-wrap text-secondary mt-1 font-mono">{{ entry.output }}</pre>
                         </div>
 
                         <!-- Active Prompt -->
                         <form class="flex items-center gap-2 pt-1" @submit.prevent="submit">
-                            <span class="text-[#9a9aa2] shrink-0">fauzan@rizkyfauzan:~$</span>
+                            <span class="text-muted shrink-0">fauzan@rizkyfauzan:~$</span>
                             <input
                                 ref="inputEl"
                                 v-model="currentInput"
@@ -56,7 +56,7 @@
                                 autocapitalize="off"
                                 spellcheck="false"
                                 aria-label="Terminal command input"
-                                class="flex-1 bg-transparent text-[#ededef] focus:outline-none min-w-0"
+                                class="flex-1 bg-transparent text-fg focus:outline-none min-w-0"
                                 @keydown.up.prevent="browseHistory(-1)"
                                 @keydown.down.prevent="browseHistory(1)"
                                 @keydown.tab.prevent="autocomplete">

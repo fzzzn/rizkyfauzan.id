@@ -12,10 +12,7 @@
                 <div
                     v-if="toastMessage"
                     role="status"
-                    :class="[
-                        'fixed bottom-8 left-1/2 -translate-x-1/2 z-[70] bg-inverse-bg text-inverse-fg px-4 py-2.5 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2',
-                        { 'palette-light': isResume },
-                    ]">
+                    class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[70] bg-inverse-bg text-inverse-fg px-4 py-2.5 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2">
                     <Icon name="heroicons:check-circle" size="18" />
                     <span>{{ toastMessage }}</span>
                 </div>
@@ -27,10 +24,7 @@
                 role="dialog"
                 aria-modal="true"
                 aria-label="Command palette"
-                :class="[
-                    'print:hidden fixed inset-0 z-[60] flex items-start justify-center pt-[14vh] px-4 bg-black/60 backdrop-blur-xs',
-                    { 'palette-light': isResume },
-                ]"
+                class="print:hidden fixed inset-0 z-[60] flex items-start justify-center pt-[14vh] px-4 bg-black/60 backdrop-blur-xs"
                 @click="close">
                 <div
                     class="w-full max-w-lg bg-surface border border-border rounded-xl shadow-2xl overflow-hidden"
@@ -115,10 +109,8 @@ interface CommandItem {
     action: () => void | Promise<void>
 }
 
-const route = useRoute()
 const router = useRouter()
 const { mode, cycle } = useColorMode()
-const isResume = computed(() => route.path.startsWith('/resume'))
 const terminalOpen = useState<boolean>('router-terminal-open', () => false)
 
 const isOpen = useState<boolean>('command-palette-open', () => false)
@@ -306,19 +298,3 @@ onUnmounted(() => {
     if (toastTimer) clearTimeout(toastTimer)
 })
 </script>
-
-<style scoped>
-.palette-light {
-    --color-bg: #ffffff;
-    --color-surface: #ffffff;
-    --color-fg: #000000;
-    --color-secondary: #333333;
-    --color-muted: #737373;
-    --color-faint: #b3b3b3;
-    --color-border: #e5e5e5;
-    --color-line: rgb(0 0 0 / 0.3);
-    --color-inverse-bg: #000000;
-    --color-inverse-fg: #ffffff;
-    color-scheme: light;
-}
-</style>
