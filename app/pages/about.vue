@@ -72,6 +72,8 @@ useSchemaOrg([
     }),
 ])
 
+usePageOgImage('about', 'About Rizky Fauzan Hanif — Network Engineer')
+
 const isModalOpen = ref(false)
 
 const openModal = () => {

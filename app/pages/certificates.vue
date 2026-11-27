@@ -59,6 +59,8 @@ useSchemaOrg([
     }),
 ])
 
+usePageOgImage('certificates', 'Certificates — MTCNA, MTCTCE & IPv6 Sage')
+
 const certificates = featuredCertificates
 const moreCertificates = additionalCertificates
 </script>

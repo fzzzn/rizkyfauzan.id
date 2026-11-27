@@ -63,6 +63,8 @@ useSeoMeta({
     twitterCard: 'summary_large_image',
 })
 
+usePageOgImage('index', 'Rizky Fauzan Hanif — Network Engineer')
+
 const isModalOpen = ref(false)
 
 const photoEl = ref<HTMLElement | null>(null)

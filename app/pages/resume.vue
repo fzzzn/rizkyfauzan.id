@@ -232,6 +232,8 @@ useSeoMeta({
     ogDescription: 'Professional resume of Rizky Fauzan Hanif — Network Engineer with MTCNA and MTCTCE certifications.',
 })
 
+usePageOgImage('resume', 'Resume — Rizky Fauzan Hanif, Network Engineer')
+
 const route = useRoute()
 
 // Initialize language from query param (works on SSR too), defaulting to 'en'

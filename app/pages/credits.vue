@@ -84,4 +84,6 @@ useSeoMeta({
     ogTitle: 'Credits — rizkyfauzan.id',
     ogDescription: 'Design inspiration, open-source software, fonts, icons, and services behind rizkyfauzan.id.',
 })
+
+usePageOgImage('credits', 'Credits — rizkyfauzan.id')
 </script>

@@ -15,7 +15,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "optimize-images": "node scripts/optimize-images.mjs",
-    "prebuild": "node scripts/optimize-images.mjs"
+    "generate-og": "node scripts/generate-og-images.mjs",
+    "prebuild": "node scripts/optimize-images.mjs && node scripts/generate-og-images.mjs"
   },
   "dependencies": {
     "@nuxt/fonts": "^1.2.0",

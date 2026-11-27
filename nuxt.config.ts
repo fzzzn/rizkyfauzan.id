@@ -139,8 +139,8 @@ export default defineNuxtConfig({
     defaultLocale: "en",
   },
   ogImage: {
-    // The site uses a static Open Graph image; disabling dynamic generation
-    // also keeps the ~2.5 MB image renderer out of the worker bundle.
+    // Per-page OG images are generated at build time by scripts/generate-og-images.mjs
+    // into public/og/*.png, keeping the ~2.5 MB runtime renderer out of the worker bundle.
     enabled: false,
   },
   sitemap: {
@@ -176,8 +176,8 @@ export default defineNuxtConfig({
       ogDescription: "Network Engineer specializing in MikroTik, networking, and cybersecurity. MTCNA & MTCTCE certified professional based in Yogyakarta, Indonesia.",
       // Absolute URL + dimensions so unhead does not warn about a missing
       // og:image size and social platforms can size the preview without fetching.
-      ogImage: { url: "https://rizkyfauzan.id/social-preview.png", width: 1200, height: 630, type: "image/png", alt: "Rizky Fauzan Hanif - Network Engineer" },
-      twitterImage: { url: "https://rizkyfauzan.id/social-preview.png", width: 1200, height: 630, alt: "Rizky Fauzan Hanif - Network Engineer" },
+      ogImage: { url: "https://rizkyfauzan.id/og/index.png", width: 1200, height: 630, type: "image/png", alt: "Rizky Fauzan Hanif - Network Engineer" },
+      twitterImage: { url: "https://rizkyfauzan.id/og/index.png", width: 1200, height: 630, alt: "Rizky Fauzan Hanif - Network Engineer" },
     },
   },
   schemaOrg: {

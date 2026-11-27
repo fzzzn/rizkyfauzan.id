@@ -50,6 +50,8 @@ useSchemaOrg([
     }),
 ])
 
+usePageOgImage('achievements', 'Achievements — Rizky Fauzan Hanif')
+
 const achievements = featuredAchievements
 const moreAchievements = additionalAchievements
 </script>

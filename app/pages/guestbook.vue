@@ -223,6 +223,8 @@ useSeoMeta({
     ogDescription: 'Join the conversation and leave a message on the guestbook. Connect with the community.',
 })
 
+usePageOgImage('guestbook', 'Guestbook — Leave a Message for Rizky Fauzan')
+
 const MAX_MESSAGE_LENGTH = 1000
 
 // Reactive data

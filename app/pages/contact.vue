@@ -174,6 +174,8 @@ useSchemaOrg([
     }),
 ])
 
+usePageOgImage('contact', 'Contact Rizky Fauzan Hanif — Network Engineer')
+
 // Toast state
 const showToast: Ref<boolean> = ref(false)
 
