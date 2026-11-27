@@ -1,77 +1,97 @@
-# rizkyfauzan.id
+<div align="center">
 
-Personal website of Rizky Fauzan Hanif
+# `rizkyfauzan.id`
 
-## 🌐 Live Site
+**Personal website & portfolio of Rizky Fauzan Hanif**  
+Network & DevOps Engineer · MTCNA · MTCTCE · IPv6 Sage
 
-Visit: **[rizkyfauzan.id](https://rizkyfauzan.id)**
+[![Live Site](https://img.shields.io/badge/live-rizkyfauzan.id-141414?style=flat-square)](https://rizkyfauzan.id)
+[![Nuxt 4](https://img.shields.io/badge/Nuxt-4-00DC82?style=flat-square&logo=nuxt&logoColor=white)](https://nuxt.com)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?style=flat-square&logo=cloudflarepages&logoColor=white)](https://pages.cloudflare.com)
+[![Supabase](https://img.shields.io/badge/Supabase-Auth_%26_DB-3ECF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com)
+[![CI](https://github.com/fzzzn/rizkyfauzan.id/actions/workflows/ci.yml/badge.svg)](https://github.com/fzzzn/rizkyfauzan.id/actions/workflows/ci.yml)
 
-## ✨ Features
+[Visit Live Site](https://rizkyfauzan.id) · [Projects](https://rizkyfauzan.id/projects) · [Resume](https://rizkyfauzan.id/resume) · [Network Info](https://rizkyfauzan.id/net) · [Guestbook](https://rizkyfauzan.id/guestbook)
 
-- **About Me** - Learn about my journey in networking, cloud engineering, and cybersecurity
-- **Achievements & Certificates** - Showcase of professional certifications, competition wins, and verified credentials
-- **Contact** - Real-time Discord status (via Lanyard) and multiple ways to connect
-- **Interactive Guestbook** - Leave a message with Google, GitHub, or Discord OAuth (PKCE), inline delete confirmation, and per-user rate limiting
-- **Resume** - Bilingual (EN/ID) resume with print-optimized A4 layout
-- **Light / Dark / System Theme** - Pre-paint theme script with synced `theme-color` meta tag
-- **Credits** - Acknowledgements and inspirations
-- **Custom 404 Page** - Glitch-effect error page with smooth transitions
+</div>
 
-## 🛠️ Built With
+---
 
-- **[Nuxt 4](https://nuxt.com/)** - Full-stack Vue framework
-- **[Tailwind CSS v4](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[Supabase](https://supabase.com/)** - Backend for guestbook authentication & storage
-- **[GSAP](https://gsap.com/)** - Scroll reveals, SplitText, and modal/sidebar transitions
-- **[Sharp](https://sharp.pixelplumbing.com/)** - Build-time AVIF/WebP image optimization pipeline
-- **[Cloudflare Pages](https://pages.cloudflare.com/)** - Edge hosting and deployment
-- **TypeScript** - Type safety and better development experience
+## Pages & Features
 
-## 🎯 Highlights
+| Route | Description |
+| :--- | :--- |
+| `/` | Minimal monochrome landing page with GSAP SplitText entrance & photo lightbox |
+| `/about` | Bio, quick navigation, portrait lightbox, and a **Now** section |
+| `/projects` | Networking, virtualization, DevOps, and software projects with stack tags |
+| `/achievements` | Competition wins (MikroTik Olympiad, LKS ITNSA, LKS Cloud Computing) |
+| `/certificates` | Verified certifications (MTCNA, MTCTCE, IPv6 Sage, Google, Dicoding) |
+| `/contact` | Live Discord status (Lanyard), live Yogyakarta (`WIB`) clock, and one-click copy |
+| `/guestbook` | Multi-provider PKCE OAuth (Google, GitHub, Discord), inline edit/delete, pagination, Owner badge, and admin message pinning |
+| `/resume` | Bilingual (`EN` / `ID`) print-ready A4 CV with `?lang=` URL sync |
+| `/net` | Live visitor IPv4/IPv6, ASN, TLS, Cloudflare PoP inspector + 3-ping edge RTT test |
+| `/credits` | Design inspiration, open-source software, fonts, icons, and services |
 
-- **Modern Design** - Clean, responsive monochrome interface with light/dark mode
-- **Build-Time Image Optimization** - Raw images in `assets/images/` are compiled into content-hashed AVIF & WebP variants served via `<picture>` in `OptimizedImg.vue`
-- **Security Hardened** - Same-origin checks on mutating API routes, 60s guestbook post cooldown, `httpOnly` PKCE session cookies, HSTS, and CSP Report-Only headers
-- **SEO Optimized** - Structured data (Schema.org), Open Graph metadata, robots, and sitemap
-- **Accessible** - Keyboard-accessible cards & modals with `role="dialog"` focus management, single `<main>` landmark, and `prefers-reduced-motion` support
-- **Analytics** - Privacy-friendly tracking with Umami
+### Power-User Extras
+- **Command Palette (`Ctrl+K` / `⌘K`)** — Jump to any page, cycle Light/Dark/System theme live, copy email/Discord, or launch hidden commands.
+- **Hidden Debian 13 (`trixie`) SSH Terminal** — Press `` ` `` (backtick) or run `Ctrl+K` → `ssh` for an interactive bash-style CLI with **Tab** autocomplete, live `dig` (Cloudflare DoH), live `ping` (HTTP edge RTT), `ip addr`, `neofetch`/`fastfetch`, and `nano` saving directly to [`haste.zxn.my.id`](https://haste.zxn.my.id).
 
-## 🚀 Quick Start
+---
+
+## Engineering Highlights
+
+- **Build-Time Image & OG Pipelines (`Sharp`)** — Raw photos in `assets/images/` compile into content-hashed AVIF/WebP variants served via `<picture>` (`OptimizedImg.vue`). Per-page `1200×630` Open Graph cards generate into `public/og/*.png` at build time with **0 runtime Worker bloat**.
+- **Edge SSR on Cloudflare Pages** — Zero-runtime prerendered sitemap, `www` → apex 301 redirect middleware, and `<600 kB` gzipped Worker bundle.
+- **Security Hardened** — `httpOnly` PKCE session cookies, same-origin checks on all mutating API routes, 60s guestbook post cooldown, Postgres RLS policies, HSTS, and CSP Report-Only headers.
+- **Accessible & Theme-Aware** — Skip-to-content link, `role="dialog"` focus management on modals/palettes, WCAG AA contrast across light & dark palettes, dynamic `theme-color` meta, and `prefers-reduced-motion` support.
+- **Automated CI & Keep-Alive** — GitHub Actions runs lint, server typecheck, and production build on every push/PR, plus a daily ping keeping the Supabase free tier awake.
+
+---
+
+## Quick Start
 
 ```bash
-# Clone the repository
 git clone https://github.com/fzzzn/rizkyfauzan.id
 cd rizkyfauzan.id
-
-# Install dependencies
 npm install
-
-# Set up environment variables
-cp .env.example .env
-# Edit .env with your Supabase credentials
-
-# Start development server
+cp .env.example .env   # add NUXT_SUPABASE_URL & NUXT_SUPABASE_KEY
 npm run dev
-
-# Optimize local images (also runs automatically on prebuild)
-npm run optimize-images
-
-# Lint codebase
-npm run lint
-
-# Build for production
-npm run build
 ```
 
-### Supabase Setup
+### Scripts
 
-1. Create a new project on [Supabase](https://supabase.com/)
-2. Enable **Google**, **GitHub**, and **Discord** auth providers under **Authentication > Providers**
-3. Set the redirect URL to `https://yourdomain.com/api/auth/callback`
-4. Run the following SQL in the **SQL Editor** to create the guestbook table:
+| Command | Purpose |
+| :--- | :--- |
+| `npm run dev` | Start local Nuxt dev server |
+| `npm run build` | Optimize images, generate per-page OG cards, and build for Cloudflare Pages |
+| `npm run lint` | Run ESLint across the repository |
+| `npm run optimize-images` | Compile `assets/images/*` into hashed AVIF/WebP variants |
+| `npm run generate-og` | Generate `public/og/*.png` cards for every page |
+| `npx tsc --noEmit -p server/tsconfig.json` | Typecheck Nitro server routes & utilities |
+
+---
+
+## Deployment & Setup
+
+### Environment Variables
+
+Set these in `.env` (local) and **Cloudflare Dashboard → Workers & Pages → Settings → Environment variables** (production):
+
+```env
+NUXT_SUPABASE_URL=https://your-project.supabase.co
+NUXT_SUPABASE_KEY=your-anon-key
+```
+
+<details>
+<summary><strong>Supabase OAuth & SQL Schema Setup</strong></summary>
+
+1. Create a project on [Supabase](https://supabase.com/).
+2. Enable **Google**, **GitHub**, and **Discord** under **Authentication → Providers**.
+3. Set the redirect URL to `https://yourdomain.com/api/auth/callback`.
+4. Run this SQL in the **SQL Editor**:
 
 ```sql
--- Create guestbook table
 create table guestbook (
   id uuid default gen_random_uuid() primary key,
   user_id uuid references auth.users not null,
@@ -83,10 +103,8 @@ create table guestbook (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Enable RLS
 alter table guestbook enable row level security;
 
--- Policies
 create policy "Users can view all guestbook entries" on guestbook
   for select using (true);
 
@@ -106,41 +124,19 @@ create policy "Users or admins can delete guestbook entries" on guestbook
   );
 ```
 
-5. Copy your **Project URL** and **anon key** from **Settings > API** into your `.env` file:
+> **Keep-alive:** `.github/workflows/keep-supabase-awake.yml` queries `/api/guestbook` daily at 03:17 UTC so the free Supabase project never pauses due to inactivity.
 
-```env
-NUXT_SUPABASE_URL=https://your-project.supabase.co
-NUXT_SUPABASE_KEY=your-anon-key
-```
+</details>
 
-### Cloudflare Deployment
+<details>
+<summary><strong>Project Structure</strong></summary>
 
-When deploying to Cloudflare Pages, add your Supabase credentials as secrets via the **Cloudflare Dashboard**:
-
-1. Go to **Workers & Pages > your project > Settings > Environment variables**
-2. Add the following secrets:
-
-| Variable | Value |
-|---|---|
-| `NUXT_SUPABASE_URL` | `https://your-project.supabase.co` |
-| `NUXT_SUPABASE_KEY` | `your-anon-key` |
-
-### Keeping Supabase Awake
-
-Free Supabase projects pause after 7 days without database activity, and
-opening the dashboard does not count. `.github/workflows/keep-supabase-awake.yml`
-runs daily at 03:17 UTC and requests `/api/guestbook`, which performs a real
-query against the table. A failed run means the project is paused or the
-deployment is misconfigured. Trigger it manually via **Actions > Keep Supabase
-awake > Run workflow**.
-
-## 📁 Project Structure
-
-```
+```text
 rizkyfauzan.id/
 ├── app/
-│   ├── assets/css/          # Global styles & theme tokens
-│   ├── components/          # Reusable Vue components
+│   ├── assets/css/          # Global styles & light/dark semantic tokens
+│   ├── components/
+│   │   ├── CommandPalette.vue
 │   │   ├── ImageCard.vue
 │   │   ├── MessageCards.vue
 │   │   ├── NavigationBar.vue
@@ -148,55 +144,32 @@ rizkyfauzan.id/
 │   │   ├── PageHeader.vue
 │   │   ├── PhotoModal.vue
 │   │   ├── SideBar.vue
+│   │   ├── SshTerminal.vue
 │   │   └── WebFooter.vue
-│   ├── composables/         # Shared reactive state & animations
-│   │   ├── useAboutIntro.ts
-│   │   ├── useColorMode.ts
-│   │   ├── useScrollReveal.ts
-│   │   └── useSidebarState.ts
-│   ├── data/                # Single-source portfolio & resume data
-│   │   └── resume.ts
+│   ├── composables/         # Theme, scroll reveals, OG images, sidebar state
+│   ├── data/resume.ts       # Single-source portfolio, projects, Now & CV data
 │   ├── generated/           # Auto-generated image manifest (gitignored)
-│   ├── layouts/             # Page layouts
-│   │   ├── blank.vue
-│   │   └── default.vue
-│   ├── pages/               # File-based routing
-│   │   ├── index.vue        # Home
-│   │   ├── about.vue
-│   │   ├── achievements.vue
-│   │   ├── certificates.vue
-│   │   ├── contact.vue
-│   │   ├── credits.vue
-│   │   ├── guestbook.vue
-│   │   └── resume.vue
-│   ├── utils/               # Client-side utilities
-│   │   ├── discord.ts
-│   │   ├── imagekit.ts
-│   │   └── quotes.ts
-│   ├── app.vue              # Root component
-│   └── error.vue            # Custom error page
-├── assets/
-│   └── images/              # Raw source images processed by optimize-images
+│   ├── layouts/             # default.vue & blank.vue
+│   ├── pages/               # /, about, projects, achievements, certificates, contact, guestbook, resume, net, credits
+│   ├── plugins/             # DevTools console greeting
+│   └── utils/               # Discord (Lanyard), ImageKit, quotes
+├── assets/images/           # Raw source images compiled at build time
 ├── server/
 │   ├── api/
-│   │   ├── auth/            # OAuth (PKCE) endpoints
-│   │   │   ├── callback.get.ts
-│   │   │   ├── login.get.ts
-│   │   │   ├── signout.post.ts
-│   │   │   └── user.get.ts
-│   │   └── guestbook/       # Guestbook CRUD
-│   │       ├── [id].delete.ts
-│   │       ├── [id].patch.ts
-│   │       ├── index.get.ts
-│   │       └── index.post.ts
-│   ├── middleware/
-│   │   └── www-redirect.ts  # 301 redirect www -> apex domain
-│   └── utils/
-│       └── supabase.ts
-├── public/                  # Static assets, _headers, & generated /images/*
+│   │   ├── auth/            # PKCE OAuth login, callback, user, signout
+│   │   ├── guestbook/       # Paginated GET, POST, PATCH (pin/edit), DELETE
+│   │   ├── dns.get.ts       # Live Cloudflare DoH lookup for `dig`
+│   │   ├── haste.post.ts    # Proxy for `nano` → haste.zxn.my.id
+│   │   └── network.get.ts   # Cloudflare visitor IP/ASN/PoP telemetry
+│   ├── middleware/          # 301 www → apex redirect
+│   └── utils/supabase.ts    # Supabase clients, PKCE, admin & origin checks
 ├── scripts/
-│   └── optimize-images.mjs  # Build-time AVIF/WebP generator
+│   ├── optimize-images.mjs  # Build-time AVIF/WebP generator
+│   └── generate-og-images.mjs # Build-time per-page 1200×630 OG cards
+├── public/                  # Static assets, _headers, generated /images & /og
+├── .github/workflows/       # ci.yml & keep-supabase-awake.yml
 ├── nuxt.config.ts
-├── wrangler.toml            # Cloudflare Pages config
-└── package.json
+└── wrangler.toml
 ```
+
+</details>
