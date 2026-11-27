@@ -69,6 +69,8 @@
 </template>
 
 <script setup lang="ts">
+import { resumeTranslations } from '~/data/resume'
+
 interface TerminalEntry {
     command?: string
     output?: string
@@ -91,14 +93,29 @@ const VALID_ROUTES = ['/', '/about', '/projects', '/achievements', '/certificate
 const COMMANDS = [
     'help',
     'whoami',
+    'id',
+    'hostname',
+    'pwd',
+    'date',
+    'uptime',
     'uname -a',
     'cat /etc/os-release',
+    'cat /etc/motd',
+    'cat skills.txt',
+    'cat certs.txt',
+    'cat contact.txt',
     'ls',
-    'ip route',
+    'ip addr',
     'ip -6 addr',
+    'ip route',
+    'ss -tuln',
     'ping',
     'fastfetch',
     'neofetch',
+    'fortune',
+    'theme',
+    'history',
+    'echo ',
     'cd ',
     'dns',
     'clear',
@@ -117,7 +134,10 @@ const commonPrefix = (list: string[]): string => {
     return prefix
 }
 
+const route = useRoute()
 const router = useRouter()
+const { mode, cycle } = useColorMode()
+const sessionStartedAt = Date.now()
 const isOpen = useState<boolean>('router-terminal-open', () => false)
 const entries = ref<TerminalEntry[]>([{ output: MOTD }])
 const currentInput = ref('')
@@ -221,14 +241,17 @@ const submit = async () => {
     if (lower === 'help' || lower === '?') {
         await pushEntry(raw, [
             'Available commands:',
-            '  whoami                Profile summary',
-            '  uname -a              Kernel & OS version',
-            '  cat /etc/os-release   Debian 13 (trixie) release info',
-            '  ls                    List site routes',
-            '  ip route              Site routing table',
-            '  ip -6 addr            IPv6 loopback & certification',
-            '  ping [host]           Live edge RTT ping (3 packets)',
-            '  fastfetch | neofetch  System summary card',
+            '  whoami | id | hostname | pwd | date | uptime',
+            '  uname -a | cat /etc/os-release | cat /etc/motd',
+            '  cat skills.txt | cat certs.txt | cat contact.txt',
+            '  ls                    List site routes & files',
+            '  ip addr | ip -6 addr  Live visitor IP/ASN & IPv6 status',
+            '  ip route | ss -tuln   Site routing table & listening sockets',
+            '  ping [host]           Live HTTP RTT ping to Cloudflare edge',
+            '  fastfetch | neofetch  Debian 13 system summary card',
+            '  theme                 Cycle light / dark / system theme',
+            '  fortune | history     Random quote or command history',
+            '  echo <text>           Print text',
             '  cd <route>            Navigate to a page (e.g. cd /projects)',
             '  clear | exit          Clear screen or close session',
         ].join('\n'))
@@ -237,6 +260,42 @@ const submit = async () => {
 
     if (lower === 'whoami') {
         await pushEntry(raw, 'fauzan (Rizky Fauzan Hanif — Network & DevOps Engineer)\nLocation: Sleman, Yogyakarta, Indonesia\nContact : contact@rizkyfauzan.id')
+        return
+    }
+
+    if (lower === 'id') {
+        await pushEntry(raw, 'uid=1000(fauzan) gid=1000(noc) groups=1000(noc),27(sudo),999(docker),1001(bgp)')
+        return
+    }
+
+    if (lower === 'hostname') {
+        await pushEntry(raw, 'rizkyfauzan.id')
+        return
+    }
+
+    if (lower === 'pwd') {
+        await pushEntry(raw, route.path === '/' ? '/home/fauzan' : `/home/fauzan${route.path}`)
+        return
+    }
+
+    if (lower === 'date') {
+        const now = new Date()
+        const wib = new Intl.DateTimeFormat('en-GB', {
+            timeZone: 'Asia/Jakarta',
+            dateStyle: 'full',
+            timeStyle: 'medium',
+            hour12: false,
+        }).format(now)
+        await pushEntry(raw, `${wib} WIB (UTC+7)\n${now.toUTCString()}`)
+        return
+    }
+
+    if (lower === 'uptime') {
+        const secs = Math.max(1, Math.floor((Date.now() - sessionStartedAt) / 1000))
+        const mins = Math.floor(secs / 60)
+        const rem = secs % 60
+        const upStr = mins > 0 ? `${mins} min, ${rem} sec` : `${secs} sec`
+        await pushEntry(raw, `up ${upStr},  1 user,  load average: 0.01, 0.03, 0.05`)
         return
     }
 
@@ -258,8 +317,96 @@ const submit = async () => {
         return
     }
 
+    if (lower === 'cat /etc/motd') {
+        await pushEntry(raw, MOTD)
+        return
+    }
+
+    if (lower === 'cat skills.txt') {
+        await pushEntry(raw, resumeTranslations.en.skills.map(s => `- ${s}`).join('\n'))
+        return
+    }
+
+    if (lower === 'cat certs.txt') {
+        await pushEntry(raw, resumeTranslations.en.certifications.map(c => `- ${c.name} (${c.issuer}, ${c.date})`).join('\n'))
+        return
+    }
+
+    if (lower === 'cat contact.txt') {
+        await pushEntry(raw, [
+            'Email    : contact@rizkyfauzan.id',
+            'GitHub   : https://github.com/fzzzn',
+            'LinkedIn : https://linkedin.com/in/rizky-fauzan-hanif',
+            'X        : https://x.com/rizkyfauzanid',
+            'Telegram : https://t.me/rizkyfauzanid',
+            'Discord  : fzzzn_',
+        ].join('\n'))
+        return
+    }
+
     if (lower === 'ls' || lower === 'ls -la') {
-        await pushEntry(raw, VALID_ROUTES.map(r => (r === '/' ? './' : `${r.slice(1)}/`)).join('  '))
+        const dirs = VALID_ROUTES.filter(r => r !== '/').map(r => `${r.slice(1)}/`)
+        const files = ['skills.txt', 'certs.txt', 'contact.txt']
+        await pushEntry(raw, [...dirs, ...files].join('  '))
+        return
+    }
+
+    if (lower === 'ip a' || lower === 'ip addr') {
+        try {
+            const info = await $fetch<{
+                ip: string
+                ipVersion: string
+                asn: string | null
+                organization: string | null
+                colo: string | null
+                httpProtocol: string | null
+                tlsVersion: string | null
+            }>('/api/network')
+            await pushEntry(raw, [
+                '1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536',
+                '    inet 127.0.0.1/8 scope host lo',
+                '    inet6 ::1/128 scope host',
+                '2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500',
+                `    ${info.ipVersion === 'IPv6' ? 'inet6' : 'inet'} ${info.ip} scope global`,
+                `    asn ${info.asn || 'local'}${info.organization ? ` (${info.organization})` : ''} · edge ${info.colo || 'localhost'}`,
+                `    proto ${[info.httpProtocol, info.tlsVersion].filter(Boolean).join(' ') || 'HTTP'}`,
+            ].join('\n'))
+        } catch {
+            await pushEntry(raw, 'ip: failed to query /api/network')
+        }
+        return
+    }
+
+    if (lower === 'ss -tuln' || lower === 'ss') {
+        await pushEntry(raw, [
+            'Netid  State   Local Address:Port   Process',
+            'tcp    LISTEN  [::]:443             cloudflare-edge (https)',
+            'udp    LISTEN  [::]:443             cloudflare-edge (http3/quic)',
+            'tcp    LISTEN  [::]:179             bgpd (simulated)',
+            'udp    LISTEN  [::]:51820           wireguard (simulated)',
+            'tcp    LISTEN  127.0.0.1:9090       prometheus (simulated)',
+        ].join('\n'))
+        return
+    }
+
+    if (lower === 'fortune') {
+        await pushEntry(raw, `"${getRandomQuote()}"`)
+        return
+    }
+
+    if (lower === 'theme') {
+        cycle()
+        await pushEntry(raw, `Color mode switched to: ${mode.value}`)
+        return
+    }
+
+    if (lower === 'history') {
+        await pushEntry(raw, history.value.map((cmd, idx) => `${String(idx + 1).padStart(3)}  ${cmd}`).join('\n'))
+        return
+    }
+
+    if (lower === 'echo' || lower.startsWith('echo ')) {
+        await pushEntry(raw, raw.slice(5))
         return
     }
 
