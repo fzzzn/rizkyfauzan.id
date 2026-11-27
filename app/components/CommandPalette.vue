@@ -52,7 +52,7 @@
                         <p v-if="filteredItems.length === 0" class="py-8 text-center text-sm text-muted">
                             No matching commands.
                         </p>
-                        <ul v-else role="listbox" class="space-y-1">
+                        <ul v-else ref="listEl" role="listbox" class="space-y-1">
                             <li v-for="(item, index) in filteredItems" :key="item.id">
                                 <button
                                     type="button"
@@ -110,6 +110,7 @@ const isOpen = useState<boolean>('command-palette-open', () => false)
 const query = ref('')
 const selectedIndex = ref(0)
 const inputEl = ref<HTMLInputElement | null>(null)
+const listEl = ref<HTMLUListElement | null>(null)
 const toastMessage = ref<string | null>(null)
 let toastTimer: ReturnType<typeof setTimeout> | null = null
 let previousFocus: HTMLElement | null = null
@@ -207,6 +208,10 @@ const moveSelection = (delta: number) => {
     const len = filteredItems.value.length
     if (!len) return
     selectedIndex.value = (selectedIndex.value + delta + len) % len
+    nextTick(() => {
+        const active = listEl.value?.children[selectedIndex.value] as HTMLElement | undefined
+        active?.scrollIntoView({ block: 'nearest' })
+    })
 }
 
 const execute = (item: CommandItem) => {
