@@ -32,10 +32,19 @@
             </nav>
         </div>
         <div class="lg:flex-2/6">
-            <OptimizedImg
-src="/fauzan-history.png" data-intro="photo"
-                class="object-cover rounded-xl w-full lg:h-172 aspect-3/4 cursor-pointer lg:grayscale lg:hover:grayscale-0 transition-all duration-200" alt="Rizky Fauzan Hanif"
-                loading="eager" fetchpriority="high" @click="openModal" />
+            <button
+                type="button"
+                class="block w-full rounded-xl cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-fg"
+                aria-label="View portrait photo full size"
+                @click="openModal">
+                <OptimizedImg
+                    src="/fauzan-history.png"
+                    data-intro="photo"
+                    class="object-cover rounded-xl w-full lg:h-172 aspect-3/4 lg:grayscale lg:hover:grayscale-0 transition-all duration-200"
+                    alt="Rizky Fauzan Hanif"
+                    loading="eager"
+                    fetchpriority="high" />
+            </button>
         </div>
 
         <!-- Modal -->

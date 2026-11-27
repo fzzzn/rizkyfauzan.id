@@ -3,23 +3,39 @@
     <ClientOnly>
         <Teleport to="body">
             <div
-v-if="open" ref="overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90"
+                v-if="open"
+                ref="overlay"
+                role="dialog"
+                aria-modal="true"
+                :aria-label="alt || 'Photo preview'"
+                class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90"
                 @click="close">
                 <div ref="content" class="relative max-w-6xl max-h-full">
                     <!-- Close button -->
                     <button
-                        class="absolute top-4 right-4 z-20 w-8 h-8 bg-black hover:bg-black/80 text-white rounded-full transition duration-200 flex items-center justify-center cursor-pointer"
-                        aria-label="Close modal" @click.stop="close">
+                        ref="closeBtn"
+                        type="button"
+                        class="absolute top-4 right-4 z-20 w-8 h-8 bg-black hover:bg-black/80 text-white rounded-full transition duration-200 flex items-center justify-center cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                        aria-label="Close modal"
+                        @click.stop="close">
                         <Icon name="heroicons:x-mark" size="16" />
                     </button>
 
                     <!-- Modal image -->
                     <OptimizedImg
-v-if="src.startsWith('/')" :src="src" :alt="alt"
+                        v-if="src.startsWith('/')"
+                        :src="src"
+                        :alt="alt"
                         class="block w-auto h-auto max-w-full max-h-[90vh] object-contain rounded-2xl"
-                        loading="eager" fetchpriority="high" @click.stop />
+                        loading="eager"
+                        fetchpriority="high"
+                        @click.stop />
                     <img
-v-else :src="src" :alt="alt" width="500" height="500"
+                        v-else
+                        :src="src"
+                        :alt="alt"
+                        width="500"
+                        height="500"
                         class="block w-auto h-auto max-w-full max-h-[90vh] object-contain rounded-2xl"
                         @click.stop>
                 </div>
@@ -43,11 +59,14 @@ const emit = defineEmits<{
 
 const overlay = ref<HTMLElement | null>(null)
 const content = ref<HTMLElement | null>(null)
+const closeBtn = ref<HTMLButtonElement | null>(null)
+let previousFocus: HTMLElement | null = null
 // Killed before closing so a quick reopen cannot leave a half-faded overlay
 // in front of the page, and on unmount so nothing ticks after the page is gone.
 let tween: gsap.core.Tween | null = null
 
 const close = () => {
+    if (!props.open) return
     if (!overlay.value || !content.value || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         emit('update:open', false)
         return
@@ -64,13 +83,17 @@ const close = () => {
 // Close on escape key, and restore body scroll when the modal closes or the
 // page goes away.
 const handleKeydown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' && props.open) {
         close()
     }
 }
 
 watch(() => props.open, (isOpen) => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
+    if (!isOpen) {
+        previousFocus?.focus()
+        previousFocus = null
+    }
 })
 
 onMounted(() => {
@@ -83,10 +106,12 @@ onMounted(() => {
 // overlay, so the refs are still null if GSAP runs synchronously here.
 watch(() => props.open, async (isOpen) => {
     if (!isOpen) return
+    previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
     tween?.kill()
     await nextTick()
     // A quick close can flip `open` back before the overlay renders.
     if (!props.open || !overlay.value || !content.value) return
+    closeBtn.value?.focus()
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     gsap.fromTo(overlay.value, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' })
     tween = gsap.fromTo(content.value, { opacity: 0, scale: 0.96 }, {

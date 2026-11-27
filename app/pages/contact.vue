@@ -97,12 +97,16 @@
                      the reveal's inline transform would keep the card as the
                      tooltip's containing block, so the tooltip could never sit
                      outside the card and its hover fade would never play. -->
-                <div
-                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group cursor-pointer w-full relative"
+                <button
+                    type="button"
+                    class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group cursor-pointer w-full relative text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg"
+                    :aria-label="`Copy Discord username ${DISCORD_USERNAME}`"
                     @click="copyDiscord">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0 relative">
-                            <Icon name="simple-icons:discord" size="24"
+                            <Icon
+                                name="simple-icons:discord"
+                                size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">
@@ -117,8 +121,9 @@
                     </div>
 
                     <!-- Discord Activity Tooltip -->
-                    <div v-if="discordActivities.length > 0 && !isLoadingStatus"
-                        class="absolute left-0 top-full mt-2 w-full bg-surface border border-border text-fg text-xs rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                    <div
+                        v-if="discordActivities.length > 0 && !isLoadingStatus"
+                        class="absolute left-0 top-full mt-2 w-full bg-surface border border-border text-fg text-xs rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                         <div class="space-y-2">
                             <div v-for="activity in discordActivities" :key="activity.id">
                                 <p class="font-medium text-fg">{{ formatActivity(activity) }}</p>
@@ -128,7 +133,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </button>
             </div>
         </div>
     </div>

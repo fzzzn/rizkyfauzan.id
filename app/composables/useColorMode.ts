@@ -15,7 +15,12 @@ export const useColorMode = () => {
     const apply = (value: ColorMode) => {
         mode.value = value
         if (typeof document === 'undefined') return
-        document.documentElement.classList.toggle('dark', resolve(value))
+        const isDark = resolve(value)
+        document.documentElement.classList.toggle('dark', isDark)
+        const themeMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+        if (themeMeta) {
+            themeMeta.content = isDark ? '#0a0a0a' : '#ffffff'
+        }
         try {
             localStorage.setItem(STORAGE_KEY, value)
         } catch {

@@ -1,12 +1,22 @@
 <template>
     <div class="h-full">
-        <main class="h-full p-6 flex-col gap-8 lg:gap-24 flex lg:flex-row items-center justify-center">
+        <div class="h-full p-6 flex-col gap-8 lg:gap-24 flex lg:flex-row items-center justify-center">
             <section aria-label="Profile Photo of Rizky Fauzan Hanif">
-                <img
-ref="photoEl" src="/avatar-with-bg.webp"
-                    alt="Rizky Fauzan Hanif - Network Engineer and MikroTik Certified Professional"
-                    width="500" height="500"
-                    class="object-cover w-75 lg:w-125 aspect-square rounded-2xl cursor-pointer hover:opacity-90 transition-opacity duration-200" loading="eager" fetchpriority="high" @click="openModal">
+                <button
+                    type="button"
+                    class="block rounded-2xl cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-fg"
+                    aria-label="View profile photo full size"
+                    @click="openModal">
+                    <img
+                        ref="photoEl"
+                        src="/avatar-with-bg.webp"
+                        alt="Rizky Fauzan Hanif - Network Engineer and MikroTik Certified Professional"
+                        width="500"
+                        height="500"
+                        class="object-cover w-75 lg:w-125 aspect-square rounded-2xl hover:opacity-90 transition-opacity duration-200"
+                        loading="eager"
+                        fetchpriority="high">
+                </button>
             </section>
             <section class="text-center flex flex-col lg:text-left" aria-label="About Rizky Fauzan Hanif">
                 <h1 ref="nameEl" class="text-4xl lg:text-8xl font-bold tracking-tighter">Rizky Fauzan Hanif</h1>
@@ -30,7 +40,7 @@ ref="photoEl" src="/avatar-with-bg.webp"
                     </RouterLink>
                 </div>
             </section>
-        </main>
+        </div>
 
         <!-- Modal -->
         <PhotoModal
