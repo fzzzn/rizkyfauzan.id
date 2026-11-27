@@ -8,7 +8,6 @@ export default defineNuxtConfig({
   pages: true,
   css: ["~/assets/css/main.css"],
   vite: {
-    // @ts-expect-error - Type incompatibility between @tailwindcss/vite and Vite 7.3 types
     plugins: [tailwindcss()],
     // Pre-bundle gsap and its plugins so they are not discovered at runtime.
     // Without this Vite reloads the page when a route first imports SplitText
@@ -19,7 +18,7 @@ export default defineNuxtConfig({
     },
     build: {
       sourcemap: false,
-      minify: "esbuild",
+      minify: true,
       cssMinify: true,
       rollupOptions: {
         output: {
@@ -199,7 +198,6 @@ export default defineNuxtConfig({
     },
   },
   sitemap: {
-    strictNuxtContentPaths: true,
     zeroRuntime: true,
   },
   robots: {
