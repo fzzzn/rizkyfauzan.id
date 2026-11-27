@@ -23,6 +23,13 @@ const PAGES = [
     description: 'Building reliable, maintainable, and scalable networks from Yogyakarta, Indonesia.',
   },
   {
+    slug: 'projects',
+    path: '/projects',
+    eyebrow: 'PROJECTS',
+    title: 'Networking & Infrastructure',
+    description: 'VyOS 10G routing, IPv6, Proxmox, MikroTik, and CI/CD automation pipelines.',
+  },
+  {
     slug: 'achievements',
     path: '/achievements',
     eyebrow: 'ACHIEVEMENTS',

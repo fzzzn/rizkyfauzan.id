@@ -93,6 +93,87 @@ export interface TextAchievement {
   description?: string
 }
 
+export interface FeaturedProject {
+  title: string
+  role: string
+  period: string
+  summary: string
+  highlights: string[]
+  stack: string[]
+  link?: string
+}
+
+export interface NowItem {
+  label: string
+  detail: string
+}
+
+export const featuredProjects: FeaturedProject[] = [
+  {
+    title: 'Bare-Metal 10G Network & Virtualization',
+    role: 'NOC Engineer · Raznar Hosting',
+    period: '2025 – Present',
+    summary: 'Routing, dual-stack IPv4/IPv6 allocation, virtualization, and observability for production game server infrastructure.',
+    highlights: [
+      'Configured VyOS routers on 10G uplinks with floating IPv4 and native IPv6.',
+      'Deployed and operated Proxmox VE hypervisors and containerized workloads.',
+      'Built real-time network & host telemetry using Prometheus and Grafana.',
+    ],
+    stack: ['VyOS', 'IPv6', 'Proxmox VE', 'Docker', 'Prometheus', 'Grafana'],
+  },
+  {
+    title: 'SMKN 2 Depok Sleman Network Infrastructure',
+    role: 'NOC Volunteer',
+    period: '2024 – Present',
+    summary: 'Campus-wide network operations, segmentation, fiber uplinks, and wireless reliability across school facilities.',
+    highlights: [
+      'Maintained MikroTik RouterOS routing, firewall policies, and traffic control.',
+      'Managed Ruijie & Cambium wireless/switching gear and Linux servers.',
+      'Documented network topology and incident troubleshooting playbooks.',
+    ],
+    stack: ['MikroTik RouterOS', 'Ruijie', 'Cambium', 'Firewall', 'VPN', 'Linux'],
+  },
+  {
+    title: 'CI/CD Delivery Pipelines',
+    role: 'DevOps Engineer · SKTECH',
+    period: '2025 – Present',
+    summary: 'Automated build, test, and deployment pipelines for application engineering teams.',
+    highlights: [
+      'Designed and maintained GitLab CI/CD pipelines for faster, repeatable releases.',
+      'Collaborated with developers to streamline container builds and rollouts.',
+    ],
+    stack: ['GitLab CI/CD', 'Docker', 'Linux', 'Automation'],
+  },
+  {
+    title: 'rizkyfauzan.id',
+    role: 'Personal Website & Portfolio',
+    period: '2025 – Present',
+    summary: 'Fast, monochrome Nuxt 4 portfolio deployed on Cloudflare Pages with build-time AVIF/WebP & OG image pipelines and a Supabase PKCE guestbook.',
+    highlights: [
+      'Edge SSR on Cloudflare Pages with zero-runtime sitemap and custom Sharp image pipelines.',
+      'Multi-provider OAuth (Google, GitHub, Discord) guestbook with RLS and admin moderation.',
+      'Keyboard-first UX with Ctrl+K command palette, dark mode, and print-ready bilingual CV.',
+    ],
+    stack: ['Nuxt 4', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Cloudflare Pages'],
+    link: 'https://github.com/fzzzn/rizkyfauzan.id',
+  },
+]
+
+export const nowItems: NowItem[] = [
+  {
+    label: 'Operations',
+    detail: 'Running 10G VyOS routing, Proxmox clusters, and IPv6 networking at Raznar Hosting alongside DevOps pipelines at SKTECH.',
+  },
+  {
+    label: 'Learning',
+    detail: 'Deepening hands-on skills in BGP routing, Kubernetes networking, Ansible/Terraform automation, and cloud security.',
+  },
+  {
+    label: 'School & Competitions',
+    detail: 'Studying Network Information Systems & Applications (SIJA) at SMKN 2 Depok Sleman and volunteering on the campus NOC.',
+  },
+]
+
 export const featuredAchievements: ShowcaseItem[] = [
   {
     id: 1,

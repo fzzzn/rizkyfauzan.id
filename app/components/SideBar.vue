@@ -88,6 +88,7 @@ const route: RouteLocationNormalizedLoaded = useRoute()
 const menuList: MenuItem[] = [
     { menu: "Home", href: "/", pageInfo: "UwU" },
     { menu: "About", href: "/about", pageInfo: ">_<" },
+    { menu: "Projects", href: "/projects", pageInfo: "🛠️" },
     { menu: "Achievements", href: "/achievements", pageInfo: "\\o/" },
     { menu: "Certificates", href: "/certificates", pageInfo: "📜" },
     { menu: "Contact", href: "/contact", pageInfo: "@_@" },

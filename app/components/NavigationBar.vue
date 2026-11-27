@@ -62,6 +62,10 @@ const navItems = [
 		href: "/about",
 	},
 	{
+		title: "Projects",
+		href: "/projects",
+	},
+	{
 		title: "Achievements",
 		href: "/achievements",
 	},
