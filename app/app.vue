@@ -6,6 +6,15 @@
   <SshTerminal />
 </template>
 
+<script setup lang="ts">
+useSchemaOrg([
+  defineWebSite({
+    name: 'Rizky Fauzan Hanif',
+    alternateName: 'rizkyfauzan.id',
+  }),
+])
+</script>
+
 <style>
 .page-enter-active,
 .page-leave-active {
