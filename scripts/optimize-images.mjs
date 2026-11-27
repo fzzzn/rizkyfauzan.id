@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises'
 import { join, extname, basename, relative } from 'node:path'
 
+const SOURCE_DIR = './assets/images'
 const PUBLIC_DIR = './public'
 const OUTPUT_DIR = join(PUBLIC_DIR, 'images')
 const CACHE_FILE = 'node_modules/.cache/optimize-images.json'
@@ -15,19 +16,15 @@ const FORMATS = ['webp', 'avif']
 const QUALITY = { webp: 82, avif: 55 }
 const RAW_EXTENSIONS = ['.png', '.jpg', '.jpeg']
 
-// Files that must keep their exact name or path (icons, manifest, social preview).
-const SKIP_PATTERNS = [/^favicon\./, /^apple-touch-icon\./, /^web-app-manifest-/, /^og-image\./, /^favicon-\d+/]
-
 // Bump when the options above change so cached results are regenerated.
-const CACHE_VERSION = 5
+const CACHE_VERSION = 6
 
 const toUrl = (path) => `/${relative(PUBLIC_DIR, path).split('\\').join('/')}`
 
-const isRawImage = (file) =>
-  RAW_EXTENSIONS.includes(extname(file).toLowerCase()) && !SKIP_PATTERNS.some((p) => p.test(file))
+const isRawImage = (file) => RAW_EXTENSIONS.includes(extname(file).toLowerCase())
 
 const listRawImages = async () => {
-  const entries = await readdir(PUBLIC_DIR, { withFileTypes: true }).catch(() => [])
+  const entries = await readdir(SOURCE_DIR, { withFileTypes: true }).catch(() => [])
 
   return entries
     .filter((entry) => entry.isFile() && isRawImage(entry.name))
@@ -49,7 +46,7 @@ const writeCache = async (cache) => {
 }
 
 const sourceStamp = async (file) => {
-  const stats = await stat(join(PUBLIC_DIR, file))
+  const stats = await stat(join(SOURCE_DIR, file))
 
   return `${stats.size}:${stats.mtimeMs}`
 }
@@ -61,7 +58,7 @@ const sourceStamp = async (file) => {
  */
 const sourceHash = async (file) =>
   createHash('sha256')
-    .update(await readFile(join(PUBLIC_DIR, file)))
+    .update(await readFile(join(SOURCE_DIR, file)))
     .digest('hex')
     .slice(0, 8)
 
@@ -77,7 +74,7 @@ const fileExists = (path) => stat(path).then(() => true, () => false)
 
 /** Resize one source into every configured format and width. */
 const generateVariants = async (file, hash) => {
-  const inputPath = join(PUBLIC_DIR, file)
+  const inputPath = join(SOURCE_DIR, file)
 
   const { width: sourceWidth } = await sharp(inputPath).metadata()
 
@@ -103,21 +100,22 @@ const generateVariants = async (file, hash) => {
 
 /**
  * Reshape variants into what a template needs. `src` is the largest WebP so a
- * plain <img> still looks right when srcset is ignored.
+ * plain <img> fallback still looks right, while `avifSrcset` and `webpSrcset`
+ * power `<picture><source>` format negotiation.
  */
 const toManifestEntry = (variants) => {
   const webp = variants.webp
+  const avif = variants.avif
   const largest = webp[webp.length - 1]
 
-  // AVIF first, then WebP: browsers pick the first format they support.
-  const preferred = ['avif', 'webp']
-  const srcset = preferred.flatMap((format) => variants[format].map((v) => `${v.url} ${v.width}w`)).join(', ')
+  const formatSrcset = (list) => list.map((v) => `${v.url} ${v.width}w`).join(', ')
 
   return {
     src: largest.url,
     width: largest.width,
     height: largest.height,
-    srcset: webp.length > 1 ? srcset : undefined,
+    avifSrcset: avif.length ? formatSrcset(avif) : undefined,
+    webpSrcset: webp.length ? formatSrcset(webp) : undefined,
     sizes: webp.length > 1 ? '(min-width: 1024px) 640px, 100vw' : undefined,
   }
 }
@@ -165,7 +163,8 @@ export interface OptimizedImage {
   src: string
   width?: number
   height?: number
-  srcset?: string
+  avifSrcset?: string
+  webpSrcset?: string
   sizes?: string
 }
 
@@ -202,7 +201,7 @@ async function main() {
 
     try {
       const variants = await generateVariants(file, hash)
-      const size = (await stat(join(PUBLIC_DIR, file))).size
+      const size = (await stat(join(SOURCE_DIR, file))).size
       const summary = Object.entries(variants)
         .map(([format, list]) => `${format} ×${list.length}, max ${Math.round(list[list.length - 1].bytes / 1024)} KB`)
         .join(' · ')
