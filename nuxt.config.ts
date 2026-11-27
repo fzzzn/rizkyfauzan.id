@@ -211,8 +211,6 @@ export default defineNuxtConfig({
   modules: [
     "@nuxt/fonts",
     "@nuxt/icon",
-    "@nuxt/image",
-    "@nuxt/scripts",
     "@nuxtjs/seo",
     "@nuxtjs/critters",
     "nuxt-umami",
