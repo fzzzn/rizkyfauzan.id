@@ -265,16 +265,16 @@ onUnmounted(() => {
 
 <style scoped>
 .palette-light {
-    --bg-base: #ffffff;
-    --surface-base: #ffffff;
-    --fg-base: #000000;
-    --secondary-base: #333333;
-    --muted-base: #737373;
-    --faint-base: #b3b3b3;
-    --border-base: #e5e5e5;
-    --line-base: rgb(0 0 0 / 0.3);
-    --inverse-bg-base: #000000;
-    --inverse-fg-base: #ffffff;
+    --color-bg: #ffffff;
+    --color-surface: #ffffff;
+    --color-fg: #000000;
+    --color-secondary: #333333;
+    --color-muted: #737373;
+    --color-faint: #b3b3b3;
+    --color-border: #e5e5e5;
+    --color-line: rgb(0 0 0 / 0.3);
+    --color-inverse-bg: #000000;
+    --color-inverse-fg: #ffffff;
     color-scheme: light;
 }
 </style>
