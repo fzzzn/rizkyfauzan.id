@@ -3,6 +3,7 @@
     <NuxtPage />
   </NuxtLayout>
   <CommandPalette />
+  <RouterTerminal />
 </template>
 
 <style>

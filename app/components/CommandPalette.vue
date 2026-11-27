@@ -111,6 +111,7 @@ interface CommandItem {
     icon: string
     keywords?: string
     keepOpen?: boolean
+    secret?: boolean
     action: () => void | Promise<void>
 }
 
@@ -118,6 +119,7 @@ const route = useRoute()
 const router = useRouter()
 const { mode, cycle } = useColorMode()
 const isResume = computed(() => route.path.startsWith('/resume'))
+const terminalOpen = useState<boolean>('router-terminal-open', () => false)
 
 const isOpen = useState<boolean>('command-palette-open', () => false)
 const query = ref('')
@@ -192,11 +194,47 @@ const commands = computed<CommandItem[]>(() => [
         keywords: 'chat',
         action: () => copyText('fzzzn_', 'Discord username'),
     },
+    {
+        id: 'egg-terminal',
+        label: 'Open RouterOS Terminal',
+        hint: 'ssh',
+        icon: 'heroicons:command-line',
+        keywords: 'ssh cli mikrotik routeros winbox terminal',
+        secret: true,
+        action: () => { terminalOpen.value = true },
+    },
+    {
+        id: 'egg-dns',
+        label: 'Diagnose Network Issue',
+        hint: 'dns',
+        icon: 'heroicons:wrench-screwdriver',
+        keywords: 'dns bug broken',
+        secret: true,
+        action: () => showToast("It's always DNS."),
+    },
+    {
+        id: 'egg-ipv6',
+        label: 'Go Home (IPv6)',
+        hint: '::1',
+        icon: 'heroicons:globe-alt',
+        keywords: '::1 localhost ipv6',
+        secret: true,
+        action: () => showToast("There's no place like ::1"),
+    },
+    {
+        id: 'egg-teapot',
+        label: 'Brew Coffee',
+        hint: '418',
+        icon: 'heroicons:fire',
+        keywords: '418 coffee teapot',
+        secret: true,
+        action: () => showToast("HTTP 418: I'm a teapot (and also a router)."),
+    },
 ])
 
 const filteredItems = computed(() => {
     const q = query.value.trim().toLowerCase()
-    if (!q) return commands.value
+    if (!q) return commands.value.filter(item => !item.secret)
     return commands.value.filter((item) =>
         item.label.toLowerCase().includes(q)
         || item.hint.toLowerCase().includes(q)
