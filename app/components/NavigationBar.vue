@@ -30,20 +30,21 @@ v-for="item in navItems" :key="item.title" :to="item.href" :class="[
 					</NuxtLink>
 				</div>
 
-				<div class="flex items-center gap-3">
+				<div class="flex items-center gap-2">
 					<button
 						type="button"
-						class="hidden sm:inline-flex items-center gap-1.5 px-2 py-1 text-xs font-mono text-muted hover:text-fg border border-border rounded-md transition-colors cursor-pointer"
+						class="hidden sm:inline-flex items-center justify-center gap-1.5 h-8 px-2.5 text-xs font-mono leading-none text-muted hover:text-fg hover:bg-fg/5 border border-border rounded-md transition-colors cursor-pointer"
 						aria-label="Open command palette"
 						@click="openCommandPalette">
-						<Icon name="heroicons:magnifying-glass" size="14" aria-hidden="true" />
+						<Icon name="heroicons:magnifying-glass" size="14" class="shrink-0" aria-hidden="true" />
 						<span>⌘K</span>
 					</button>
 					<button
-						class="cursor-pointer text-muted hover:text-fg transition-colors"
+						type="button"
+						class="inline-flex items-center justify-center h-8 w-8 text-muted hover:text-fg hover:bg-fg/5 border border-border rounded-md transition-colors cursor-pointer"
 						:aria-label="`Color mode: ${mode}. Click to change.`"
 						@click="cycle">
-						<Icon :name="icon" size="22" />
+						<Icon :name="icon" size="18" aria-hidden="true" />
 					</button>
 				</div>
 			</div>
