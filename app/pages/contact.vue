@@ -1,10 +1,12 @@
 <template>
     <div class="p-6">
         <!-- Toast Notification -->
-        <Transition enter-active-class="transition ease-out duration-300" enter-from-class="opacity-0 translate-y-2"
+        <Transition
+enter-active-class="transition ease-out duration-300" enter-from-class="opacity-0 translate-y-2"
             enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-200"
             leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-2">
-            <div v-if="showToast"
+            <div
+v-if="showToast"
                 class="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50 bg-inverse-bg text-inverse-fg px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2">
                 <Icon name="heroicons:check-circle" size="20" class="text-green-400" />
                 <span class="font-medium">Discord username copied to clipboard!</span>
@@ -19,11 +21,13 @@
         <div class="mb-12">
             <div data-reveal-grid class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
                 <!-- Email -->
-                <a href="mailto:contact@rizkyfauzan.id"
+                <a
+href="mailto:contact@rizkyfauzan.id"
                     class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0">
-                            <Icon name="heroicons:envelope" size="24"
+                            <Icon
+name="heroicons:envelope" size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">
@@ -34,11 +38,13 @@
                 </a>
 
                 <!-- LinkedIn -->
-                <a href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
+                <a
+href="https://www.linkedin.com/in/rizky-fauzan-hanif" target="_blank" rel="noopener noreferrer"
                     class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0 relative">
-                            <Icon name="simple-icons:linkedin" size="24"
+                            <Icon
+name="simple-icons:linkedin" size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">
@@ -49,11 +55,13 @@
                 </a>
 
                 <!-- X (Twitter) -->
-                <a href="https://x.com/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
+                <a
+href="https://x.com/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
                     class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0">
-                            <Icon name="simple-icons:x" size="24"
+                            <Icon
+name="simple-icons:x" size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">
@@ -64,11 +72,13 @@
                 </a>
 
                 <!-- Instagram -->
-                <a href="https://instagram.com/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
+                <a
+href="https://instagram.com/rizkyfauzan.id" target="_blank" rel="noopener noreferrer"
                     class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0">
-                            <Icon name="simple-icons:instagram" size="24"
+                            <Icon
+name="simple-icons:instagram" size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">
@@ -79,11 +89,13 @@
                 </a>
 
                 <!-- Telegram -->
-                <a href="https://t.me/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
+                <a
+href="https://t.me/rizkyfauzanid" target="_blank" rel="noopener noreferrer"
                     class="bg-surface border border-border rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 motion-reduce:transform-none transition-[transform,box-shadow,border-color] duration-300 ease-out group w-full flex items-center">
                     <div class="flex items-center space-x-4">
                         <div class="shrink-0">
-                            <Icon name="simple-icons:telegram" size="24"
+                            <Icon
+name="simple-icons:telegram" size="24"
                                 class="text-muted group-hover:text-fg transition-colors" />
                         </div>
                         <div class="min-w-0 flex-1">

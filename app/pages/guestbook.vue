@@ -24,9 +24,11 @@
                 <div
                     class="flex flex-row items-center justify-between mb-4 sm:mb-6">
                     <div class="flex items-center space-x-3 sm:space-x-4 min-w-0">
-                        <Icon v-if="!user.user_metadata?.avatar_url" name="mdi:account" size="48"
+                        <Icon
+v-if="!user.user_metadata?.avatar_url" name="mdi:account" size="48"
                             class="text-muted shrink-0" aria-hidden="true" />
-                        <OptimizedImg v-else :src="user.user_metadata.avatar_url" :alt="user.user_metadata?.full_name || 'User'"
+                        <OptimizedImg
+v-else :src="user.user_metadata.avatar_url" :alt="user.user_metadata?.full_name || 'User'"
                             sizes="48px" loading="lazy" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover shrink-0" />
                         <div class="min-w-0 flex-1">
                             <h3 class="text-lg sm:text-xl font-bold text-fg truncate">{{ user.user_metadata?.full_name
@@ -78,21 +80,24 @@
                     share your
                     thoughts and join the conversation!</p>
                 <div class="flex flex-col gap-3 sm:gap-4 sm:flex-row sm:justify-center sm:items-center">
-                    <button :disabled="!!signingIn"
+                    <button
+:disabled="!!signingIn"
                         class="bg-inverse-bg text-inverse-fg px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:opacity-80 transition-opacity font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithGoogle">
                         <Icon name="logos:google-icon" size="18" />
                         <span>{{ signingIn === 'google' ? 'Signing In...' : 'Google' }}</span>
                     </button>
 
-                    <button :disabled="!!signingIn"
+                    <button
+:disabled="!!signingIn"
                         class="bg-gray-900 text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-gray-700 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithGitHub">
                         <Icon name="mdi:github" size="18" />
                         <span>{{ signingIn === 'github' ? 'Signing In...' : 'GitHub' }}</span>
                     </button>
 
-                    <button :disabled="!!signingIn"
+                    <button
+:disabled="!!signingIn"
                         class="bg-indigo-600 text-white px-4 py-2.5 sm:px-6 sm:py-3 cursor-pointer rounded-lg hover:bg-indigo-700 transition-colors font-semibold disabled:opacity-50 flex items-center justify-center space-x-2 w-full sm:w-auto text-sm sm:text-base"
                         @click="signInWithDiscord">
                         <Icon name="simple-icons:discord" size="18" />
@@ -105,7 +110,8 @@
         <!-- Messages -->
         <div class="space-y-4 sm:space-y-6">
             <div v-if="loading" class="space-y-4 sm:space-y-6">
-                <div v-for="n in 3" :key="n"
+                <div
+v-for="n in 3" :key="n"
                     class="bg-surface border border-border rounded-lg p-6 animate-pulse">
                     <div class="flex items-start space-x-4">
                         <div class="h-12 w-12 rounded-full bg-muted/20 shrink-0" />
@@ -126,7 +132,8 @@
             <div v-else>
                 <h2 data-reveal class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Messages</h2>
                 <div class="space-y-4 sm:space-y-6">
-                    <MessageCards v-for="message in messages" :key="message.id" :message="message"
+                    <MessageCards
+v-for="message in messages" :key="message.id" :message="message"
                         :current-user="user ? { id: user.id } : null" data-reveal @delete="deleteMessage" />
                 </div>
             </div>

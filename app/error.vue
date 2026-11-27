@@ -4,7 +4,8 @@
       <navigation-bar />
       <main class="flex-1 flex items-center justify-center p-6">
         <div class="text-center flex flex-col items-center gap-6">
-          <h1 class="glitch text-8xl lg:text-[12rem] font-bold tracking-tighter leading-none"
+          <h1
+class="glitch text-8xl lg:text-[12rem] font-bold tracking-tighter leading-none"
             :data-text="error?.status">
             {{ error?.status }}
           </h1>
@@ -17,7 +18,8 @@
               : error?.message || 'An unexpected error occurred.'
             }}
           </p>
-          <button class="group text-xl font-bold cursor-pointer" aria-label="Go back to home page"
+          <button
+class="group text-xl font-bold cursor-pointer" aria-label="Go back to home page"
             @click="handleGoHome">
             <span class="relative">
               Back to Home

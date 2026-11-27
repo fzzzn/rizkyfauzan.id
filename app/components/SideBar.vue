@@ -1,15 +1,19 @@
 <template>
     <div class="flex items-center h-full">
-        <button class="cursor-pointer text-fg flex items-center h-full w-full justify-center"
+        <button
+class="cursor-pointer text-fg flex items-center h-full w-full justify-center"
             aria-label="Open navigation menu" :aria-expanded="isOpen" aria-controls="sidebar-panel" @click="handleOpen">
-            <Icon name="heroicons-outline:menu-alt-2" size="24"
+            <Icon
+name="heroicons-outline:menu-alt-2" size="24"
                 class="text-muted hover:text-fg transition duration-200" />
         </button>
 
-        <div v-show="isOpen" ref="backdrop" class="fixed inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
+        <div
+v-show="isOpen" ref="backdrop" class="fixed inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
             @click="handleClose" />
 
-        <div v-show="isOpen" id="sidebar-panel" ref="sidebarPanel"
+        <div
+v-show="isOpen" id="sidebar-panel" ref="sidebarPanel"
             class="fixed lg:absolute left-0 top-0 h-full w-screen lg:w-130 bg-neutral-900 lg:rounded-lg z-40 lg:z-50 overflow-hidden flex flex-col"
             role="dialog" aria-modal="true" aria-labelledby="sidebar-title">
             <div class="absolute -bottom-10 left-0 text-white/40 pointer-events-none">
@@ -20,10 +24,12 @@
             <div class="shrink-0 p-8">
                 <div class="flex justify-between">
                     <div class="items-center">
-                        <span id="sidebar-title"
+                        <span
+id="sidebar-title"
                             class="text-sm text-center uppercase font tracking-tighter text-white font">Discover</span>
                     </div>
-                    <button class="text-white items-center cursor-pointer" aria-label="Close navigation menu"
+                    <button
+class="text-white items-center cursor-pointer" aria-label="Close navigation menu"
                         @click="handleClose">
                         <Icon name="line-md:arrow-close-left" size="24" class="text-white" />
                     </button>
@@ -33,7 +39,8 @@
             <!-- Menu List - Scrollable -->
             <nav class="flex-1 overflow-y-auto px-8 pb-8 scrollbar-hide" aria-label="Main navigation">
                 <div class="space-y-2">
-                    <NuxtLink v-for="item in menuList" :key="item.href" :to="item.href" :class="[
+                    <NuxtLink
+v-for="item in menuList" :key="item.href" :to="item.href" :class="[
                         'relative flex py-2 px-3 gap-2 -mx-3 group w-fit transition-all duration-300 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
                         isActiveRoute(item.href)
                             ? 'text-black bg-white'
@@ -42,7 +49,8 @@
                         <span class="text-4xl font-[Inter] uppercase font-black z-10 tracking-tighter">
                             {{ item.menu }}
                         </span>
-                        <div :class="[
+                        <div
+:class="[
                             'absolute inset-0 left-0 h-full rounded-lg transition-all duration-300 z-0',
                             isActiveRoute(item.href)
                                 ? 'w-full rounded-lg bg-white'
@@ -50,7 +58,8 @@
                         ]" />
                         <!-- The label is kept in place while invisible, so the
                              link does not widen or reflow on hover. -->
-                        <span :class="[
+                        <span
+:class="[
                             'text-lg transform-all duration-300 z-10 whitespace-nowrap',
                             isActiveRoute(item.href) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                         ]" aria-hidden="true">
